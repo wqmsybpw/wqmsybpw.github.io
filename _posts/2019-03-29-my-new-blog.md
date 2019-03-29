@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "新的blog，新的开始"
-tags: blog
-by: wqpw
+tags: [blog]
+author: wqpw
 ---
 
 # (´・ω・)つ旦
