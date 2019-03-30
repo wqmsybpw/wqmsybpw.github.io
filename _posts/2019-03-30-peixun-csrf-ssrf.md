@@ -25,7 +25,7 @@ CSRF，全名 Cross Site Request Forgery，跨站请求伪造。易与 XSS 混�
 
 `http://justforfun.site/vulnerabilities/csrf/?password_new=新密码&password_conf=新密码&Change=Change`
 
-所以如果我们想把管理员的密码变成我们期望的密码，就可以[社工](https://baike.baidu.com/item/%E7%A4%BE%E4%BC%9A%E5%B7%A5%E7%A8%8B%E5%AD%A6/2136830)(社会工程学，动词社工。以前时认识一个人关于这个挺有一套的，暂且不表)管理员点击下面的链接(把密码改成hacker)：
+所以如果我们想把管理员的密码变成我们期望的密码，就可以[社工](https://baike.baidu.com/item/%E7%A4%BE%E4%BC%9A%E5%B7%A5%E7%A8%8B%E5%AD%A6/2136830)(社会工程学，动词社工。以前认识一个人关于这个挺有一套的，暂且不表)管理员点击下面的链接(把密码改成hacker)：
 
 `http://justforfun.site/vulnerabilities/csrf/?password_new=hacker&password_conf=hacker&Change=Change`
 
