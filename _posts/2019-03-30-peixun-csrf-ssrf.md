@@ -5,8 +5,6 @@ tags: [group]
 author: wqpw
 ---
 
-# CSRF+SSRF入门(社团培训记录)
-
 突然想记录下。
 
 ## CSRF
