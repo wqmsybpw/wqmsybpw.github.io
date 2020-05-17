@@ -1,4 +1,4 @@
-remote_theme: FromEndWorld/LOFFER
+theme: jekyll-theme-hacker
 title: wqpw_blog
 description: 多睡觉，少操心
 markdown: kramdown
