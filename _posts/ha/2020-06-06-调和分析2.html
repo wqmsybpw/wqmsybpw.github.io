@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>调和分析2</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+ <script>
+	o = {}
+	o.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body,o);
+    });
+</script>
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\lb{\lbrace}$
+$\gdef\rb{\rbrace}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\geq{\geqslant}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\wnorm#1{{\Vert#1\Vert}_{L^{p,\infty}}}$
+$\gdef\wnormq#1{{\Vert#1\Vert}_{L^{q,\infty}}}$</p>
+<p>定义3.1 对$1\leq p&lt;\infty$，弱-$L^p(X,\mu)$或$L^{p,\infty}(X,\mu)$定义为一个集合：对空间上所有$\mu$-可测函数$f$有$$\inf\lbrace c&gt;0:\alpha d_f^{\frac1p}(\alpha)\leq c\rbrace=\sup_{\alpha&gt;0}\lbrace\alpha d_f^{\frac1p}(\alpha)\rbrace&lt;\infty~(\forall\alpha&gt;0)$$</p>
+<p>$L^{\infty,\infty}=L^\infty$，记$\inf\lbrace c&gt;0:\alpha d_f^{\frac1p}(\alpha)\leq c\rbrace=\norm{f}_{L^{p,\infty}(X,\mu)}$</p>
+<p>考察$\wnorm{\cdot}:$所有$\mu$-可测函数$\larr[,+\infty)$</p>
+<p>$1\degree \forall f\in L^{p,\infty},\wnorm{f}\geq0,\wnorm{f}=0\lrArr f=0$<br>
+证明：$f=0~i.e.~f(x)=0~a.e.~x\in X.~\wnorm{f}=\sup_{\alpha&gt;0}\lbrace\alpha d_f^{\frac1p}(\alpha)\rbrace,d_f(\alpha)=\mu(\lbrace x \in X:|f(x)|&gt;\alpha\rbrace)=0$. 从而$f=0\rArr\wnorm{f}=0$<br>
+另一方面，$\wnorm{f}=0\rArr\sup_{\alpha&gt;0}\lbrace\alpha d_f^\frac1p(\alpha)\rbrace=0\rArr\alpha d_f^\frac1p(\alpha)=0,\forall\alpha&gt;0\rArr d_f(\alpha)=0\rArr\forall\alpha&gt;0,\mu(\lbrace x\in X:|f(x)|&gt;\alpha\rbrace)=0$<br>
+可以证明：$\lb x\in X:|f(x)|\neq0\rb=\bigcup_{n=1}^\infty\lb x\in X:|f(x)|&gt;\frac1n\rb=\bigcup_{n=1}^\infty E_f(\frac1n)$<br>
+从而$\mu(\lb x\in X:|f(x)|\neq0\rb)\leq\sum_{n=1}^\infty\mu(E_f{\frac1n})=\sum_{n=1}^\infty d_f(\frac1n)=0\rArr\mu(\lb x\in X:|f(x)|\neq0\rb)=0\rArr f=0~a.e.x\in X\rArr f=0$.</p>
+<p>$2\degree~\forall k\in\R,f\in L^{p,\infty}(X,\mu)\rArr kf\in L^{p,\infty}$且$\wnorm{kf}=|k|\wnorm{f}$<br>
+证明：$k=0$显然，$\wnorm{kf}=\sup_{\alpha&gt;0}\lb\alpha d_{kf}^\frac1p(\alpha)\rb$<br>
+对$\forall\alpha&gt;0,\alpha d_{kf}^\frac1p(\alpha)=\alpha d_f^\frac1p(\frac\alpha{|k|})\overset{\beta=\frac\alpha{|k|}}{=}|k|\beta d_f^\frac1p(\beta)$<br>
+两边对$\alpha$取sup,$\sup_{\alpha&gt;0}\lb\alpha d_{kf}^\frac1p(\alpha)\rb=|k|\sup_{\beta&gt;0}\lb\beta d_f^\frac1p(\beta)\rb\rArr\wnorm{kf}=|k|\wnorm{f}$</p>
+<p>$3\degree~1\leq p&lt;\infty,\wnorm{f+g}\leq2(\wnorm{f}+\wnorm g)$<br>
+证明：$\wnorm{f+g}=\sup_{\alpha&gt;0}\lb\alpha d_{f+g}^\frac1p(\alpha)\rb$，事实上$d_{f+g}(\alpha)\leq d_f(\frac\alpha2)+d_g(\frac\alpha2)$.<br>
+$\rArr\alpha^p d_{f+g}(\alpha)\leq2^p[(\frac\alpha2)^p d_f(\frac\alpha2)+(\frac\alpha2)^p d_g(\frac\alpha2)]\overset{\beta=\frac\alpha2}{=}2^p(\beta^p d_f(\beta)+\beta^p d_g(\beta))$<br>
+$\rArr\alpha d_{f+g}^\frac1p(\alpha)\leq2(\beta^p d_f(\beta)+\beta^p d_g(\beta))^\frac1p$<br>
+两边对$\alpha$取上确界，得$\wnorm{f+g}\leq2(\wnorm{f}^p+\wnorm{g}^p)^\frac1p\leq2(\wnorm{f}+\wnorm{g})$</p>
+<p>称$\wnorm{\cdot}$为拟范数，$(L^{p,\infty},\wnorm{\cdot})$是一个完备的拟赋范线性空间.</p>
+<p>注：$L^p(X,\mu)\subsetneqq L^{p,\infty}(X,\mu)$<br>
+证明：首先证$L^p(X,\mu)\subseteqq L^{p,\infty}(X,\mu)$<br>
+$\forall\alpha&gt;0,f\in L^p(X,\mu),d_f(\alpha)\leq\alpha^{-p}\int_{|f(x)|&gt;\alpha}|f(x)|^pd\mu$<br>
+$\alpha^p d_f(\alpha)\leq\int_{|f(x)|&gt;\alpha}|f(x)|^pd\mu\leq\int_X|f(x)|^pd\mu\rArr\alpha d_f^\frac1p(\alpha)\leq\norm{f}_{L^p}$，两边对$\alpha$取sup得$\wnorm{f}\leq\norm{f}&lt;+\infty\rArr f\in L^{p,\infty}(X,\mu)$<br>
+然后证$\exist g\in L^{p,\infty}$且$g\notin L^p$.<br>
+考虑$X=\R^n,\mu=dx,h(x)=|x|^{-\frac{n}{p}},x\in\R^n,1\leq p&lt;\infty$，有$|h(x)|^p\notin L(\R^n), \int_{\R^n}|x|^{-n}dx$发散$\rArr h(x)\notin L^p(\R^n)$<br>
+$$
+\begin{aligned}
+\forall\alpha&gt;0,d_h(\alpha)&amp;=\mu(\lb x\in\R^n:|h(x)|&gt;\alpha\rb)\\
+&amp;=\mu(\lb x\in\R^n:|x|&lt;\alpha^{-\frac{p}{n}}\rb)\\
+&amp;=\int_{|x|&lt;\alpha^{-\frac{p}{n}}}1dx=\nu_n\cdot[\alpha^{-\frac{p}{n}}]^n
+\end{aligned}
+$$ $\rArr\alpha d_h^\frac1p(\alpha)=\nu_n^\frac1p$，取sup得$\wnorm{h}=\nu^\frac1p&lt;\infty$从而$h\in L^{p,\infty}$</p>
+<hr>
+<p>几乎处处收敛：$f_n\overset{a.e.}{\rarr}f~(f_n(x)\rarr f(x)(n\rarr\infty)~a.e.~x\in X)$<br>
+依$L^p$收敛：$f_n\overset{L^p}{\rarr}f\lrArr\norm{f_n(x)-f(x)}_{L^p(X,\mu)}\overset{n\rarr\infty}{\rarr}0$<br>
+依测度收敛：$f_n\overset{\mu}{\rarr}f(n\rarr\infty)\lrArr\lrb{f_n}_{n\in\N},f$可测且$\forall\varepsilon&gt;0,\lim\limits_{n\rarr\infty}d_{f_n-f}(\varepsilon)=0~i.e.~\forall\varepsilon&gt;0,\lim\limits_{n\rarr\infty}\mu(\lrb{x\in X:|f_n(x)-f(x)|&gt;\varepsilon})=0$<br>
+$i.e.~\forall\varepsilon&gt;0,\exist n_0\in\N,s.t.~\forall n&gt;n_0,\mu(\lrb{x\in X:|f_n-f|&gt;\varepsilon})&lt;\varepsilon$</p>
+<ol>
+<li>$f_n\overset{a.e.}{\rarr}f$且$\mu(X)&lt;+\infty\rArr f_n\overset{\mu}{\rarr}f$</li>
+<li>X上$f_n\overset{\mu}{\rarr}f\rArr\exist\lrb{f_{n_k}}\subset\lrb{f_n},f_{n_k}\overset{a.e.}{\rarr}f$</li>
+<li>$1\leq p\leq+\infty,f_n\overset{L^p}{\rarr}f\rArr f_n\overset{\mu}{\rarr}f$</li>
+</ol>
+<p>命题4.2 (1) $f_n\overset{L^p}{\rarr}f\rArr f_n\overset{L^{p,\infty}}{\rarr}f\lrArr\wnorm{f_n-f}\rarr0(n\rarr\infty)$<br>
+(2) $f_n\overset{L^{p,\infty}}{\rarr}f\rArr f_n\overset{\mu}{\rarr}f$</p>
+<p>证明：(1) $p=+\infty$显然，设$1\leq p&lt;+\infty$<br>
+$$
+\begin{aligned}
+d_{f_n-f}(\alpha)&amp;=\int_{E_{f_n-f}(\alpha)}1d\mu\quad(E_{f_n-f}(\alpha)\lrArr|f_n-f|\geq\alpha\lrArr(\frac{|f_n-f|}{\alpha})^p\geq1)\\
+&amp;\leq\alpha^{-p}\int_{E_{f_n-f}(\alpha)}|f_n-f|^pd\mu\\
+&amp;\leq\alpha^{-p}\int_X|f_n-f|^pd\mu
+\end{aligned}
+$$  $\forall\alpha&gt;0,\alpha d_{f_n-f}^\frac1p(\alpha)\leq(\int_X|f_n-f|^pd\mu)^\frac1p=\norm{f_n-f}_{L^p}$<br>
+两边对$\alpha$取sup得$0\leq\wnorm{f_n-f}\leq\norm{f_n-f}_{L^p}\rarr0(n\rarr\infty)$<br>
+由两边夹，$\wnorm{f_n-f}\rarr0(n\rarr\infty)$.</p>
+<p>(2) $p=+\infty$显然，设$1\leq p&lt;+\infty$<br>
+因为$f_n\overset{L^{p,\infty}}{\rarr}f$，所以$\wnorm{f_n-f}\rarr0~i.e.~\sup_{\alpha&gt;0}\alpha d_{f_n-f}^\frac1p(\alpha)\rarr0$.<br>
+$\forall\varepsilon&gt;0$给定，$\varepsilon d_{f_n-f}^\frac1p(\varepsilon)\rarr0(n\rarr\infty)\rArr\exist n_0\in\N~s.t.~\forall n&gt;n_0,\varepsilon d_{f_n-f}^\frac1p(\varepsilon)&lt;\varepsilon^{1+\frac1p}\rArr d_{f_n-f}(\varepsilon)&lt;\varepsilon~i.e.~f_n\overset{\mu}{\rarr}f~(n\rarr\infty)$</p>
+<hr>
+<p>$H\ddot{o}lder$不等式：$$
+\int_X|fg|d\mu\leq\norm{f}_{L^p}\norm{g}_{L^{p'}},\forall f\in L^p,g\in L^{p'}~(1\leq p,p'\leq\infty,\frac1p+\frac1{p'}=1)
+$$ 引理 $f\in L^p,g\in L^{p'},\norm{f}_{L^p}=1,\norm{g}_{L^{p'}}=1$，则$\int_X|fg|d\mu\leq1$.<br>
+若引理成立，事实上对$\forall f\in L^p,g\in L^{p'}$令$\tilde{f}=\frac1{\norm{f}_{L^p}}f,\tilde{g}=\frac1{\norm{g}_{L^{p'}}}g$<br>
+只考虑$\norm{f}_{L^p}&gt;0,\norm{g}_{L^{p'}}&gt;0$，从而$\norm{\tilde{f}}_{L^p}=1,\norm{\tilde{g}}_{L^{p'}}=1\rArr\int_X|\tilde{f}\tilde{g}|d\mu\leq1\rArr\int_X|fg|d\mu\leq\norm{f}_{L^p}\norm{g}_{L^{p'}}$</p>
+<p>引理证明：$p=1,p'=\infty$和$p=\infty,p'=1$易证. 设$1&lt;p,p'&lt;+\infty,p'=\frac{p}{p-1}$<br>
+(Young不等式：$1&lt;p&lt;\infty,a&gt;0,b&gt;0,ab\leq\frac1pa^p+\frac1{p'}b^{p'}$)<br>
+注意$\norm{f}_{L^p}=1,\norm{g}_{L^{p'}}=1$<br>
+$$
+\begin{aligned}
+\int_X|f||g|d\mu&amp;\leq\int_X(\frac1p|f|^p+\frac1{p'}|g|^{p'})d\mu\\
+&amp;\leq\frac1p\int_X|f|^pd\mu+\frac1{p'}\int_X|g|^{p'}d\mu\\
+&amp;=\frac1p\norm{f}^p_{L^p}+\frac1{p'}\norm{g}^{p'}_{L^{p'}}=\frac1p+\frac1{p'}=1
+\end{aligned}
+$$</p>
+<p>$H\ddot{o}lder$不等式：设$1\leq p&lt;q\leq+\infty,f\in L^p(X,\mu)\bigcap L^q(X,\mu)$，对$\forall r,p&lt;r&lt;q$有$f\in L^r(X,\mu)$且$\norm{f}_{L^r}\leq\norm{f}^\theta_{L^p}\norm{f}^{1-\theta}_{L^q},\theta\in(0,1),\frac1r=\frac\theta{p}+\frac{1-\theta}q$</p>
+<p>证明：设$1&lt;p&lt;q&lt;+\infty$，$\norm{f}^r_{L^r}=\int_X|f|^rd\mu=\int_X|f|^{r\theta}|f|^{r(1-\theta)}d\mu\leq\norm{|f(x)|^{r\theta}}_{L^\frac{p}{r\theta}}\norm{|f(x)|^{r(1-\theta)}}_{L^{(\frac{p}{r\theta})'}}$<br>
+$\norm{|f(x)|^{r\theta}}_{L^\frac{p}{r\theta}}=(\int|f(x)|^{r\theta\cdot\frac{p}{r\theta}}d\mu)^\frac{r\theta}{p}=(\int_X|f|^pd\mu)^{\frac1p\cdot r\theta}=\norm{f}^{r\theta}_{L^p}$<br>
+$$
+\begin{aligned}
+\norm{|f(x)|^{r(1-\theta)}}_{L^{(\frac{p}{r\theta})'}}&amp;=\norm{|f(x)|^{r(1-\theta)}}_{L^{\frac{p}{p-r\theta}}}\\
+&amp;=(\int|f|^{r(1-\theta)\frac{p}{p-r\theta}}d\mu)^\frac{p-r\theta}{p}\\
+&amp;=(\int_X|f|^qd\mu)^{\frac1qr(1-\theta)}\\
+&amp;=\norm{f}^{r(1-\theta)}_{L^q}
+\end{aligned}
+$$ $\rArr\norm{f}^r_{L^r}\leq\norm{f}^{r\theta}_{L^p}\norm{f}^{r(1-\theta)}_{L^q}\rArr\norm{f}_{L^r}\leq\norm{f}^\theta_{L^p}\norm{f}^{1-\theta}_{L^q}$</p>
+<p>$p=1,1&lt;r&lt;q\leq+\infty$和$q=\infty$略.</p>
+<hr>
+<p>$L^{p,\infty}(X,\mu)$上的插值不等式<br>
+$1\leq p&lt;q\leq\infty,f\in L^{p,\infty}(X,\mu)\bigcap L^{q,\infty}(X,\mu)$<br>
+$\forall p&lt;r&lt;q,f\in L^r(X,\mu)$且$\norm{f}_{L^r}\leq(\frac{r}{r-p}+\frac{r}{q-r})^\frac1r\norm{f}^\theta_{L^{p,\infty}}\norm{f}^{1-\theta}_{L^{q,\infty}},\theta\in(0,1),\frac1r=\frac\theta{p}+\frac{1-\theta}q$</p>
+<p>证明：设$1\leq p&lt;r&lt;q&lt;+\infty$<br>
+$f\in L^{p,\infty}\bigcap L^{q,\infty}\rArr\sup_{\alpha&gt;0}\alpha d_f^\frac1p(\alpha)\leq min\lrb{\wnorm{f},\wnormq{f}}\rArr\forall\alpha&gt;0,d_f(\alpha)\leq min\lrb{\frac{\wnorm{f}^p}{\alpha^p},\frac{\wnormq{f}^q}{\alpha^q}}$<br>
+从而$$
+\begin{aligned}
+\norm{f}^r_{L^r}&amp;=\int_X|f|^rd\mu=r\int^{+\infty}_0\alpha^{r-1}d_f(\alpha)d\alpha\\
+&amp;=r(\int^M_0+\int_M^{+\infty})\alpha^{r-1}d_f(\alpha)d\alpha\\
+&amp;\leq r\int_0^M\alpha^{r-1}\frac{\wnorm{f}^p}{\alpha^p}d\alpha+r\int_M^{+\infty}\alpha^{r-1}\frac{\wnormq{f}^q}{\alpha^q}d\alpha\\
+&amp;=\wnorm{f}^pr\int_0^M\alpha^{r-p-1}d\alpha+\wnormq{f}^qr\int_M^{+\infty}\alpha^{r-p-1}d\alpha\\
+&amp;=\wnorm{f}^p\frac{r}{r-p}M^{r-p}+\wnormq{f}^q\frac{r}{q-r}M^{r-q}
+\end{aligned}
+$$ 取$M~s.t.~\wnorm{f}^pM^{r-p}=\wnormq{f}^qM^{r-q}\rArr M=(\frac{\wnormq{f}^q}{\wnorm{f}^p})^\frac1{q-p}$
+$$
+\begin{aligned}
+\norm{f}^r_{L^r}&amp;\leq(\frac{r}{r-p}+\frac{r}{q-r})\wnorm{f}^pM^{r-p}\\
+&amp;=(\frac{r}{r-p}+\frac{r}{q-r})\wnorm{f}^p(\frac{\wnormq{f}^q}{\wnorm{f}^p})^\frac1{q-p}\\
+&amp;=(\frac{r}{r-p}+\frac{r}{q-r})\wnorm{f}^{p(1-\frac{r-p}{q-p})}\wnormq{f}^{q\frac{r-p}{q-p}}
+\end{aligned}
+$$ $\rArr\norm{f}^r_{L^r}\leq(\frac{r}{r-p}+\frac{r}{q-r})^\frac1r\wnorm{f}^{\frac{p}{r}(1-\frac{r-p}{q-p})}\wnormq{f}^{\frac{q}{r}\frac{r-p}{q-p}}$</p>
+<p>可以验证$\frac{p}{r}(1-\frac{r-p}{q-p})+\frac{q}{r}\frac{r-p}{q-p}=1$</p>
+
+</body>
+</html>

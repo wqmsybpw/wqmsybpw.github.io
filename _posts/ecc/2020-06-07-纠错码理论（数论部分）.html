@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>纠错码理论（数论部分）</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+ <script>
+	o = {}
+	o.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body,o);
+    });
+</script>
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+</head>
+<body>
+<p>初等数论部分内容的一个简单复习，略过了某些东西。</p>
+<h3 id="%E5%90%8C%E4%BD%99">同余</h3>
+<p>定义：设$m\in\Z^*,a,b\in\Z$，若$m|a-b$称a和b模m同余（或称a模m同余于b），记为$a\equiv b(mod~m)$。若$m\not|a-b$，称a和b模m不同余，记为$a\not\equiv b(mod~m)$.</p>
+<p>充要条件：a和b用m去除有相同的余数$r(0\leq r&lt;m)$.</p>
+<p>特例：$m|a\lrArr a\equiv0(mod~m)$.</p>
+<p>重要的性质：<br>
+（1）对称性、传递性.<br>
+（2）加法$a\equiv b(mod~m),c\equiv d(mod~m)$，则$a\pm c\equiv b\pm d(mod~m)$<br>
+$\qquad$乘法$a\equiv b(mod~m),c\equiv d(mod~m)$，则$ac\equiv bd(mod~m)$.<br>
+（3） 有限制条件的消去. 若$ac\equiv bc(mod~m),a\equiv b(mod~\frac{m}{(c,m)})$，特别的，当$(c,m)=1,a\equiv b(mod~m)$.</p>
+<p>（4）若$a\equiv b(mod~m)$，则对m的每个正因子d，有$a\equiv b(mod~d)$.</p>
+<p>（5）对正整数d，$a\equiv b(mod~m)\lrArr ad\equiv bd(mod~md)$.</p>
+<p>（6）$a\equiv b(mod~m_i)(i\leq i\leq r)$，则$a\equiv b(mod~[m_1,m_2,\cdots,m_r])$.</p>
+<h3 id="%E5%90%8C%E4%BD%99%E7%B1%BB">同余类</h3>
+<p>定义 设m是固定的正整数，模m彼此同余的整数形成的集合叫作一个模m的同余类。对于整数a，a所在的模m同余类表示成$\bar a$，即$$
+\bar{a}={n\in\Z:n\equiv a(mod~m)}={a+lm:l\in\Z}.
+$$</p>
+<p>对于整数a，b，$\bar a=\bar b\lrArr a\equiv b(mod~m)$</p>
+<p>从每个同余类选一个整数作为代表，得$a_1,\cdots,a_m$，称为模m的一个完全代表系，简称完系。</p>
+<ul>
+<li>设a和m互素，模m同余类$\bar a$中每个整数$a'$均与m互素，这样的同余类叫作模m的缩同余类</li>
+<li>模m的同余类有m个，$\bar1,\bar2,\cdots,\overline{m-1},\bar m=\bar0$。缩同余类有$\varphi(m)$个，从每个缩同余类取一个代表组成的集合${a_1,a_2,\cdots,a_{\varphi(m)}}$叫做模m的一个缩代表系，简称缩系。</li>
+<li>利用完系和缩系可证明，当$(a,m)=1$时，同余方程$ax\equiv b(mod~m)$必有整数解。</li>
+</ul>
+<p>例：解一元一次同余方程$24x\equiv7(mod~59)$</p>
+<p>解：$$
+\begin{aligned}
+24x\equiv7(mod~59)&amp;\lrArr24x\equiv7+59\equiv66(mod~59)\\
+&amp;\lrArr4x\equiv11(mod~59)\\
+&amp;\lrArr4x\equiv11-59\equiv-48(mod~59)\\
+&amp;\lrArr x\equiv-12(mod~59)
+\end{aligned}
+$$则同余方程解为$x\equiv47(mod~59)$.</p>
+<p>如何求解二元一次不定方程$ax+by=c$？<br>
+分析：设a,b均为非零整数，b&gt;1；若$(a,b)\not|c$方程无整数解；当$(a,b)|c$时，方程两边除以$(a,b)$，则x,y的系数互素。故不妨设$(a,b)=1$，将原方程模b得到同余方程$ax\equiv c(mod~b)$，此方程必有整数解$x_0$满足$ax_0\equiv c(mod~b)$，即$ax_0-c=by_0$，从而得到原方程一组整数解$(x_0,-y_0)$</p>
+<p>例：$60x-14y=18$<br>
+解：原方程即为$30x-7y=9$，<br>
+模7得到同余方程$30x\equiv9(mod~7)$，<br>
+则$x\equiv\frac9{30}\equiv\frac3{10}\equiv\frac{3+7}{10}\equiv\frac{10}{10}\equiv1(mod~7)$，<br>
+于是$x=1+7t(t\in\Z)$，代入原方程得$60(1+7t)-14y=18$，<br>
+得$y=3+30t$<br>
+故原方程全部整数解为$(x,y)=(1+7t,3+30t)(t\in\Z)$</p>
+<h3 id="%E6%A8%A1m%E7%9A%84%E5%90%8C%E4%BD%99%E7%B1%BB%E7%8E%AFzm">模m的同余类环$Z_m$</h3>
+<p>(1) 对于正整数$m,\overline{a_1},\overline{a_2},\cdots,\overline{a_m}$形成的集合表示为$Z_m$，叫作模m同余类集合，$Z_m={\overline{0},\overline{1},\cdots,\overline{m-1}}$.<br>
+(2) 运算：加法、减法、乘法，<br>
+性质：结合律、交换律、乘法的分配律<br>
+故环$Z_m$叫作模m的同余类环，即环$&lt;R,\oplus,\otimes&gt;$满足(1)$&lt;R,\oplus&gt;$是可换群，(2)$&lt;R,\otimes&gt;$是半群，(3)分配律成立。</p>
+<p>$Z_m$是否是域？判断：交换环中非零元素是否可逆，即$&lt;R,\otimes&gt;$是可换群。<br>
+分析：整数环$Z$中$n\not=\pm1$时$n^{-1}$不是整数<br>
+而在同余类环$Z_m$中$\overline{a}$乘法可逆$\lrArr\exists\overline{b}~s.t.~\overline{a}\cdot\overline{b}=\overline{1}$，<br>
+$\lrArr\exists b~s.t.~ab\equiv1(mod~m)$，<br>
+$\lrArr ax\equiv1(mod~m)$有整数解，<br>
+$\lArr(a,m)=1$<br>
+故$Z_m$中乘法可逆元素有$\varphi(m)$个。</p>
+<p>对$Z_m$，$\overline 0$不是乘法可逆的。</p>
+<p>当m为素数p时，若$\overline a\not=\overline0$，即$a\not\equiv0(mod~p)$，则$(a,p)=1$此时同余方程$ax\equiv1(mod~p)$有整数解，故$\overline a$是乘法可逆元素，逆表示为$(\overline a)^{-1}$。</p>
+<p>例如：当p=5时$$
+\begin{aligned}
+(\bar1)^{-1}=\bar1\qquad&amp;\bar1\cdot\bar1=\bar1\\
+(\bar2)^{-1}=\bar3\qquad&amp;\bar2\cdot\bar3=\bar6=\bar1\\
+(\bar3)^{-1}=\bar2\qquad&amp;\bar3\cdot\bar2=\bar6=\bar1\\
+(\bar4)^{-1}=\bar4\qquad&amp;\bar4\cdot\bar4=\overline{16}=\bar1
+\end{aligned}
+$$ $Z_p$中非零元素均可逆，$Z_p$是有限个元素组成的域，称为有限域。</p>
+<ul>
+<li>当m不是素数，$m=ab$，其中$a,b\in\Z,2\leq a,b\leq m-1$，则$\bar a\not=\bar b$，而$\bar a\cdot\bar b=\bar m=\bar 0$，这时$\bar a$与$\bar b$都是不可逆的，因为他们都不是模m的缩同余类，所以当m不为素数时，环$Z_m$不是域。</li>
+<li>用$Z_m^*$表示$Z_m$中乘法可逆元素的集合，则共有$\varphi(m)$个元素</li>
+<li>（1）$\bar a,\bar b\in Z_m^*\rArr\bar a\cdot\bar b=\overline{ab}\in Z_m^*((ab,m)=1)$</li>
+<li>（2）$\forall \bar a\in Z_m^*,\exists\bar b\in Z_m^*~s.t.~\bar a\cdot\bar b=\bar1$</li>
+</ul>
+<p>由以上的讨论，$Z_m$为同余类环，$Z_m^*$为乘法群，$Z_p$为有限域。</p>
+<p>用代数结构语言可描述同余中的结论：<br>
+（1）若$ac\equiv bc(mod~m),(c,m)=1$则$a\equiv b(mod~m)$
+<font style="color:red">对于环</font>$\color{red}Z_m$<font style="color:red">中的元素，</font>$\color{red}\alpha=\bar a,\beta=\bar b,\gamma=\bar c,$<font style="color:red">若</font>$\color{red}\alpha\gamma=\beta\gamma,\gamma$<font style="color:red">是可逆元，则</font>$\color{red}\alpha=\beta$<br>
+（2）p为素数，$a,b\in\Z$，若$p|ab$则$p|a$或$p|b$<br>
+<font style="color:red">在有限域</font>$\color{red}Z_p$<font style="color:red">中，若</font>$\color{red}\alpha,\beta\in Z_p,\alpha\beta=\bar0,$<font style="color:red">则</font>$\color{red}\alpha=\bar0$<font style="color:red">或</font>$\color{red}\beta=\bar0$<br>
+（3）若${c_1,c_2,\cdots,c_m}$是模m的完系，则${ac_1+b,\cdots,ac_n+b}$也是模m的完系
+<font style="color:red">若</font>$\color{red} \gamma_1,\cdots,\gamma_m$<font style="color:red">是环</font>$\color{red}Z_m$<font style="color:red">的全部元素，</font>$\color{red}\alpha,\beta\in\Z$<font style="color:red">且</font>$\color{red}\alpha\in Z_m$<font style="color:red">可逆，则</font>$\color{red}\alpha\gamma_1+\beta,\cdots,\alpha\gamma_m+\beta$<font style="color:red">也是环</font>$\color{red}Z_m$<font style="color:red">的全部元素</font></p>
+<p>欧拉定理：设m为正整数，$(a,m)=1$，则$a^{\varphi(m)}\equiv1(mod~m)$。特别的若$m=p$为素数，$(a,p)=1$，则$a^{p-1}\equiv1(mod~p)$（费马小定理）。</p>
+<p>注：当$(a,m)=1$时$\alpha=\bar\alpha$是环$Z_m$中可逆元素，欧拉定理给出求逆的方法：由$\alpha^{\varphi(m)}=\bar1$可知$\alpha^{-1}=\alpha^{\varphi(m)-1}$<br>
+即当$(a,m)=1$时，同余方程$ax\equiv1(mod~m)$的解为$x\equiv a^{\varphi(m)-1}(mod~m)$，故同余方程$ax\equiv b(mod~m)$的解为$x\equiv ba^{\varphi(m)-1}(mod~m)$</p>
+<p>例1：求解同余方程$7x\equiv3(mod~17)$<br>
+解：$m=17,\varphi(m)=16$，原方程的解为$x\equiv3\cdot7^{15}(mod~17)$，$7^2\equiv49\equiv-2,7^4\equiv4,7^8\equiv16\equiv-1(mod~17)$<br>
+所以$x\equiv3\cdot7^{2+4+8+1}\equiv3\cdot(-2)\cdot4\cdot(-1)\cdot7\equiv49\equiv15(mod~17)$</p>
+<p>例2：今天是星期4，从今天起再过$10^{98}$天是星期几？<br>
+解：$10^{98}\equiv3^{98}(mod~7)$，因为$(3,7)=1$，根据费马小定理$3^6\equiv1(mod~7),3^{98}=3^{96+2}\equiv3^2(mod~7)\equiv2(mod~7)$所以是星期六。</p>
+<p>关于p元有限域$Z_p$的一个特性：<br>
+定理：p为素数，$\alpha,\beta\in Z_p$，则$(\alpha+\beta)^p=\alpha^p+\beta^p$，即$\forall a,b\in\Z,(a+b)^p=a^p+b^p(mod~p)$</p>
+<p>证明：由费马小定理，$(\alpha+\beta)^p=\alpha+\beta=\alpha^p+\beta^p,$即$(a+b)^p\equiv a+b\equiv a^p+b^p(mod~p)$</p>
+<h3 id="%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86">中国剩余定理</h3>
+<p>数论的基本课题：设m为正整数，整系数多项式$$
+f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0(a_i\in\Z)
+$$ 同余方程$f(x)\equiv0(mod~m)$的求解问题。</p>
+<p>如果$x=c$是上述方程的解，即$f(c)\equiv0(mod~m)$，则模m同余类$\bar c$中每个整数都是方程的解，把每个模m同余类看成一个解，方程模m解的个数有限，表示为$x\equiv b_1,\cdots,b_r(mod~m)$.</p>
+<p>同余方程可写为环$Z_m$上的方程$\overline{a_n}x^n+\overline{a_{n-1}}x^{n-1}+\cdots+\overline{a_1}x+\overline{a_0}=\bar0$</p>
+<p>考虑最简单的情形：一次同余方程。</p>
+<p>基本定理：当$(a,m)=1$时， 同余方程$ax\equiv b(mod~m)$必有整数解.</p>
+<p>定理：设$(a,m)=d$，同余方程$ax\equiv b(mod~m)$有解的充要条件为$d|b$，当$d|b$时方程模m有d个解。</p>
+<p>证明：若同余方程有解$x=c\in\Z$，则$ac\equiv b(mod~m),ac=b+ml(l\in\Z)$. 因为$d|a,d|m$可知$d|ac-ml=b$. 设$d|b$，则$a=da',b=db',m=dm',(a',m')=1(a',b',m'\in\Z)$. 原方程等价于$a'x\equiv b'(mod~m')$. 由$(a',m')=1$知此方程模m'有一个解$x\equiv c(mod~m')$.<br>
+而模m'的一个同余类$x\equiv c(mod~m')$等于模m的d(=m/m')个同余类$x\equiv c+m'i(mod~m)(0\leq i\leq d-1)$. 所以当$d|b$时原方程模m的解数为d.</p>
+<p>例：解同余方程$30x\equiv10(mod~34)$</p>
+<p>解：由$(30,34)=2,2|10$知方程有解。等价于$15x\equiv5(mod~17)$则$x\equiv\frac5{15}\equiv\frac13\equiv\frac{18}3\equiv6(mod~17)$<br>
+而模34的解有两个：$x\equiv6,23(mod~34)$</p>
+<p>$30x\equiv12(mod~18)$<br>
+解：$(30,18)=6,6|12$. 由$5x\equiv2(mod~3)$有$x\equiv1(mod~3)$，模18的解有6个：$x\equiv1,4,7,10,13,16(mod~18)$.</p>
+<p>拉格朗日定理：设p为素数，令$n\geq1$ $$
+f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0(a_i\in\Z,p\not|a_n)
+$$则同余方程$f(x)\equiv0(mod~p)$至多有n个解。</p>
+<p>注：如果m不是素数则解的个数可以多于f(x)的次数。</p>
+<p>中国剩余定理：设$m_1,m_2,\cdots,m_k$是两两互素的正整数，则对任意整数$b_1,b_2,\cdots,b_k$,一次同余方程组$$
+\begin{cases}
+x\equiv b_1(mod~m_1)\\
+x\equiv b_2(mod~m_2)\\
+\cdots\cdots\cdots\cdots\\
+x\equiv b_k(mod~m_k)
+\end{cases}
+$$ 必有解，并且全部解形成模$m_1m_2\cdots m_k$的一个同余类。</p>
+<p>证明：(1)先考虑同余方程组$\begin{cases}x\equiv1(mod~m_1)\\x\equiv0(mod~m_j)(2\leq j\leq k)\end{cases}$<br>
+后k-1个同余方程可知x是$m_j$的公倍数，因为$m_j$两两互素，可知$x$是$M_1=m_2\cdots m_k=\frac{m_2\cdots m_k}{m_1}$的倍数. 令$x=M_1y$则上述方程组等价于一个同余方程$M_1y\equiv1(mod~m_1)$，若$y=N_1$为此方程的解，则$x=M_1N_1$为上述方程组的解，由$(M_1,m_1)=1$知此方程有解.</p>
+<p>(2) 类似地，对每个$i(1\leq i\leq k)$，考虑同余方程组$\begin{cases}x\equiv1(mod~m_i)\\x\equiv0(mod~m_j)(1\leq j\leq k,j\not=i)\end{cases}$<br>
+令$M_i=m_1\cdots m_{i-1}m_{i+1}\cdots m_k=\frac{m_1\cdots m_k}{m_i}$. 同余方程$M_iy\equiv1(mod~m_i)$有解$y=N_i((M_i,m_i)=1)$，而$x=M_iN_i$为上述方程组的解.</p>
+<p>(3) 考虑整数$A=b_1M_1N_1+\cdots+b_kM_kN_k$，由于$M_iN_i\equiv1(mod~m_i),M_iN_i\equiv0(mod~m_j)(j\neq i)$可知$A\equiv b_iM_iN_i\equiv b_i(mod~m_i)(1\leq i\leq k)$，则$x=A$是原方程组的解，进而若$x=B$是原方程组的解，$B\equiv b_i\equiv A(mod~m_i)$则$A-B\equiv0(mod~m_i)$于是$A-B\equiv0(mod~m_1m_2\cdots m_k)$，这表明原方程组的全部解是模$m_1m_2\cdots m_k$的一个同余类$a\equiv A(mod~m_1m_2\cdots m_k)$.</p>
+<p>例：解同余方程组$$
+\begin{cases}
+x\equiv2(mod~4)\\
+x\equiv3(mod~5)\\
+x\equiv7(mod~9)
+\end{cases}
+$$<br>
+解：$M_1=45,M_2=36,M_3=20$. 由$M_1y\equiv1(mod~4),M_2y\equiv1(mod~5),M_3y\equiv1(mod~9)$得$N_1=1,N_2=1,N_3=5$. 原方程解为$x=b_1M_1N_1+b_2M_2N_2+b_3M_3N_3=898\equiv178(mod~180)$</p>
+<p>例：m不两两互素 $$
+\begin{cases}
+5x\equiv7(mod~12)\quad(1)\\
+7x\equiv1(mod~10)\quad(2)
+\end{cases}
+$$</p>
+<p>解：(1)等价于$\begin{cases}x\equiv2(mod~3)\\x\equiv3(mod~4)\end{cases}$，(2)等价于$\begin{cases}x\equiv1(mod~2)\\x\equiv3(mod~5)\end{cases}$，从而原方程组等价于$\begin{cases}x\equiv2(mod~3)\\x\equiv3(mod~4)\\x\equiv3(mod~5)\end{cases}$</p>
+<p>应用：(1)对于同余方程$ax\equiv b(mod~m)$当m很大时令$m=p_1p_2\cdots p_k$则原方程等价于方程组$ax\equiv b(mod~p_i)$</p>
+<p>(2) 例：求$3^{193}$的最后两位.<br>
+解：等价于求解$x\equiv3^{193}(mod~100)(0\leq x\leq100)$，可化为同余方程组$$
+\begin{cases}
+x\equiv3^{193}\equiv3(mod~4)\\
+x\equiv3^{193}\equiv3^{13}\equiv-2(mod~25)
+\end{cases}
+$$ （因为$3^2\equiv1(mod~4),\varphi(25)=20,3^{20}\equiv1(mod~25)$）<br>
+则$x=3*25+(-2)*(-24)\equiv23(mod~100)$即$x=23$.</p>
+<h3 id="%E5%8E%9F%E6%A0%B9%E5%92%8C%E6%8C%87%E6%95%B0">原根和指数</h3>
+<p>定义：设$(a,m)=1$，满足$a^r\equiv1(mod~m)$的最小正整数$r$叫做整数a模m的阶.<br>
+注：若$a\equiv b(mod~m)$则a和b模m有相同的阶。<br>
+a模m的阶r一般满足$1\leq r\leq \varphi(m)$.</p>
+<p>定理：设$(a,m)=1,r$为$a$模$m$的阶，则<br>
+(1)对每个正整数$k,a^k\equiv1(mod~m)$当且仅当$r|k$，特别地$r|\varphi(m)$.<br>
+证明：用带余除法$k=qr+s,q\in\Z,0\leq s&lt;r$.<br>
+由$a^k\equiv1\equiv a^r(mod~m)$和$(a,m)=1$可知<br>
+$a^s\equiv a^{k-qr}\equiv a^k(a^r)^{-q}\equiv1(mod~m)$，但$r$是满足$a^r\equiv1$的最小正整数，$0\leq s&lt;r$，所以$s=0$，即$k=qr$是$r$的倍数. 反之，若$r|k$，则$a^k\equiv1(mod~m)$. 由$a^{\varphi(m)}\equiv1(mod~m)$得$r|\varphi(m)$.</p>
+<p>(2) 对每个整数$l,a^l$模$m$的阶为$\frac{r}{(r,l)}$. 特别当$(l,r)=1$时，a和$a^l$模m有相同的阶.<br>
+证明：采用群的语言. 记$\alpha=\bar a\in Z^*_m$，对每个正整数n,$$
+(\alpha^l)^n=1\lrArr\alpha^{ln}\lrArr r|ln\lrArr\frac{r}{(r,l)}|\frac{l}{(r,l)}n\lrArr \frac{r}{(r,l)}|n
+$$ 满足最左边的最小正整数$n$是$a^l$的阶，满足最右边的最小正整数$n$为$\frac{r}{(r,l)}$，故$a^l$的阶为$\frac{r}{(r,l)}$.</p>
+<p>推论：设$(a,m)=1$则a模m的阶为r当且仅当：<br>
+(1) $a^r\equiv1(mod~m)$<br>
+(2) 对r的每个素因子p，$a^\frac{r}{p}\not\equiv1(mod~m)$</p>
+<p>证明：若a模m的阶为r，则两个条件显然成立. 反之，设l是a模m的阶，由(1)知$l|r$. 如果$l\neq r$则$r=ls$，其中s是大于1的整数，从而s有素因子p即$s=pt$，于是$r=plt$，而$a^\frac{r}{p}=(a^l)^t\equiv1(mod~m)$与(2)矛盾. 所以当两个条件成立时$l=r$即a模m的阶为r.</p>
+<p>例1：$m=8,Z_8^*={\bar1,\bar3,\bar5,\bar7}$其中$\bar1$为1阶元素，$\bar3^2=\bar5^2=\bar7^2=\bar1$即$\bar3,\bar5,\bar7$为2阶元素.</p>
+<p>例2：$m=7,Z_7^*={\bar1,\bar2,\bar3,\bar4,\bar5,\bar6}$每个元素的阶均为$\varphi(7)=6$的因子，所以阶只能为1,2,3,6.后略.</p>
+<p>注：(1)不用欧拉定理可以直接证明：$Z_m^*$中每个元素$\alpha$，均存在正整数n，使得$\alpha^n=\bar1$，考虑元素序列$\alpha^0=\bar1,\alpha,\alpha^2,\cdots,\alpha^l,\alpha^{l+1},\cdots,$因为$Z^*_m$是有限集合，上述序列必有相同元素，即存在$0\leq l&lt;k$使得$\alpha^l=\alpha^k$从而$\alpha^{k-l}=\alpha^0=\bar1$，而$n=k-l$是正整数.</p>
+<p>(2) 设$\alpha$的阶为r，则$\alpha^0=\bar1,\alpha,\alpha^2,\cdots,\alpha^{r-1}$一定两两不同，而$\alpha^r=\alpha^0=\bar1$. 否则，若存在$0\leq l&lt;k&lt;r$使得$\alpha^l=\alpha^k$，则$\alpha^{k-l}=\alpha^0=\bar1$，此时$k-l&lt;r$与阶的定义矛盾.</p>
+<p>(3) 若$Z^*_m$中有$\varphi(m)$阶元素$\alpha$，则$1,\alpha,\alpha^2,\cdots,\alpha^{\varphi(m)-1}$这$\varphi(m)$个元素彼此不同，但$Z^*_m$共有$\varphi(m)$个元素，所以他们构成整个乘法群$Z^*_m$，且是一个循环群.</p>
+<p>故若存在模m具有$\varphi(m)$阶的整数$\alpha$，则${1,\alpha,\alpha^2,\cdots,\alpha^{\varphi(m)-1}}$是模m的一个缩系.</p>
+<p>定义：若整数a模m的阶为$\varphi(m)$，称a是模m的原根.</p>
+<p>例如：3是模7的原根，${1=3^0,3^1,3^2,3^3,3^4,3^5}$是模7的一个缩系，即$Z^*_7={\bar1,\bar3,\bar3^2=\bar2,\bar3^3=\bar6,\bar3^4=\bar4,\bar3^5=\bar5}$.</p>
+<p>注：若a是模m的原根，则$\bar a$中每个整数都是模m的原根.</p>
+<p>定理：模m具有原根当且仅当$m=2,4,p^a$或$2p^a$，其中$p$为奇素数且$a\geq1$.</p>
+<p>引理1：对每个奇素数$p$，模$p$必有原根.<br>
+证明：$Z^*_p$中每个元素$\alpha$的阶都是$\varphi(p)=p-1$的正因子. 对每个$d|p-1$以$N_d$表示$Z^**p$中d阶元素的个数，则$$
+\sum*{\substack{d\\d|p-1}}N_d=p-1,
+$$ 如果$N_d\geq1$，即$Z^*_p$中有d阶元素$\alpha$，则它是$x^d-\bar1=0$的解. 而$1=\alpha^0,\alpha,\alpha^2,\cdots,\alpha^{d-1}$是$Z^*_p$中d个不同元素，因为$(\alpha^i)^d=(\alpha^d)^i=\bar1$，所以它们均为$x^d-\bar1=0$的解，从而就是$x^d-\bar1=0$在$Z^*_p$中的全部解. 这表明$Z^*_p$中每个d阶元素均有形式$\alpha^i$. 但$\alpha^i(1\leq i\leq d)$的阶为d当且仅当$(i,d)=1$.</p>
+<p>(若$\alpha$的阶为d，则$\alpha^i$阶为$\frac{d}{(i,d)}$. 特别地当$(i,d)=1$时$\alpha$与$\alpha^i$具有相同的阶.)</p>
+<p>所以$Z^**p$中d阶元素若存在，则必有$\varphi(d)$个. 即$N_d=0$或$\varphi(d)$, 于是$$
+p-1=\sum*{\substack{d\\d|p-1}}N_d\leq\sum_{\substack{d\\d|p-1}}\varphi(d)=p-1
+$$ 从而对每个$d|p-1$均有$N_d=\varphi(d)$，特别地$N_{p-1}=\varphi(p-1)\geq1$，即$Z^*_p$中有$p-1=\varphi(p)$阶元素，从而模p存在原根.</p>
+<p>以上证明了：</p>
+<ol>
+<li>对$p-1$的每个正因子$d$，$Z^*_p$中d阶元素共有$\varphi(d)$个.</li>
+<li>模p共有$\varphi(p-1)$个原根（每个模p同余类看作一个原根）.</li>
+<li>若g是模p的原根，则模p的全部$\varphi(p-1)$个原根为：$g^i(1\leq i\leq p-1,(i,p-1)=1)$</li>
+<li>一般地，对于p-1的每个正因子d，$Z^*_p$中共有$\varphi(d)$个d阶元素，它们是$g^{ls}(1\leq s\leq d,(s,d)=1,l=\frac{p-1}{d})$</li>
+</ol>
+<p>例：$p=13,\varphi(p)=12$ ( $Z^*_{13}$有$\varphi(d)$个d阶元素：$g^{\frac{12}{d}s}(1\leq s\leq d,(s,d)=1)$ )<br>
+由$2^6\not\equiv1(mod~13),2^4\not\equiv1(mod~13)$知2是模13的一个原根，于是<br>
+$Z^*_{13}$中12阶元素有$\varphi(12)=4$个：$\bar2,\bar2^5=\bar6,\bar2^7=\overline{11},\bar2^{11}=\bar7$
+6阶元素有$\varphi(6)=2$个：$\bar2^2=\bar4,\bar2^{10}=\bar2^{12}\cdot(\bar2)^{-2}=(\bar4)^{-1}=\overline{10}$<br>
+4阶元素有$\varphi(4)=2$个：$\bar2^3=\bar8,\bar2^9=\bar2^{12}\cdot(\bar2^{-3})=(\bar8)^{-1}=\bar5$<br>
+3阶元素有$\varphi(3)=2$个：$\bar2^4=\bar3,\bar2^8=(\overline{16})^{-1}=\bar9$<br>
+2阶元素有1个：$\bar2^6=\overline{-1}=\overline{12}$<br>
+1阶元素有1个：$\bar2^{12}=\bar1$.</p>
+<p>引理2：设p为奇素数，$a\geq2$，$g$是模$p$的原根，则$g$和$g+p$当中必有一个是模$p^a$的原根（对所有的$a\geq2$）.</p>
+<p>引理3：设p为奇素数，$a\geq1$，则模$2p^a$存在原根.</p>
+<p>引理4：设p为奇素数,$m\geq2$，如果$m\neq2,4,p^a$或$2p^a$，而$a\geq1$，则模m不存在原根.</p>
+<p>定理：设$m\geq2$，模m具有原根g，则对$\varphi(m)$的每个正因子$d, Z^*_m$中共有$\varphi(d)$个d阶元素，它们是$$
+\bar g^{ld'}(1\leq l\leq d,(l,d)=1,d'=\frac{\varphi(m)}{d}).
+$$ 证明：$Z^*_m={1,\bar g,\bar g^2,\cdots,\bar g^{\varphi(m)-1}}$. 对于$0\leq n\leq\varphi(m)-1$，元素$\bar g^n$的阶为$\frac{\varphi(m)}{(\varphi(m),n)}$，所以当$dd'=\varphi(m)$时，$$
+\begin{aligned}
+\bar g的阶为d&amp;\lrArr(\varphi(m),n)=d'\\
+&amp;\lrArr d'|n并且(\frac{n}{d'},d)=1\\
+&amp;\lrArr n=ld',1\leq l\leq d,(l,d)=1.
+\end{aligned}
+$$</p>
+<p>设模m有原根g，则${1,g,g^2,\cdots,g^{\varphi(m)-1}}$是模m的缩系.<br>
+定义：对每个与m互素的整数a，必存在唯一的整数k，使得$a\equiv g^k(mod~m),0\leq k\leq\varphi(m)-1$. k叫做a(对于原根g的)模m的指数(index)，表示成$k=ind_ga.$</p>
+<p>例如：$ind~1=0,ind_gg=1,ind(-1)=\frac{\varphi(m)}2(m\geq3),g^{\frac{\varphi(m)}2}=-1$</p>
+<p>模m的指数与对数有类似的性质，所以$ind_ga$也称作a的离散对数.</p>
+<p>性质：设$(a,m)=(b,m)=1$，则<br>
+(1) $a\equiv b(mod~m)$当且仅当$ind_ga=ind_gb$<br>
+(2) $ind(ab)\equiv ind~a+ind~b(mod~\varphi(m))$<br>
+$ind(a^n)\equiv n\cdot ind~a(mod~\varphi(m))$(对每个$n\in\Z$)</p>
+<p>证明：(2)由于g模m的阶为$\varphi(m)$所以，$g^i\equiv g^j(mod~m)\lrArr g^{i-j}\equiv1(mod~m)\lrArr\varphi(m)|(i-j)\lrArr i\equiv j(mod~\varphi(m)),g^i\equiv a(mod~m)\lrArr i\equiv ind_ga(mod~\varphi(m))$.<br>
+$g^{ind(ab)}\equiv ab\equiv g^{ind~a}\cdot g^{ind~b}=g^{ind~a+ind~b}(mod~m)$.<br>
+因此$ind(ab)\equiv ind~a+ind~b(mod~\varphi(m))$.</p>
+<p>例：$p=11,2$为模11的原根，把$Z_{11}$中的$\bar a$简记为$a$.则$a=b$指$a\equiv b(mod~11)$于是$Z^*_{11}$中的元素为$2^0=1,2^1=2,2^2=4,2^3=8,2^4=5,2^5=10,2^6=9,2^7=7,2^8=3,2^9=6$</p>
+<p>由此可得模11(对于原根2)的指数表</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">a</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+<th style="text-align:center">4</th>
+<th style="text-align:center">5</th>
+<th style="text-align:center">6</th>
+<th style="text-align:center">7</th>
+<th style="text-align:center">8</th>
+<th style="text-align:center">9</th>
+<th style="text-align:center">10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$ind_2$</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">5</td>
+</tr>
+</tbody>
+</table>
+<p>例：解同余方程$7\cdot3^x\equiv6(mod~11)$<br>
+解：方程等价于$ind_27+x\cdot ind_23\equiv ind_26(mod~10)$，由上表得$7+8x\equiv9(mod~10)$即$x\equiv4(mod~5)$.</p>
+<h2 id="%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99">二次剩余</h2>
+<p>定义：设$k\geq2,(a,m)=1,$如果同余方程$x^k\equiv a(mod~m)$有整数解，称a为模m的k次剩余，否则a为模m的k次非剩余.</p>
+<p>定理：设$k\geq2,(a,m)=1$，模m存在原根g，记$d=(k,\varphi(m))$则<br>
+(1) a为模m的k次剩余(即同余方程$x^k\equiv a(mod~m)$有整数解)的充要条件是$d|ind_ga$，这也相当于$a^\frac{\varphi(m)}{d}\equiv1(mod~m)$.</p>
+<p>证明：令$x=g^y,a=g^{ind(a)}$，则同余方程$x^k\equiv a(mod~m)$等价于$g^{ky}\equiv g^{ind(a)}(mod~m)$，又等价于$ky\equiv ind_ga(mod~\varphi(m))$<br>
+该方程有解的充要条件为$d=(k,\varphi(m))|ind_ga$<br>
+又$a^\frac{\varphi(m)}{d}\equiv g^{ind_g(a)\frac{\varphi(m)}{d}}(mod~m)$，于是$a^\frac{\varphi(m)}{d}\equiv1(mod~m)\lrArr\varphi(m)|ind_g(a)\frac{\varphi(m)}{d}\lrArr d|ind_g(a)$.</p>
+<p>(2) 若a为模m的k次剩余，则同余方程模m恰有d个解.</p>
+<p>证明：当$d=(k,\varphi(m))|ind_ga$时，同余方程$ky\equiv ind_ga(mod~\varphi(m))$模$\varphi(m)$有d个解$y\equiv y_1,y_2,\cdots,y_d(mod~\varphi(m))$,<br>
+于是同余方程$x^k\equiv a(mod~m)$模m有d个解$x\equiv g^{y_1},\cdots,g^{y_d}(mod~m)$</p>
+<p>(3) 模m的k次剩余a个数为$\frac{\varphi(m)}d$，它们是$a\equiv g^{dl}(mod~m)(0\leq l\leq\frac{\varphi(m)}{d}-1)$</p>
+<p>证明：由(1)得a为模m的k次剩余当且仅当$d|ind_ga$，所以$ind_ga$模$\varphi(m)$有$\frac{\varphi(m)}d$个同余类：$ind_ga\equiv0,d,2d,\cdots,(\frac{\varphi(m)}{d}-1)d(mod~\varphi(m))$，于是模m的k次剩余共有$\frac{\varphi(m)}d$个模m同余类$a\equiv g^{dl}(mod~m)$.</p>
+<p>根据k次剩余的定义，对于$(a,p)=1$，a是模p的二次剩余，是指存在整数b使得$b^2\equiv a(mod~p)$，即$\alpha=\bar a$是$Z^*_p$中的平方元素$(\alpha=\beta^2,\beta=\bar b\neq0)$，否则a叫做模p的二次非剩余.</p>
+<p>例：求模11的二次剩余(1,3,4,5,9)<br>
+$1^2\equiv1(mod~11),5^2\equiv3(mod~11),2^2\equiv4(mod~11),7^2\equiv5(mod~11),3^2\equiv9(mod~11)$</p>
+<p>定理：设p是奇素数，g是模p的一个原根，则<br>
+(1)模p的二次剩余共有$\frac{p-1}2$个，它们(在模p的意义下)是${g^{2i}:0\leq i\leq \frac{p-3}2}$.模p的二次非剩余也共有$\frac{p-1}2$个，它们是${g^{2i+1}:0\leq i\leq \frac{p-3}2}$<br>
+(2)模p的两个二次剩余相乘是二次剩余，二次剩余和二次非剩余相乘是二次非剩余，两个二次非剩余相乘是二次剩余.<br>
+证明：在上一个定理中取$k=2,\varphi(p)=p-1\rArr d=(2,p-1)=2$. 于是a是模p的二次剩余当且仅当$2|ind_ga$，即$ind_ga$为偶数，a是模p的二次非剩余当且仅当$ind_ga$为奇数.</p>
+<p>对于奇素数$p$和$a\in\Z$，定义勒让德符号为$$
+\Big(\frac{a}{p}\Big)=\begin{cases}
+\hphantom{-}1,~a是模p的二次剩余\\
+-1,~a是模p的二次非剩余\\
+\hphantom{-}0,~若p|a
+\end{cases}
+$$ 例如：$\Big(\frac{1}{p}\Big)=1;\Big(\frac{m^2}{p}\Big)=1,(m,p)=1;\Big(\frac{7}{11}\Big)=-1;\Big(\frac{22}{11}\Big)=0$</p>
+<p>上述定理(2)可表示为：当$a,b\in\Z,p\not|ab$时$\Big(\frac{ab}{p}\Big)=\Big(\frac{a}{p}\Big)\Big(\frac{b}{p}\Big)$，当$p|ab$时也成立，两边均为0.</p>
+<p>勒让德符号的性质：<br>
+(1)对任意的$a,b\in\Z,\Big(\frac{ab}{p}\Big)=\Big(\frac{a}{p}\Big)\Big(\frac{b}{p}\Big)$<br>
+(2)若$a\equiv b(mod~p)$，则$\Big(\frac{a}{p}\Big)=\Big(\frac{b}{p}\Big)$<br>
+(3)同余方程$x^2\equiv a(mod~p)$的模p解数为$1+\Big(\frac{a}{p}\Big)$</p>
+<p>定理(欧拉判别法则) 设p为奇素数，则对每一个整数$a,\Big(\frac{a}{p}\Big)\equiv a^{\frac{p-1}2}(mod~p)$.</p>
+<p>证明：(1)$p|a$时$\Big(\frac{a}{p}\Big)=0\equiv a^{\frac{p-1}2}(mod~p)$.<br>
+(2)如果a是模p的二次剩余，则$a\equiv g^{2i}(mod~p)$，于是$\Big(\frac{a}{p}\Big)=1,a^{\frac{p-1}2}\equiv g^{(p-1)i}\equiv1(mod~p)$.<br>
+(3)如果a是模p的二次非剩余，则$a\equiv g^{2i+1}(mod~p)$，于是$\Big(\frac{a}{p}\Big)=-1,a^{\frac{p-1}2}\equiv g^{(p-1)i}g^{\frac{p-1}2}\equiv-1(mod~p)$</p>
+<p>推论：设p为奇素数，则$$
+\Big(\frac{-1}{p}\Big)=(-1)^\frac{p-1}2=\begin{cases}
+\hphantom{-}1,\quad p\equiv1(mod~4)\\
+-1,\quad p\equiv3(mod~4)
+\end{cases}
+$$ 证明：$\Big(\frac{-1}{p}\Big)\equiv(-1)^\frac{p-1}2(mod~p)$. 同余式两边取值$\pm1$，而$p\geq3$，所以$$
+\Big(\frac{-1}{p}\Big)=(-1)^\frac{p-1}2
+$$</p>
+<p>例：$\Big(\frac{3}{17}\Big)\equiv3^\frac{17-1}2=3^8\equiv-1(mod~17)$，3是模17的二次非剩余. $\Big(\frac{7}{29}\Big)\equiv7^\frac{29-1}2=7^{14}\equiv1(mod~29)$，7是模29的二次剩余.</p>
+<p>高斯引理：设p为奇素数，$(a,p)=1$，记$r=\frac{p-1}2$，令$\mu$为$a,2a,\cdots,ra$中模p的最小正剩余大于$\frac{p}2$的个数，则$\Big(\frac{a}{p}\Big)=(-1)^\mu$.</p>
+<p>推论：设p为奇素数，则$$
+\Big(\frac{2}{p}\Big)=(-1)^\frac{p^2-1}{8}\equiv\begin{cases}
+\hphantom{-}1,\quad p\equiv\pm1(mod~8)\\
+-1,\quad p\equiv\pm3(mod~8)
+\end{cases}
+$$ 例：证明形如4m+1的素数有无穷多个.<br>
+证明：首先，这样的素数是存在的，例如$p=5$.<br>
+假设这样的素数只有有限个，它们是$p_1,p_2,\cdots,p_s(s\geq1)$，考虑正整数$n=4(p_1p_2\cdots p_s)^2+1$，由于$n$是大于2的奇数，$n$必有素因子$p$，并且$p\geq3$，则$$
+0\equiv n=4(p_1p_2\cdots p_s)^2+1(mod~p),
+$$ 即$(2p_1p_2\cdots p_s)^2\equiv-1(mod~p)$，从而$\Big(\frac{-1}{p}\Big)=1$，即$p\equiv1(mod~4)$.<br>
+但$p|n$，$p$不能为$p_1,p_2,\cdots,p_s$，于是$p$为新的形如$4m+1$的素数，得到矛盾.</p>
+<p>二次互反律：设p和q是不同的奇素数，则$$
+\Big(\frac{q}{p}\Big)\Big(\frac{p}{q}\Big)=(-1)^{\frac{p-1}2\frac{q-1}2}=\begin{cases}
+\hphantom{-}1,\quad p\equiv1(mod~4) or q\equiv1(mod~4)\\
+-1,\quad p\equiv q\equiv3(mod~4)
+\end{cases}
+$$ $\Big(\frac{q}{p}\Big)=\Big(\frac{p}{q}\Big)(-1)^{\frac{p-1}2\frac{q-1}2}$</p>
+<p>例：同余方程$x^2\equiv219(mod~383)$是否有解.<br>
+$\Big(\frac{219}{383}\Big)=\Big(\frac{3}{383}\Big)\Big(\frac{73}{383}\Big)=-\Big(\frac{383}{3}\Big)\Big(\frac{383}{73}\Big)=-\Big(\frac{2}{3}\Big)\Big(\frac{18}{73}\Big)=-\Big(\frac{2}{3}\Big)\Big(\frac{2}{73}\Big)=-(-1)1=1$</p>
+<p>例：决定$\Big(\frac{-3}{p}\Big)=-1$的全部奇素数p<br>
+$\Big(\frac{-3}{p}\Big)=\Big(\frac{-1}{p}\Big)\Big(\frac{3}{p}\Big)=(-1)^\frac{p-1}2\Big(\frac{p}{3}\Big)(-1)^{\frac{p-1}2\frac{3-1}{2}}=\Big(\frac{p}{3}\Big),p\equiv2(mod~3)$ (欧拉判别法则)</p>
+<p>例：决定所有素数p，使6成为模p的二次剩余<br>
+$\Big(\frac{6}{p}\Big)=\Big(\frac{2}{p}\Big)\Big(\frac{3}{p}\Big)=(-1)^{\frac{p^2-1}8+\frac{p-1}2}\Big(\frac{p}{3}\Big)$<br>
+由于$(-1)^{\frac{p^2-1}8+\frac{p-1}2}=\begin{cases}1,p\equiv1,3(mod~8)\\-1,p\equiv5,7(mod~8)\end{cases}$, $\Big(\frac{p}{3}\Big)=\begin{cases}1,p\equiv1(mod~3)\\-1,p\equiv2(mod~3)\end{cases}$
+$\Big(\frac{6}{p}\Big)=1\lrArr\begin{cases}p\equiv1,3(mod~8)\\p\equiv1(mod~3)\end{cases}$ 或者$\begin{cases}p\equiv5,7(mod~8)\\p\equiv2(mod~3)\end{cases}$
+由中国剩余定理$p\equiv1,19,23,5(mod~24)$</p>
+
+</body>
+</html>
