@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-06-20-调和分析入门3.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E5%8D%B7%E7%A7%AF%E5%92%8C%E6%81%92%E7%AD%89%E9%80%BC%E8%BF%91">卷积和恒等逼近</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\Rnx{\R^n_x}$
+$\gdef\Rny{\R^n_y}$
+$\gdef\jn#1#2{(#1\ast#2)}$
+$\gdef\intrn{\int_{\R^n}}$</p>
+<p>定义 $f,g:\R^n\rarr\R$勒贝格可测，若$\forall ~a.e.~ x\in\R^n,f(x-y)g(y)\in L^1(\Rny)$($i.e. \intrn|f(x-y)||g(y)|&lt;+\infty$)，称$\jn f g(x)=\intrn f(x-y)g(y)dy$为$f$和$g$的卷积.</p>
+<p>注：$1^\circ$ 平移 $\tau_hf(x)\coloneqq f(x-h),\forall x\in\R^n,h\in\R^n$<br>
+$2^\circ$ $\jn f g(x)\coloneqq\intrn f(x-y)g(y)dy=\int_{\R^n}\tau_yf(x)g(y)dy$<br>
+$3^\circ$ 变换 $\jn f g(x)=\intrn f(x-y)g(y)dy\overset{x-y=z,dy=|J|dz=dz}{=}\intrn f(z)g(x-z)dz=\jn g f(x)$<br>
+$4^\circ~\tau_h\jn f g(x)=\jn {\tau_hf} g(x)=\jn f {\tau_hg}(x)$<br>
+$\tau\jn f g(x)=\jn f g(x-h)=\intrn f(x-h-y)g(y)dy=\intrn (\tau_hf)(x-y)g(y)dy=\jn{\tau_hf}g(x)$</p>
+<p>引理 如果$f,g\in L^1(\R^n)$，则$\forall x\in\R^n,\jn f g(x)$存在且$f\ast g\in L^1(\R^n),~\norm{f\ast g}_{L^1}\leq\norm{f}_{L^1}\norm{g}_{L^1}$.<br>
+证明：存在和可测略. 有$\jn f g(x)=\intrn f(x-y)g(y)dy$，由集合平移测度不变有$\intrn|f(x-y)|dx=\intrn|f(x)|dx,~\norm{\tau_hf(x)}_{L^1(\Rnx)}=\norm{f}_{L^1(\Rnx)}$，所以$$
+\begin{aligned}
+\norm{f\ast g}_{L^1(\Rnx)}&amp;=\int_{\Rnx}|\int_{\Rny}f(x-y)g(y)dy|dx\\
+&amp;\leq\int_{\Rnx}(\int_{\Rny}|f(x-y)||g(y)|dy)dx\\
+&amp;=\int_{\Rny}|g(y)|(\int_{\Rnx}|f(x-y)|dx)dy\\
+&amp;=\int_{\Rny}|g(y)|dy\cdot\norm{f}_{L^1}=\norm{f}_{L^1}\norm{g}_{L^1}
+\end{aligned}
+$$</p>
+<p>注：$1^\circ~f,g,h\in L^1(\R^n),~\jn f g\ast h=f\ast\jn g h\in L^1$<br>
+$2^\circ~(f+g)\ast h=f\ast h+g\ast h$<br>
+$3^\circ~(L^1(\R^n),\ast)$是代数.</p>
+<p>例 (1) $\R^1$上的$f(x)=\begin{cases}1,&amp;x\in[-1,1]\\0,&amp;otherwise\end{cases}$，求$\jn f f(x)=\int_\R f(x-y)f(y)dy=\int_{-1\leq y\leq1}f(x-y)dy$<br>
+$1^\circ~x&gt;2,y\in[-1,1]\rArr x-y&gt;1\rArr f(x-y)\equiv0\rArr\jn f f(x)=0$<br>
+$2^\circ~x&lt;2,y\in[-1,1]\rArr x-y&lt;-1\rArr\jn f f(x)=0$<br>
+$3^\circ~x\in[0,2],\jn f f(x)=\int^1_{-1}f(x-y)dy=\int_{y\in[-1,1],x-y\in[-1,1]}1dy=\int^1_{-1+x}1dy=2-x$<br>
+$4^\circ~x\in[-2,0],\jn f f(x)=2+x$<br>
+综上，$\jn f f(x)=\begin{cases}2-|x|&amp;|x|&lt;2\\0&amp;otherwise\end{cases}$，是个连续函数.</p>
+<p>基本卷积不等式<br>
+定理(Minkovski不等式) 设$1\leq p\leq\infty,~f\in L^p(\R^n),g\in L^1(\R^n)$，有$f\ast g\in L^p(\R^n)$且$\norm{f\ast g}_{L^p}\leq\norm{f}_{L^p}\norm{g}_{L^1}$.<br>
+证明：$1^\circ~p=1,\norm{f\ast g}_{L^1}\leq\norm{f}_{L^1}\norm{g}_{L^1}$以证.<br>
+$2^\circ~p=\infty,\forall x\in\R^n,$ $$
+\begin{aligned}
+|\jn f g(x)|&amp;=|\intrn f(x-y)g(y)dy|\\
+&amp;\leq\intrn|f(x-y)||g(y)|dy\\
+&amp;\leq\norm{f}_{L^\infty}\intrn|g(y)|dy\\
+&amp;=\norm{f}_{L^\infty}\norm{g}_{L^1}
+\end{aligned}
+$$ $\rArr \norm{f\ast g}_{L^\infty}\leq\norm{f}_{L^\infty}\norm{g}_{L^1}$<br>
+$3^\circ~1&lt;p&lt;\infty,$ $$
+\begin{aligned}
+|\jn f g(x)|&amp;=|\intrn f(x-y)g(y)dy|\\
+&amp;\leq\intrn|f(x-y)||g(y)|dy\\
+&amp;=\intrn|f(x-y)||g(y)|^\frac1p|g(y)|^\frac1{p'}dy\\
+&amp;\leq(\intrn(|f(x-y)||g(y)|^\frac1p)^pdy)^\frac1p(\intrn|g(y)|^{\frac1{p'}\cdot p'}dy)^\frac1{p'}\\
+&amp;=(\intrn|f(x-y)|^p|g(y)|dy)^\frac1p(\intrn|g(y)|dy)^\frac1{p'}
+\end{aligned}
+$$ $$
+\begin{aligned}
+\rArr\intrn|\jn f g(x)|^pdx&amp;\leq\intrn\intrn|f(x-y)|^p|g(y)|dy\cdot\norm{g}_{L^1}^\frac{p}{p'}dx\\
+&amp;=\norm{g}_{L^1}^\frac{p}{p'}\intrn(\intrn|f(x-y)|^p|g(y)|dy)dx\\
+&amp;=\norm{g}_{L^1}^\frac{p}{p'}\int_{\Rny}|g(y)|(\int_{\Rnx}|f(x-y)|^pdx)dy\\
+&amp;=\norm{g}_{L^1}^\frac{p}{p'}\norm{f}^p_{L^p}\norm{g}_{L^1}\\
+&amp;=\norm{f}^p_{L^p}\norm{g}^p_{L^1}
+\end{aligned}
+$$ $\rArr\norm{f\ast g}_{L^p}\leq\norm{f}_{L^p}\norm{g}_{L^1}$</p>
+<p>定理(Young不等式) 设$1\leq p,q,r\leq\infty~s.t.~1+\frac1r=\frac1p+\frac1q$，则$\forall f\in L^p(\R^n),g\in L^q(\R^n)$有$f\ast g\in L^r(\R^n)$且$\norm{f\ast g}_{L^r}\leq\norm{f}_{L^p}\norm{g}_{L^q}$</p>
+<p>定理(Young不等式，弱型) 设$1\leq p\leq\infty,1&lt;q,r&lt;\infty~s.t.~1+\frac1r=\frac1p+\frac1q$，则$\exist c_{p,q,r}&gt;0~s.t.~\forall f\in L^p(\R^n),g\in L^{q,\infty}(\R^n)$有$f\ast g\in L^{r,\infty}$且$\norm{f\ast g}_{L^{r,\infty(\R^n)}}\leq c_{p,q,r}\norm{f}_{L^p}\norm{g}_{L^{q,\infty}}$</p>
+<p>不存在$f_0\in L^1(\R^n)~s.t.~f_0\ast f=f=f\ast f_0,\forall f\in L^1(\R^n)$，但有<code>Dirac delta distribution</code>$\delta_0(x):&lt;\delta_0,f&gt;=f(0),\forall f\in C_c(\R^n)$，$C_c(\R^n)=\lrb{f\in C(\R^n)|\exist K\subset\subset \R^n~s.t.~f|_{K^C}\equiv0}$，$K\subset\subset \R^n$即$K$为紧集，则有$\delta_0\ast f=f=f\ast\delta_0$</p>
+<hr>
+<p>恒等逼近<br>
+定义 一个恒等逼近($\varepsilon\rarr0$)是$L^1(\R^n)$上的一族函数$k_\varepsilon$且满足：<br>
+(i) $\exist c&gt;0~s.t.~\norm{k_\varepsilon}_{L^1(\R^n)}\leq c~~(\forall\varepsilon&gt;0)$ (一致有界)<br>
+(ii) $\intrn k_\varepsilon(x)dx=1~~(\forall\varepsilon&gt;0)$<br>
+(iii) $\forall$给定的$U(0)$($0\in\R^n$的邻域)，$\displaystyle\lim_{\varepsilon\rarr0}\int_{U^C(0)}|k_\varepsilon(x)|dx=0,U^C(0)=\R^n\backslash U(0)$</p>
+<p>例(1) 设$k(x)\in L^1(\R^n)$且$\intrn k(x)dx=1~(f\in L^1,\int fdx\neq0,\int\frac{f}{\intrn fdx}dx=1)$<br>
+定义$k_\varepsilon(x)=\varepsilon^{-n}k(\varepsilon^{-1}x)~~~(\forall\varepsilon&gt;0)$，则$\lrb{k_\varepsilon(x)}_{\varepsilon&gt;0}$是一个恒等逼近.<br>
+验证：(i) $\norm{k_\varepsilon}_{L^1}=\intrn\varepsilon^{-n}|k(\varepsilon^{-1}x)|dx\overset{y=\varepsilon^{-1}x,dx=\varepsilon^ny}{=}\intrn\varepsilon^{-n}|k(y)|\varepsilon^ndy=\intrn|k(y)|dy=\norm{k}_{L^1}$为与$\varepsilon$无关的常数. (ii)由(i)显然<br>
+(iii) $\forall U(0),\exist\delta_0&gt;0~s.t.~B_{\delta_0}(0)\subseteq U(0)\rArr U^C(0)\subseteq B^C_{\delta_0}(0)=\lrb{x\in\R^n:|x|&gt;\delta_0}$，从而$0\leq\int_{U^C(0)}|k_\varepsilon(x)|dx\leq\int_{B^C_{\delta_0}(0)}|k_\varepsilon(x)|dx=\int_{|x|&gt;\delta_0}\varepsilon^{-n}|k(\varepsilon^{-1}x)|dx=\int_{|y|&gt;\varepsilon^{-1}\delta_0}|k(y)|dy$<br>
+因为$k\in L^1,\int|k|dy&lt;+\infty$，有$\displaystyle\lim_{\varepsilon\rarr0}\int_{|y|&gt;\frac{\delta_0}{\varepsilon}}|k(y)|dy=0$，由两边夹即证.</p>
+<p>(2) $\R^1$上$P(x)=\frac1{\pi(x^2+1)}~~~(\forall x\in\R),\int_\R|P(x)|dx=1$，令$P_\varepsilon=\varepsilon^{-1}P(\varepsilon^{-1}x)$，则$\lrb{P_\varepsilon(x)}_{\varepsilon&gt;0}$是恒等逼近.<br>
+注：$\varepsilon^{-n}k(\varepsilon^{-1}x)$为尺度变换.</p>
+<p>(3) $\rho(x)=\begin{cases}c_0e^\frac1{ |x|^2-1},&amp;|x|&lt;1\\0,&amp;|x|\geq1\end{cases}$，取$c_0=(\int_{|x|&lt;1}e^\frac1{|x|^2-1}dx)^{-1}$，有$\intrn\rho(x)dx=1,\rho(x)\in L^1(\R^n)\rArr\rho_\varepsilon(x)=\varepsilon^{-n}\rho(\varepsilon^{-1}x)$，$\lrb{\rho_\varepsilon(x)}_{\varepsilon&gt;0}$为恒等逼近.</p>
+<p>注：(1) $\rho\in C^\infty(\R^n)$<br>
+(2) $\R^n$上$f$的支撑集：$\overline{\lrb{x\in\R^n|f(x)\neq0}}=Supp(f)$，若$Supp(f)$有界，称$f$具有紧支撑. $f\in C_c(\R^n)\lrArr f\in C(\R^n)$且$f$有紧支撑.</p>
+<p>(4) Gauss核. $G_\varepsilon=c_0\varepsilon^{-n}e^{-\frac{|x|^2}{\varepsilon^2}}~~~(\varepsilon&gt;0)$</p>
+<p>(5) $Fej\acute{e}r$核 $F_N(t)=\displaystyle\sum^N_{j=-N}(1-\frac{|j|}{N+1})e^{2\pi ijt}=\frac{1}{N+1}(\frac{sin(\pi(N+1)t)}{sin(\pi t)})^2$为恒等逼近.</p>
+<p>引入p-norm，p-模，$1\leq p&lt;\infty,f\in L^p(\R^n)$ $$
+w_{f,p}(h)=(\intrn|f(x)-f(x-h)|^pdx)^\frac1p=\norm{f-\tau_hf}_{L^p}<br>
+$$ 性质 $w_{f,p}(h)\leq2\norm{f}_{L^p}$</p>
+<p>引理 (i) 若$f\in L^1(\R^n)$则$w_{f,1}(h)\rarr0(|h|\rarr0)$<br>
+(ii) $f\in L^p(\R^n)~~~(1&lt;p&lt;\infty)$则$w_{f,p}(h)\rarr0(|h|\rarr0)$<br>
+证明：(i) 第一步，因为$C_c(\R^n)$在$L^1(\R^n)$是稠的(实变)，所以$\forall f\in L^1(\R^n)$给定，$\forall \delta&gt;0,\exist f_\delta(x)\in C_c(\R^n)~s.t.~\norm{f_\delta-f}_{L^1}&lt;\delta$且$\norm{f_\delta}_{L^1}\leq c\norm{f}_{L^1}$<br>
+则$f=f_\delta+\widetilde{f_\delta}$，其中$f_\delta\in C_c(\R^n),\widetilde{f_\delta}:\norm{\widetilde{f_\delta}}_{L^1}&lt;\delta$<br>
+第二步，对$f_\delta\in C_c(\R^n),w_{f_\delta,1}(h)=\intrn|f_\delta(x)-f_\delta(x-h)|dx\leq2\norm{f_\delta}_{L^1}\leq c\norm{f}_{L^1}$. 由Lebsgue控制收敛定理，$\displaystyle\lim_{|h|\rarr0}w_{f_\delta,1}(h)=\intrn\displaystyle\lim_{|h|\rarr0}|f_\delta(x)-f_\delta(x-h)|dx=0~i.e.~w_{f_\delta,1}(h)\rarr0$. 另一方面，$$
+\begin{aligned}
+w_{f,1}(h)&amp;=\intrn|f(x)-f(x-h)|dx\&amp;=\intrn|f_\delta(x)-f_\delta(x,h)+\widetilde{f}_\delta(x)-\widetilde{f}_\delta(x-h)|dx\\
+&amp;\leq\intrn|f_\delta(x)-f_\delta(x-h)|dx+\intrn|\widetilde{f}_\delta(x)-\widetilde{f}_\delta(x-h)|dx\\
+&amp;\leq w_{f_\delta,1}(h)+2\norm{\widetilde{f}_\delta}_{L^1}\leq w_{f_\delta,1}(h)+2\delta
+\end{aligned}
+$$ 从而对$\forall\delta&gt;0,\exist\varepsilon_0&gt;0~s.t.~\forall|h|&lt;\varepsilon_0$有$w_{f,1}(h)\leq\delta+2\delta=3\delta~i.e.~\displaystyle\lim_{|h|\rarr0}w_{f,1}(h)=0$，类似可证(ii).</p>
+<p>Minkovski不等式:$f(x,y),x,y\in\R^n,q\geq p$有$\norm{\norm{f}_{L^p}}_{L^q}\leq\norm{\norm{f}_{L^q}}_{L^p}$</p>
+<p>定理 设$\lrb{k_\varepsilon}_{\varepsilon&gt;0}$为$\R^n$上的恒等逼近<br>
+(1) 若$f\in L^p(\R^n)~~~(1\leq p&lt;\infty)$则有$\norm{k_\varepsilon\ast f-f}_{L^p(\R^n)}\rarr0\space(\varepsilon\rarr0)(i.e.~k_\varepsilon\ast f\rarr f~in~L^p(\R^n))$<br>
+(2) 当$p=\infty$，有：若$f\in C(U(K)),U(K)\subset\R^n$是紧集$K\subset\R^n$的邻域，$\norm{k_\varepsilon\ast f-f}_{L^\infty(K)}\rarr0~i.e.~k_\varepsilon\ast f\rightrightarrows f(\varepsilon\rarr0)~on~K$<br>
+注：集合$K$的邻域是有$K\subset U(K)$的开集，有$d(K,\partial U)&gt;0$</p>
+<p>证明：(2)略.
+(1) $$
+\begin{aligned}
+1\leq p&lt;\infty,k_\varepsilon\ast f(x)-f(x)&amp;=\intrn k_\varepsilon(y)f(x-y)dy-f(x)\intrn k_\varepsilon(y)dy\\
+&amp;=\intrn(f(x-y)-f(x))k_\varepsilon(y)dy\\
+&amp;=\int_{|y|&lt; r}(f(x-y)-f(x))k_\varepsilon(y)dy\\
+&amp;\quad+\int_{|y|\geq r}(f(x-y)-f(x))k_\varepsilon(y)dy\\
+&amp;=I_1(r,x)+I_2(r,x)~~(\forall r)
+\end{aligned}
+$$ $$
+\begin{aligned}
+\norm{I_1(r,x)}_{L^p}&amp;\leq\norm{\int_{|y|&lt; r}|f(x-y)-f(x)||k_\varepsilon(y)|dy}_{L^p(\Rnx)}\\
+&amp;\leq\int_{|y|&lt; r}|k_\varepsilon(y)|\norm{f(x-y)-f(x)}_{L^p(\Rnx)}dy\\
+&amp;=\int_{|y|&lt; r}|k_\varepsilon(y)|w_{f,p}(y)dy
+\end{aligned}
+$$ 因为$\forall\delta&gt;0,\exist r_0&gt;0~s.t.~\forall|y|&lt;r_0,w_{f,p}(y)&lt;\delta\rArr\norm{I_1(r_0,x)}_{L^p(\Rnx)}\leq\delta\int_{|y|&lt; r_0}|k_\varepsilon(y)|dy\leq c\delta$</p>
+<p>$$
+\begin{aligned}
+\norm{I_2(r_0,x)}_{L^p}&amp;=\norm{\int_{|y|\geq r_0}(f(x-y)-f(x))k_\varepsilon(y)dy}_{L^p(\Rnx)}\\
+&amp;\leq\int_{|y|\geq r_0}|k_\varepsilon(y)|w_{f,p}(y)dy\\
+&amp;\leq2\norm{f}_{L^p}\int_{|y|\geq r_0}|k_\varepsilon(y)|dy
+\end{aligned}
+$$ 又$\displaystyle\lim_{\varepsilon\rarr0}\int_{|y|\geq r_0}|k_\varepsilon(y)|dy=0$，故对上面的$\delta&gt;0,\exist\varepsilon_0&gt;0~s.t.~\forall0&lt;\varepsilon&lt;\delta_0,\int_{|y|\geq r_0}|k_\varepsilon(y)|dy&lt;\frac{\delta}{\norm{f}_{L^p}}\rArr\norm{I_2}_{L^p(\Rnx)}\leq2\norm{f}_{L^p}\cdot\frac{\delta}{\norm{f}_{L^p}}=2\delta$<br>
+综上，$\forall\delta&gt;0,\exist\varepsilon_0&gt;0,\forall0&lt;\varepsilon&lt;\varepsilon_0$有$\displaystyle\lim_{\varepsilon\rarr0}\norm{k_\varepsilon\ast f-f}_{L^p}=0$.</p>
+
+</body>
+</html>

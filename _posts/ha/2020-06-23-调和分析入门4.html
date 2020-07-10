@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-06-23-调和分析入门4.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E6%8F%92%E5%80%BC">插值</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$</p>
+<p>下设$1\leq p,q&lt;\infty,(X,\mu),(Y,\nu)$为测度空间.<br>
+$f\in(X,\mu)'\rArr f$是$(X,\mu)$上的可测函数.</p>
+<p>定义 设$T:L^p(X,\mu)\rarr L^q(Y,\nu)$为线性算子，若存在常数$c_{p,q}&gt;0$使得对任意简单函数$f\in L^p(X,\mu)$有$\norm{Tf}_{L^q(Y,\nu)}\leq c_{p,q}\norm{f}_{L^p(X,\mu)}$，则称$T$是一个强$(p,q)-$型算子.<br>
+类似地设$T:L^p(X,\mu)\rarr L^{q,\infty}(Y,\nu)$为线性算子，若$\norm{Tf}_{L^{q,\infty}(Y,\nu)}\leq c_{p,q}\norm{f}_{L^p(X,\mu)}$，则称$T$是弱$(p,q)-$型算子. 强(p,q)$\rArr$弱(p,q).</p>
+<p>实方法：Marcinkiewicz插值定理</p>
+<p>定义 $T:(X,\mu)'\rarr(Y,\nu)'$为映射<br>
+(1) $T$为线性：$\forall f,g\in(X,\mu)',\lambda\in\R$有$T(f+g)=Tf+Tg,~T(\lambda f)=\lambda Tf$<br>
+(2) $T$为次线性：$\forall f,g\in(X,\mu)',\lambda\in\R$有$T(f+g)\leq|Tf|+|Tg|,~T(\lambda f)=|\lambda||Tf|$<br>
+(3) $T$为拟线性：$\forall f,g\in(X,\mu)',\lambda\in\R,\exist K&gt;0~s.t.~|T(f+g)|\leq K(|Tf|+|Tg|),~|T(\lambda f)|=|\lambda||Tf|$</p>
+<p>定理 Marcinkiewicz插值定理<br>
+假设 $1\leq p_0&lt;p_1\leq\infty,T:(L^{p_0}+L^{p_1})(X,\mu)\rarr(Y,\nu)'$为次线性算子，并$\exist A_0,A_1&gt;0~s.t.~T$为弱$(p_0,p_0)-$型和弱$(p_1,p_1)-$型算子，即$$
+\begin{cases}
+\norm{Tf}_{L^{p_0,\infty}(Y,\nu)}\leq A_0\norm{f}_{L^{p_0}(X,\mu)},~\forall f\in L^{p_0}(X)\\
+\norm{Tf}_{L^{p_1,\infty}(Y,\nu)}\leq A_1\norm{f}_{L^{p_1}(X,\mu)},~\forall f\in L^{p_1}(X)
+\end{cases}
+$$ 则对$\forall p_0&lt;p&lt;p_1,~\forall f\in L^p(X)$，都有$$
+\norm{Tf}_{L^p(X)}\leq A\norm{f}_{L^p(X)},A=2(\frac{p}{p-p_0}+\frac{p}{p_1-p})^\frac1p A_0^\theta A_1^{1-\theta}
+$$ 且$\theta\in(0,1),\frac1p=\frac\theta{p_0}+\frac{1-\theta}{p_1}$.</p>
+<p>注：$f\in(L^{p_0}+L^{p_1})(X)$指$f=f_1+f_2$且$f_1\in L^{p_0}(X),f_2\in L^{p_1}(X)$.</p>
+<p>证明：第一种情况，$1\leq p_0&lt;p_1&lt;+\infty$. 给定$f\in L^p(X)$(目标$Tf\in L^p(Y)$)，$\alpha&gt;0$给定，$\delta&gt;0$待定. 分解$f=f_0^\alpha+f_1^\alpha,$其中$f_0^\alpha=\begin{cases}f(x)&amp;|f(x)|&gt;\delta\alpha\\0&amp;|f(x)|&lt;\delta\alpha\end{cases},f_1^\alpha=\begin{cases}0&amp;|f(x)|&gt;\delta\alpha\\f(x)&amp;|f(x)|\leq\delta\alpha\end{cases}$，可以验证$f^\alpha_0\in L^{p_0}(X),f^\alpha_1\in L^{p_1}(X)$.</p>
+<p>事实上，$$
+\begin{aligned}
+\norm{f^\alpha_0}^{p_0}_{L^{p_0}(X)}&amp;=\int_X|f^\alpha_0(x)|^{p_0}d\mu\&amp;=\int_{|f(x)|&gt;\delta\alpha}|f(x)|^{p_0}d\mu\\
+&amp;=\int_{|f(x)|&gt;\delta\alpha}|f(x)|^p\cdot|f(x)|^{p_0-p}d\mu\\
+&amp;\leq(\delta\alpha)^{p_0-p}\int_{|f(x)|&gt;\delta\alpha}|f(x)|^pd\mu\\
+&amp;\leq(\delta\alpha)^{p_0-p}\norm{f}^p_{L^p}&lt;\infty
+\end{aligned}
+$$ 类似有$$
+\begin{aligned}
+\norm{f^\alpha_1}^{p_1}_{L^{p_1}}&amp;=\int_X|f^\alpha_1(x)|^{p_1}d\mu\&amp;=\int_{|f(x)|\leq\delta\alpha}|f(x)|^{p_1}d\mu\\
+&amp;=\int_{|f(x)|\leq\delta\alpha}|f(x)|^p|f(x)|^{p_1-p}d\mu\\
+&amp;\leq(\delta\alpha)^{p_1-p}\int_{|f(x)|\leq\delta\alpha}|f(x)|^pd\mu
+\end{aligned}
+$$ 因为$T$为次线性算子，$|Tf(x)|\leq|Tf^\alpha_0(x)|+|Tf^\alpha_1(x)|$，所以$$
+\begin{aligned}
+E_{Tf}(\alpha)&amp;=\lrb{x\in Y:|Tf(x)|&gt;\alpha}\\&amp;\subset\lrb{x\in Y:|Tf^\alpha_0(x)|&gt;\frac\alpha2}\cup\lrb{x\in Y:|Tf^\alpha_1|&gt;\frac\alpha2}\\
+&amp;=E_{Tf^\alpha_0}(\frac\alpha2)\cup E_{Tf^\alpha_1}(\frac\alpha2)
+\end{aligned}
+$$ 从而$d_{Tf}(\alpha)\leq d_{Tf^\alpha_0}(\frac\alpha2)+d_{Tf^\alpha_1}(\frac\alpha2)$<br>
+所以$$
+\begin{aligned}
+\norm{Tf}^p_{L^p}&amp;=p\int^{+\infty}_0\alpha^{p-1}d_{Tf}(\alpha)d\alpha\\
+&amp;\leq p\int^{+\infty}_0\alpha^{p-1}d_{Tf^\alpha_0}(\frac\alpha2)d\alpha+p\int^{+\infty}_0\alpha^{p-1}d_{Tf^\alpha_1}(\frac\alpha2)d\alpha
+\end{aligned}
+$$ 考虑$d_{Tf^\alpha_0}(\frac\alpha2)$，由$f^\alpha_0\in L^{p_0}(X,\mu)$，$T$为弱$(p_0,p_0)-$型算子得$\norm{Tf^\alpha_0}_{L^{p_0,\infty}}\leq A_0\norm{f^\alpha_0}_{L^{p_0}}$<br>
+$\rArr\norm{Tf_0^\alpha}_{L^{p_0,\infty}}=\displaystyle\sup_{\frac\alpha2&gt;0}(\frac\alpha2)d^{\frac{1}{p_0}}_{Tf^\alpha_0}(\frac\alpha2)\leq A_0\norm{f^\alpha_0}_{L^{p_0}}$<br>
+$\rArr \frac\alpha2d^{\frac{1}{p_0}}_{Tf^\alpha_0}(\frac\alpha2)\leq A_0\norm{f^\alpha_0}_{L^{p_0}}\rArr(\frac\alpha2)^{p_0}d_{Tf^\alpha_0}(\frac\alpha2)\leq A_0^{p_0}\norm{f_0^\alpha}^{p_0}_{L^{p_0}}$<br>
+$$\begin{aligned}\rArr d_{Tf^\alpha_0}(\frac\alpha2)&amp;\leq(\frac\alpha2)^{-p_0}A_0^{p_0}\norm{f_0}^{p_0}_{L^{p_0}}\\
+&amp;=(2A_0)^{p_0}\alpha^{-p_0}\norm{f^\alpha_0}^{p_0}_{L^{p_0}}\\
+&amp;\leq(2A_0)^{p_0}\alpha^{-p_0}\int_X|f^\alpha_0(x)|^{p_0}d\mu\\
+&amp;=(2A_0)^{p_0}\alpha^{-p_0}\int_{|f(x)|&gt;\delta\alpha}|f(x)|^{p_0}d\mu
+\end{aligned}
+$$ 即$d_{Tf^\alpha_0}(\frac\alpha2)\leq(2A_0)^{p_0}\alpha^{-p_0}\int_{|f(x)|&gt;\delta\alpha}|f(x)|^{p_0}d\mu$</p>
+<p>另一方面，$\norm{Tf^\alpha_1}_{L^{p_1,\infty}}\leq A_1\norm{f^\alpha_1}_{L^{p_1}}\rArr\displaystyle\sup_{\beta&gt;0}\beta d^{\frac{1}{p_1}}_{Tf_1^\alpha}(\beta)\leq A_1\norm{f^\alpha_1}_{L^{p_1}}$<br>
+$\rArr \frac\alpha2d^\frac1{p_1}_{Tf^\alpha_1}(\frac\alpha2)\leq A_1\norm{f^\alpha_1}_{L^{p_1}}$</p>
+<p>$$
+\begin{aligned}
+\rArr d_{Tf^\alpha_1}(\frac\alpha2)&amp;\leq(2A_1)^{p_1}\alpha^{-p_1}\int_X|f^\alpha_1(x)|^{p_1}d\mu\\
+&amp;\leq(2A_1)^{p_1}\alpha^{-p_1}\int_{|f(x)|\leq\delta\alpha}|f(x)|^{p_1}d\mu
+\end{aligned}
+$$ 从而$$
+\begin{aligned}
+\norm{Tf}^p_{L^p}&amp;\leq p\int^{+\infty}_0\alpha^{p-1}(2A_0)^{p_0}\alpha^{-p_0}\int_{|f(x)|&gt;\delta\alpha}|f(x)|^{p_0}d\mu d\alpha\\
+&amp;+p\int^{+\infty}_0\alpha^{p-1}(2A_1)^{p_1}\alpha^{-p_1}\int_{|f(x)|\leq\delta\alpha}|f(x)|^{p_1}d\mu d\alpha\\
+&amp;=I_1+I_2
+\end{aligned}
+$$</p>
+<p>$$
+\begin{aligned}
+I_1&amp;=p\int^{+\infty}_0\alpha^{p-1}(2A_0)^{p_0}\alpha^{-p_0}\int_{|f(x)|&gt;\delta\alpha}|f(x)|^{p_0}d\mu d\alpha\\
+&amp;=(2A_0)^{p_0}p\int^{+\infty}_0\alpha^{p-p_0-1}\int_{|f(x)|&gt;\delta\alpha}|f(x)|^{p_0}d\mu d\alpha\\
+&amp;=(2A_0)^{p_0}p\int_X|f(x)|^{p_0}\int_0^{\frac{|f(x)|}{\delta}}\alpha^{p-p_0-1}d\alpha d\mu\\
+&amp;=(2A_0)^{p_0}\frac{p}{p-p_0}\delta^{p_0-p}\int_X|f(x)|^pd\mu\\
+&amp;=(2A_0)^{p_0}\frac{p}{p-p_0}\norm{f}^p_{L^p(X)}\delta^{p_0-p}
+\end{aligned}
+$$</p>
+<p>$$
+\begin{aligned}
+I_2&amp;=p\int^{+\infty}_0\alpha^{p-1}(2A_1)^{p_1}\alpha^{-p_1}\int_{|f(x)|\leq\delta\alpha}|f(x)|^{p_1}d\mu d\alpha\\
+&amp;=p(2A_1)^{p_1}\int^{+\infty}_0\alpha^{p-p_1-1}\int_{|f(x)|\leq\delta\alpha}|f(x)|^{p_1}d\mu d\alpha\\
+&amp;=p(2A_1)^{p_1}\int_X|f(x)|^{p_1}\int^{+\infty}_\frac{|f(x)|}{\delta}\alpha^{p-p_1-1}d\alpha d\mu\\
+&amp;=\frac{p(2A_1)^{p_1}}{p_1-p}\int_X|f(x)|^{p_1}(\frac{|f(x)|}{\delta})^{p-p_1}d\mu\\
+&amp;=\frac{p}{p_1-p}(2A_1)^{p_1}\delta^{p_1-p}\int_X|f(x)|^pd\mu=\frac{p}{p_1-p}(2A_1)^{p_1}\delta^{p_1-p}\norm{f}^p_{L^p}
+\end{aligned}
+$$ $\rArr\norm{Tf}^p_{L^p}\leq[\frac{p}{p_1-p}(2A_1)^{p_1}\delta^{p_1-p}+\frac{p}{p-p_0}(2A_0)^{p_0}\delta^{p_0-p}]\norm{f}^p_{L^p}$</p>
+<p>取$\delta~s.t.~(2A_1)^{p_1}\delta^{p_1-p}=(2A_0)^{p_0}\delta^{p_0-p}$<br>
+$\rArr \norm{Tf}_{L^p}\leq(\frac{p}{p-p_0}+\frac{p}{p_1-p})^\frac1p\norm{f}_{L^p}(2A_1)^\frac{p_1}{p}[(2A_0)^{p_0}(2A_1)^{-p_1}]^{\frac{p_1-p}{p_1-p_0}\cdot\frac1p}$</p>
+<p>其中$2^{\frac{p_1}{p}+(p_0-p_1)\frac1p\frac{p_1-p}{p_1-p_0}}=1,A_1^{\frac{p_1}{p}+(-p_1)\frac1p\frac{p_1-p}{p_1-p_0}}=A_1^{1-\theta},A_0^{p_0\frac1p\frac{p_1-p}{p_1-p_0}}=A_0^\theta$，且有$\frac1p=\frac{\theta}{p_0}+\frac{1-\theta}{p_1}$</p>
+<p>第二种情况，$p_1=+\infty,\gamma&gt;0$待定，$T:L^{p_0}\rarr L^{p_0,\infty}$<br>
+$f=f^\alpha_0+f^\alpha_1,f_0^\alpha=\begin{cases}f(x)&amp;|f(x)|&gt;\gamma\alpha\\0&amp;|f(x)|\leq\gamma\alpha\end{cases},f_1^\alpha=\begin{cases}0&amp;|f(x)|&gt;\gamma\alpha\\f(x)&amp;|f(x)|\leq\gamma\alpha\end{cases}$</p>
+<p>$\rArr\norm{Tf^\alpha_1}_{L^\infty}\leq A_1\norm{f^\alpha_1}_{L^\infty}\leq A_1\gamma\alpha,$取$\gamma=\frac{1}{2A_1}$，则$\norm{Tf^\alpha_1}_{L^\infty}\leq\frac\alpha2\rArr\mu\lrb{x:|Tf^\alpha_1(x)|&gt;\frac\alpha2}=0$<br>
+$\rArr d_{Tf^\alpha_1}(\frac\alpha2)=0\rArr d_{Tf}(\alpha)\leq d_{Tf^\alpha_0}(\frac\alpha2)+d_{Tf^\alpha_1}(\frac\alpha2)=d_{Tf^\alpha_0}(\frac\alpha2)$</p>
+<p>其中$d_{Tf^\alpha_0}(\frac\alpha2)\leq(2A_0)^{p_0}\alpha^{-p_0}\norm{f^\alpha_0}^{p_0}_{L^{p_0}}=(2A_0)^{p_0}\alpha^{-p_0}\int_{|f|&gt;\gamma\alpha}|f(x)|^{p_0}d\mu$</p>
+<p>从而$$
+\begin{aligned}
+\norm{Tf}^p_{L^p}&amp;=p\int^{+\infty}_0\alpha^{p-1}d_{Tf}(\alpha)d\alpha\\
+&amp;\leq p\int^{+\infty}_0\alpha^{p-1}d_{Tf^\alpha_0}(\frac\alpha2)d\alpha\\
+&amp;\leq p\int^{+\infty}_0\alpha^{p-p_0-1}(2A_0)^{p_0}\int_{|f|&gt;\frac{\alpha}{2A_1}}|f(x)|^{p_0}d\mu d\alpha\\
+&amp;=p(2A_0)^{p_0}\int_X|f(x)|^{p_0}\int_0^{2A_1|f(x)|}\alpha^{p-p_0-1}d\alpha d\mu\\
+&amp;=\frac{p(2A_1)^{p-p_0}(2A_0)^{p_0}}{p-p_0}\int_X|f(x)|^pd\mu
+\end{aligned}
+$$ $\rArr\norm{Tf}_{L^p}\leq A\norm{f}_{L^p(X)},A=2(\frac{p}{p-p_0})^\frac1pA_1^{1-\frac{p_0}{p}}A_0^\frac{p_0}{p}$</p>
+<hr>
+<p>复方法</p>
+<p>Riesz-Thorin定理 $1\leq p_0,q_0,p_1,q_1\leq\infty,p_0&lt;p_1,q_0&lt;q_1,T:(X,\mu)'\rarr(Y,\nu)'$线性映射且满足对任意简单函数$f\in X,\norm{Tf}_{L^{q_0}(Y,\nu)}\leq M_0\norm{f}_{L^{p_0}(X,\mu)},\norm{Tf}_{L^{q_1}(Y,\nu)}\leq M_1\norm{f}_{L^{p_1}(X,\mu)}$，即$T$为强(p0,q0)和(p1,q1)型算子，则$\forall f\in L^p(X,\mu),\norm{Tf}_{L^q(Y,\nu)}\leq M_0^\theta M_1^{1-\theta}\norm{f}_{L^p(X,\mu)},\theta\in(0,1)$且$\frac1p=\frac\theta{p_0}+\frac{1-\theta}{p_1},\frac1q=\frac{\theta}{q_0}+\frac{1-\theta}{q_1}$.</p>
+
+</body>
+</html>

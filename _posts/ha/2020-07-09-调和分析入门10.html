@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-07-09-调和分析入门10.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="hilbert%E5%8F%98%E6%8D%A2-riesz%E5%8F%98%E6%8D%A2">Hilbert变换, Riesz变换</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\F{\mathcal{F}}$
+$\gdef\T{\mathcal{T}}$
+$\gdef\intrn{\int_{\R^n}}$
+$\gdef\intr{\int_{\R}}$
+$\gdef\ip{2\pi i}$
+$\gdef\qed{~\tag*{\Large□}}$
+$\gdef\C{C^\infty}$
+$\gdef\bc{\mathbb{C}}$
+$\gdef\S{\mathscr{S}}$
+$\gdef\D{\mathscr{D}}$
+$\gdef\E{\mathscr{E}}$
+$\gdef\act#1{\lt#1\gt}$</p>
+<p>定义 分布$W_0,\act{W_0,\varphi}=\frac{1}{\pi}\lim\limits_{\varepsilon\rarr0}\int_{\varepsilon\leq|x|\leq1}\frac{\varphi(x)}{x}dx+\frac{1}{\pi}\int_{|x|\geq1}\frac{\varphi(x)}{x}dx,\forall\varphi\in\S(\R^n)$.<br>
+验证$W_0\in\S'(\R^n)$. 事实上$\forall\varepsilon&gt;0,$ $$
+\begin{aligned}
+\int_{\varepsilon\leq|x|\leq1}\frac{\varphi(x)}{x}dx&amp;=\int_{\varepsilon\leq|x|\leq1}\frac{\varphi(x)-\varphi(0)}{x-0}dx\\
+&amp;\leq\int_{\varepsilon\leq|x|\leq1}\varphi'(\xi_x)dx,\xi_x\in(0,x)\\
+&amp;\leq\norm{\varphi'}_{L^\infty}\int_{\varepsilon\leq|x|\leq1}1dx\leq2\norm{\varphi'}_{L^\infty},\\
+|\int_{|x|geq1}\frac{\varphi(x)}{x}dx|&amp;\leq\int_{|x|\geq1}|\frac{\varphi(x)}{x}|dx\\
+&amp;\leq\int_{|x|\geq1}|x\varphi(x)|\frac{1}{|x|^2}dx\\
+&amp;\leq\sup_{x\in\R}|x\varphi(x)|\int_{|x|\geq1}\frac{1}{|x|^2}dx\leq2\sup_{x\in\R}|x\varphi(x)|
+\end{aligned}
+$$ $\rArr|\act{W_0,\varphi}|\leq\frac{1}{\pi}2\norm{\varphi}_{L^\infty}+\frac{1}{\pi}2\sup_{x\in\R}|x\varphi(x)|\leq\frac{2}{\pi}\rho_1(\varphi)$ 有意义.<br>
+($\rho_k(f)=\max_{|\alpha|+l\leq k}|(|x|+1)^l\partial^\alpha_x\varphi(x)|~in~\S(\R)$)<br>
+$W_0$是线性的.$\forall\varphi\in\S(\R^n),|\act{W_0,\varphi}|\leq c_k\rho_k(\varphi)\rArr W_0\in\S'(\R^n)$</p>
+<p>定义 高$\varepsilon&gt;0,f\in\S(\R^n)$的截断的Hilbert变换为$H^\varepsilon(f)(x)=\frac{1}{\pi}\int_{|y|\geq\varepsilon}\frac{f(x-y)}{y}dy~(=\frac{1}{\pi}\int_{|x-y|\geq\varepsilon}\frac{f(y)}{x-y}dy)$，Hilbert变换为$H(f)(x)=\lim\limits_{\varepsilon\rarr0}H^\varepsilon f(x)$.</p>
+<p>注：$H(f)(x)=(W_0\ast f)(x)$. 事实上，$(W_0\ast f)(x)=\act{W_0,\tau^x\tilde{f}}=W_0(\tau^x\tilde{f})=\frac{1}{\pi}\lim\limits_{\varepsilon\rarr0}\int_{|y|\geq\varepsilon}\frac{\tau^x\tilde{f}(y)}{y}dy=\frac{1}{\pi}\lim\limits_{\varepsilon\rarr0}\int_{|y|\geq\varepsilon}\frac{f(x-y)}{y}dy$
+$$\begin{aligned}
+\rArr H(f)(x)&amp;=\frac{1}{\pi}\lim_{\varepsilon\rarr0}\int_{|y|\geq\varepsilon}\frac{f(x-y)}{y}dy=(W_0\ast f)(x)=\lim_{\varepsilon\rarr0}H^\varepsilon(f)(x)\\
+&amp;=\frac{1}{\pi}\lim_{\varepsilon&gt;0}\int_{|x-y|\geq\varepsilon}\frac{f(y)}{x-y}dy\end{aligned}
+$$<br>
+注：$J=\int^{+\infty}_{-\infty}\frac{f(x-y)}{y}dy$收敛$iff~\int_{|y|\leq1}\frac{f(x-y)}{y}dy,\int_{|y|\geq1}\frac{f(x-y)}{y}dy$都收敛<br>
+$i.e.~\lim\limits_{\varepsilon_0\rarr0^-}\int^{\varepsilon_0}_{-1}\frac{f(x-y)}{y}dy,\lim\limits_{\varepsilon_1\rarr0^+}\int^1_{\varepsilon_1}\frac{f(x-y)}{y}dy$. 通常$\varepsilon_0\neq\varepsilon_1$<br>
+有时$\intr\frac{f(x-y)}{y}dy$不收敛但$\lim\limits_{\varepsilon\rarr0}\int_{|y|\geq\varepsilon}\frac{f(x-y)}{y}dy$存在，此时记$\lim\limits_{\varepsilon\rarr0}\int_{|y|\geq\varepsilon}\frac{f(x-y)}{y}dy$为$P.V.\intr\frac{f(x-y)}{y}dy$<br>
+通常$g(y),y\in\R,g(y)\rarr\infty~(y\rarr y_0).~P.V.\intr g(y)dy=\lim\limits_{\varepsilon\rarr0}\int_{|y-y_0|\geq\varepsilon}g(y)dy$<br>
+$H(f)(x)=\frac{1}{\pi}P.V.\intr\frac{f(x-y)}{y}dy,\forall f\in\S(\R^n)$</p>
+<p>例 $f\in L^1(\R)$且在某一点附近满足$H\ddot{o}lder$条件：$|f(x)-f(y)|\leq c_x|x-y|^{\varepsilon_x}$且$c_x&gt;0,\varepsilon_x&gt;0,\delta_x&gt;0,|y-x|\leq\delta_x$<br>
+此时$$
+\begin{aligned}
+I_\varepsilon=\int_{|y|\geq\varepsilon}\frac{f(x-y)}{y}dy&amp;=(\int_{\delta_x\geq|x-y|\geq\varepsilon}+\int_{|x-y|\geq\delta_x})\frac{f(y)}{x-y}dy\\&amp;=\int_{\delta_x\geq|x-y|\geq\varepsilon}\frac{f(y)-f(x)}{x-y}dy+\int_{|x-y|\geq\delta_x}\frac{f(y)}{x-y}dy
+\end{aligned}
+$$</p>
+<p>$$
+\begin{aligned}
+I_\varepsilon&amp;\leq\int_{\delta_x\geq|x-y|\geq\varepsilon}\frac{|f(y)-f(x)}{|x-y|}dy+\int_{\delta_x\leq|x-y|}\frac{f(y)}{|x-y|}dy\\
+&amp;\leq\int_{\varepsilon\leq|x-y|\leq\delta_x}\frac{c_x|x-y|^{\varepsilon_x}}{|x-y|}dy+\frac{1}{\delta_x}\int_{|x-y|\geq\delta_x}|f(y)|dy&lt;+\infty
+\end{aligned}
+$$ 例 $f\in L^p(\R),\int_{|y|\geq\varepsilon}\frac{f(x-y)}{y}dy$有意义.</p>
+<p>例 $f(x)=\Chi_{[a,b]}(x),-\infty&lt;a&lt;b&lt;+\infty$. 计算$H^\varepsilon(f)(x),\varepsilon&gt;0$给定. $$
+\pi H^\varepsilon(f)(x)=\pi H^\varepsilon(\Chi_{[a,b]})(x)=\int_{|x-y|\geq\varepsilon}\frac{\Chi_{[a,b]}(y)}{x-y}dy=\int_{\substack{|x-y|\geq\varepsilon\\a\leq y\leq b}}\frac{1}{x-y}dy
+$$ $$
+\rArr \pi H^\varepsilon(f)(x)=\int_{\substack{y\geq\varepsilon,y\leq-\varepsilon\\x-b\leq y\\y\leq x-a}}\frac1ydy
+$$ 令$$
+\begin{aligned}
+&amp;E_1=\lrb{y\geq\varepsilon}\cap\lrb{y\leq x-a}\cap\lrb{y\geq x-b}\\
+&amp;E_2=\lrb{y\leq-\varepsilon}\cap\lrb{y\leq x-a}\cap\lrb{y\geq x-b}
+\end{aligned}
+$$ $1^\circ~x-b&gt;0~(x-b&gt;\varepsilon)$，取$\varepsilon=\frac12(x-b)$<br>
+$E_1=[x-b,x-a],E_2=\empty$<br>
+$\rArr\pi H^\varepsilon(\Chi_{[a,b]})(x)=\int^{x-a}_{x-b}\frac1ydy=ln|\frac{x-a}{x-b}|$<br>
+$2^\circ~,a&lt;x&lt;b,$取$\varepsilon&lt;min\lrb{|x-a|,|b-x|}$<br>
+$E_1=[\varepsilon,x-a],E_2=[x-b,\varepsilon]$<br>
+$\rArr\pi H^\varepsilon(\Chi_{[a,b]})(x)=\int_{E_1\cup E_2}\frac1ydy=ln|\frac{x-a}{x-b}|$<br>
+$3^\circ~\varepsilon&lt;min{|x-a|,|x-b|},E_1=\empty,E_2=[x-b,x-a]$<br>
+$\rArr\pi H^\varepsilon(\Chi_{[a,b]})(x)=\int^{x-a}_{x-b}\frac1ydy=ln|\frac{x-a}{x-b}|$<br>
+$\rArr H^\varepsilon(\Chi_{[a,b]})(x)=\frac{1}{\pi}ln|\frac{x-a}{x-b}|,\forall x\neq a,x\neq b,\varepsilon&lt;min\lrb{|x-a|,|x-b|}$<br>
+令$\varepsilon\rarr0,H^\varepsilon(\Chi_{[a,b]})(x)=\frac{1}{\pi}ln|\frac{x-a}{x-b}|,\forall x\neq a,x\neq b$</p>
+<p>定义 $\widehat{H(f)}(\xi)$<br>
+$\forall f\in\S(\R),H(f)(x)=W_0\ast f\rArr\widehat{H(f)}(\xi)=\widehat{W_0}(\xi)\hat{f}(\xi),W_0\in\S'(\R^n)$.<br>
+给定$\varphi\in\S(\R^n)$，有$\act{\widehat{W_0},\varphi}=\act{W_0,\hat{\varphi}}=\frac{1}{\pi}\lim\limits_{\varepsilon\rarr0}\int_{|\xi|\geq\varepsilon}\frac{\hat{\varphi}(\xi)}{\xi}d\xi=\frac{1}{\pi}\lim\limits_{\varepsilon\rarr0}J_\varepsilon$ $$
+\begin{aligned}
+J_\varepsilon&amp;=\int_{|\xi|\geq\varepsilon}\frac{1}{\xi}(\intr\varphi(x)e^{-\ip x\xi}dx)d\xi\\
+&amp;=\intr\varphi(x)(\int_{|\xi|\geq\varepsilon}\frac{1}{\xi}e^{-\ip x\xi}d\xi)dx\\
+&amp;=(-i)\intr\varphi(x)(\int_{|\xi|\geq\varepsilon}\frac{sin(2\pi x\xi)}{\xi}d\xi)dx
+\end{aligned}
+$$ $$
+\begin{aligned}
+\rArr\act{\widehat{W_0},\varphi}&amp;=\frac{-i}{\pi}\lim_{\varepsilon\rarr0}\intr\varphi(x)(\int_{|\xi|\geq\varepsilon}\frac{sin(2\pi x\xi)}{\xi}d\xi)dx\\
+&amp;=\frac{-i}{\pi}\intr\varphi(x)(\lim_{\varepsilon\rarr0}\frac{sin(2\pi x\xi)}{\xi}d\xi)dx
+\end{aligned}
+$$ 而 $$
+\begin{aligned}
+\lim_{\varepsilon\rarr0}\int_{\varepsilon\leq|\xi|}\frac{sin(2\pi x\xi)}{\xi}d\xi&amp;=\lim_{\varepsilon\rarr0}\lim_{\delta\rarr0}\int_{\varepsilon\leq|\xi|\leq\delta^{-1}}\frac{sin(2\pi x\xi)}{\xi}d\xi\\
+&amp;=\pi sgn(x)=\begin{cases}\pi\quad x&gt;0\\0&amp;x=0\\-\pi&amp;x&lt;0\end{cases}
+\end{aligned}
+$$ $\rArr\forall\varphi\in\S(\R^n),\act{\widehat{W_0},\varphi}=-\frac{i}{\pi}\intr\varphi(x)\pi sgn(x)dx=\intr\varphi(x)(-isgn(x))dx\in L^1_{loc}(\R)=L_{-isgn(x)}(\varphi)$<br>
+$\rArr\widehat{W_0}(x)=-isgn(x),\forall x\in\R$<br>
+$\rArr\widehat{W_0}(\xi)=-isgn(\xi),\forall\xi\in\R$<br>
+$\rArr\widehat{H(f)}(\xi)=\widehat{W_0}(\xi)\hat{f}(\xi)=(-isgn(\xi))\hat{f}(\xi)$，$-isgn(\xi)$为$\widehat{Hf}$的Fourier乘子<br>
+$\rArr H(f)(x)=(-isgn(\xi)\hat{f}(\xi)\check),\forall f\in\S(\R)$</p>
+<p>$$
+\begin{aligned}
+\norm{\widehat{H(f)}}^2_{L^2}=\intr|\widehat{H(f)}(\xi)|^2d\xi&amp;=\intr|-isgn(\xi)||\hat{f}(\xi)|^2d\xi\\
+&amp;=\intr|\hat{f}(\xi)|^2d\xi=\norm{\hat f}^2_{L^2}=\norm{f}^2_{L^2}
+\end{aligned}
+$$ $\rArr\norm{H(f)}_{L^2}=\norm{\widehat{Hf}}_{L^2}=\norm{\hat f}_{L^2}=\norm{f}_{L^2},\forall f\in\S(\R)$（保L2范）<br>
+$H$是线性的，延拓到$L^2(\R),H:L^2\rarr L^2$且$\norm{Hf}_{L^2}=\norm{f}_{L^2},\forall f\in L^2(\R)$，还有$\widehat{H(f)}(\xi)=-isgn(\xi)\hat{f}(\xi),\forall f\in L^2(\R)$</p>
+<p>性质 $H^2=H\circ H=-Id$<br>
+$\widehat{H^2(f)}=\widehat{H\circ H(f)}=-isgn(\xi)\widehat{H(f)}(\xi)=-isgn(\xi)(-isgn(\xi))\hat{f}(\xi)=-\hat{f}(\xi)=\widehat{-f}$<br>
+$H^2(f)=-f=-Id(f),\forall f\in L^2$</p>
+<p>性质2 $H$的自伴算子$H^\ast $唯一定义为，$\forall f\in L^2(\R),\forall g\in L^2$<br>
+$\act{H^\ast (f),g}_{L^2}(=\intr H^\ast (f)(x)\overline{g}(x)dx)=\act{f,Hg}_{L^2}=\intr f(x)\overline{Hg}(x)dx$<br>
+$i.e.~\act{H^\ast (f),g}_{L^2}=\act{f,Hg}_{L^2}~(\forall g\in L^2)$ 事实上$$
+\begin{aligned}
+\forall g\in L^2,\intr\widehat{H^\ast (f)}\overline{\hat{g}}dx
+&amp;=\intr H^\ast (f)\overline{g}dx\\
+&amp;=\intr f\overline{Hg}=\intr\hat{f}\overline{\widehat{Hg}}d\xi\\
+&amp;=\intr\hat{f}\overline{-isgn(\xi)\hat{g}(\xi)}d\xi\\
+&amp;=\intrn\hat{f}isgn(\xi)\overline{\hat{g}}(\xi)d\xi\\
+&amp;=\intr isgn(\xi)\hat{f}\overline{\hat{g}(\xi)}d\xi
+\end{aligned}
+$$ $\rArr\intr\widehat{H\ast f}\overline{\hat{g}}d\xi=\intr isgn(\xi)\hat{f}\overline{\hat{g}}(\xi)d\xi$<br>
+$\rArr\widehat{H^\ast f}=isgn(\xi)\hat{f}(\xi),\forall f\in L^2\rArr\widehat{H^\ast (f)}=-\widehat{H(f)},\forall f\in L^2$<br>
+$\rArr H^\ast =-H$</p>
+<p>回忆Possion核，$y&gt;0,P_y~(on~\R)=\frac{y}{\pi}\frac{1}{x^2+y^2}$<br>
+$(P_y\ast f)(x)=\int^{+\infty}_{-\infty}P_y(x-t)f(t)dt=\frac{y}{\pi}\int^{+\infty}_{-\infty}\frac{f(t)}{(x-t)^2+y^2}dt,\forall f\in L^p(\R),1\leq p&lt;\infty$<br>
+$i.e.~\forall f\in L^p(\R)~(1\leq p&lt;\infty),(P_y\ast f)(x)$有意义($y\in\R$给定)<br>
+事实上，$\frac{1}{((x-t)^2+y^2)}=g_{xy}(t)\in L^{p'}(\R),|\intr|fg||\leq\norm{f}_{L^p}\norm{g}_{L^{p'}}&lt;+\infty$<br>
+设$z=x+iy,(x-t)^2+y^2=|z-t|^2,\forall t\in\R,\forall z\in\bc$<br>
+$\frac{1}{z-t}=\frac{1}{(x-t)+iy}=\frac{\overline{(z-t)}}{(z-t)\overline{(z-t)}}=\frac{(x-t)-iy}{|z-t|^2},$<br>
+$\frac{1}{z-t}i=\frac{y+i(x-t)}{|z-t|^2}\rArr Re(\frac{i}{z-t})=\frac{y}{(x-t)^2+y^2}$ $$
+\begin{aligned}
+\rArr(P_y\ast f)(x)&amp;=\int^{+\infty}_{-\infty}\frac{1}{\pi}Re(\frac{i}{z-t})f(t)dt\\
+&amp;=Re(\int^{+\infty}_{-\infty}\frac{i}{\pi}\frac{1}{z-t}f(t)dt)\\
+&amp;=Re[\frac{i}{\pi}\int^{+\infty}_{-\infty}\frac{f(t)}{z-t}dt]
+\end{aligned}
+$$ 定义$F_f(z)=\frac{1}{\pi}\int^{+\infty}_{-\infty}\frac{f(t)}{z-t}dt,f(t)$为实值函数，$z\in\R^2_+=\lrb{z=x+iy|y&gt;0},F_f(z)$是$\R^2_+$上的复值函数.</p>
+<p>引理 $F_f(z)$是$\R^2_+$上的解析函数<br>
+怎样证明一个复值函数在区域$D$上解析？<br>
+(A) $C-R$条件，$F_f(z)=u(x,y)+iv(x,y)$，验证在$D$上$\begin{cases}\partial_xu=\partial_yv\\\partial_yu=-\partial_xv\end{cases}$<br>
+(B) $F(z)=g(z,\bar z),x=\frac{z+\bar z}{2},y=\frac{z-\bar z}{2}$. $\frac{\partial}{\partial\bar z}F\equiv0\lrArr F(z)$解析.<br>
+证明：$F_f(z)=\frac{i}{\pi}\intr\frac{f(t)}{z-t}dt,\frac{\partial F_f(z)}{\partial\bar z}\equiv0$，因为$\frac{\partial}{\partial\bar z}(\frac{1}{z-t})\equiv0~(t&gt;0)$
+$$
+\begin{aligned}
+F_f(z)=\frac{i}{\pi}\intr\frac{f(t)}{z-t}dt&amp;=\frac{i}{\pi}\intr\frac{f(t)\overline{(z-t)}}{(z-t)\overline{(z-t)}}dt\\
+&amp;=\frac{i}{\pi}\intr\frac{f(t)((x-t)-iy)}{(x-t)^2+y^2}dt\\
+&amp;=\frac{1}{\pi}\intr\frac{f(t)}{(x-t)^2+y^2}(y+i(x-t))dt
+\end{aligned}
+$$ 设$Q_y(x)=\frac{1}{\pi}\frac{x}{x^2+y^2},Im(F_f(z))=\intr Q_y(x-t)f(t)dt=(Q_y\ast f)(x)$<br>
+$\rArr F_f(z)=P_y\ast f+iQ_y\ast f,P_y(x)=\frac{1}{\pi}\frac{y^2}{x^2+y^2}$<br>
+$F_f(z)$在$\R^2_+$上解析$\rArr(P_y\ast f)(x),(Q_y\ast f)(x)$为调和的<br>
+称$(P_y\ast f)(x)$和$(Q_y\ast f)(x)$是一对共轭调和函数<br>
+$\lrb{P_y(x)}_{y&gt;0}$是恒等逼近，$f\in L^p(\R),1\leq p&lt;\infty,$有$P_y\ast f\rarr f~in~L^p(\R)~(y\rarr0)$</p>
+<p>定理 设$1\leq p&lt;\infty$，对$\forall f\in L^p(\R)$，有$Q_\varepsilon\ast f-H^{(\varepsilon)}(f)\rarr0~in~L^p(\R)~a.e.~\R~as~\varepsilon\rarr0$<br>
+证明：设$f\in\S(\R)$($\S(\R)$在$L^p(\R)$中稠密). $$
+\begin{aligned}
+&amp;(Q_\varepsilon\ast f)(x)-H^{(\varepsilon)}(f)(x)\\
+&amp;=\intr\frac{1}{\pi}\frac{x-t}{(x-t)^2+\varepsilon^2}f(t)dt-\int_{|x-t|\geq\varepsilon}\frac{1}{\pi}\frac{1}{x-t}f(t)dt\\
+&amp;=\int_{|x-t|\geq\varepsilon}f(t)\frac{1}{\pi}(\frac{x-t}{(x-t)^2+\varepsilon^2}-\frac{1}{x-t})dt\\
+&amp;+\int_{|x-t|&lt;\varepsilon}f(t)\frac{1}{\pi}\frac{x-t}{(x-t)^2+\varepsilon^2}dt\\
+&amp;=\intr f(t)\frac{1}{\pi}(\frac{x-t}{(x-t)^2+\varepsilon^2}-\frac{1}{x-t})\Chi_{|x-t|\geq\varepsilon}(t)dt\\
+&amp;+\intr f(t)\frac{1}{\pi}\frac{x-t}{(x-t)^2+\varepsilon^2}\Chi_{|x-t|\lt\varepsilon}(t)dt
+\end{aligned}
+$$ .定义$\psi(t)=\begin{cases}\frac{t}{t^2+1}-\frac{1}{t}\quad&amp;|t|\geq1\\\frac{t}{t^2+1}&amp;|t|\lt1\end{cases},\psi_\varepsilon(t)=\varepsilon^{-1}\psi(\varepsilon^{-1}t)~(\varepsilon&gt;0)\rArr\psi_\varepsilon(t)=\begin{cases}\frac{t}{t^2+\varepsilon^2}-\frac{1}{t}\quad&amp;|t|\geq\varepsilon\\\frac{t}{t^2+\varepsilon^2}&amp;|t|\lt\varepsilon\end{cases}$<br>
+$\rArr(Q_\varepsilon\ast f)(x)-H^{(\varepsilon)}(f)(x)=\frac{1}{\pi}(\psi_\varepsilon\ast f)(x)=\frac{1}{\pi}\intr\psi_\varepsilon(x-t)f(t)dt$<br>
+注意有$\intr\psi(t)dt=0$<br>
+进一步，$\Psi=\begin{cases}\frac{1}{t^2+1}\quad&amp;|t|\geq1\\1&amp;|t|\lt1\end{cases}$是速降函数，是$\psi$的镜像，$\forall t\in\R,|\psi(t)|\leq\Psi(t)$<br>
+由之前的定理，$\psi_\varepsilon\ast f\rarr0~in~L^p(\R)~a.e.~\R~(\varepsilon\rarr0)$<br>
+$i.e.~Q_\varepsilon\ast f(x)-H^{(\varepsilon)}(f)(x)\rarr0~in~L^p(\R^n)~a.e.~\R~(\varepsilon\rarr0)$ $$\qed$$</p>
+<p>定理 $\forall f\in L^p(\R),1\leq p&lt;\infty,Q_\varepsilon\ast f\rarr H(f)~in~L^p(\R)~and~a.e.~\R~(\varepsilon\rarr0)$<br>
+综上，$F_f(z)=P_y\ast f+iQ_y\ast f,1\leq p&lt;+\infty,\begin{cases}P_y\ast f\rarr f\\Q_y\ast f\rarr H(f)\end{cases}~in~L^p(\R)$</p>
+<hr>
+<p>Hilbert变换的$L^p$有界性<br>
+$1^\circ~H:L^2\rarr L^2,\norm{Hf}_{L^2}=\norm{f}_{L^2},\forall f\in L^2.~\norm{H}_{L^2\rarr L^2}=1$，$H$为强(2,2)型.<br>
+$2^\circ~H:L^1(\R)\rarr L^{1,\infty}(\R)$<br>
+事实上，$\forall E\subseteq\R,m(E)\lt\infty$<br>
+$d_{H(\Chi_E)}(\alpha)=m(\lrb{x\in\R:|H(\Chi_E(x))|\gt\alpha})\leq\frac{2}{\pi}\frac{m(E)}{\alpha}$<br>
+$\rArr\forall f\in L^1(\R),d_{H(f)}(\alpha)\leq c_0\frac{1}{\alpha}\norm{f}_{L^1}~(\forall\alpha&gt;0)\rArr H(f)\in L^{1,\infty}$且$\norm{H(f)}_{L^{1,\infty}}\leq c_0\norm{f}_{L^1}~(\forall f\in L^1(\R))\rArr H:L^1\rarr L^{1,\infty}i.e.~H$为弱(1,1)型算子<br>
+$\rArr H$为强(p,p)型，$\forall 1&lt;p&lt;2$<br>
+由对偶，$H^\ast :L^p\rarr L^p,2&lt;p&lt;\infty$<br>
+事实上，$\forall f\in L^p(\R),\forall g\in L^{p'},2&lt;p&lt;\infty,1&lt;p'&lt;2$ $$
+\begin{aligned}
+|\act{H^\ast (f),g}|=|\act{f,H(g)}|&amp;\leq\norm{f}_{L^p}\norm{Hg}_{L^{p'}}~(1&lt;p'&lt;2)\\
+&amp;\leq\norm{f}_{L^p}c\norm{g}_{L^{p'}}
+\end{aligned}
+$$ $\rArr\norm{H^\ast f}_{L^p}=\sup_{g\in L^{p'}}\frac{|\act{H^\ast f,g|}}{\norm{g}_{L^{p'}}}$<br>
+$\rArr\norm{H^\ast f}_{L^p}\leq c\norm{f}_{L^p},\forall f\in L^p(\R)~(2&lt;p&lt;\infty)$<br>
+$i.e.~H^\ast :L^p\rarr L^p$有界$~(2&lt;p&lt;\infty),H^\ast =-H$<br>
+$\rArr H:L^p\rarr L^p$有界$(2&lt;p&lt;\infty)$<br>
+$i.e.~\norm{Hf}_{L^p}\leq c\norm{f}_{L^p},\forall f\in L^p(\R)~(2\lt p\lt\infty)$</p>
+<hr>
+<p>定义 $W_j~(j=1,2,...,n),W_j\in\S'(\R^n),\forall\varphi\in\S(\R^n),y=(y_1,...,y_n)$ $$
+\begin{aligned}
+\act{W_j,\varphi}&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}\lim_{\varepsilon\rarr0}\int_{|y|\geq\varepsilon}\frac{y_j}{|y|^{n+1}}\varphi(y)dy\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}P.V.\intrn\frac{y_j}{|y|^{n+1}}\varphi(y)dy
+\end{aligned}
+$$ 注：$\int_{|y|\geq\varepsilon}\frac{y_j}{|y|^{n+1}}dy=\int_{|y|\geq\varepsilon}\frac{1}{|y|^{n+1}}y_jdy_1...dy_j...dy_n=0$ （奇函数，对称区域）</p>
+<p>定义 $1\leq j\leq n,f\in\S(\R^n)$的第$i$个Riesz变换由$f$与缓增分布$W_j$卷积给出 $$
+\begin{aligned}
+R_j(f)(x)=(W_j\ast f)(x)&amp;=\act{W_j(y),\tilde{f}(y-x)}=\act{w_j(y),f(x-y)}\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}P.V.\intrn\frac{y_j}{|y|^{n+1}}f(x-y)dy\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}P.V.\intrn\frac{x_j-y_j}{|x-y|^{n+1}}f(y)dy
+\end{aligned}
+$$</p>
+<p>命题 $\forall f\in\S(\R^n),\widehat{R_j(f)}(\xi)=-\frac{i\xi_j}{|\xi|}\hat{f}(\xi)~(\forall\xi\neq0)~i.e.~\widehat{R_j(f)}(x)=(-\frac{i\xi_j}{|\xi|}\hat{f}(\xi)\check)(x)$</p>
+<p>证明：$\forall f\in\S(\R^n),\widehat{R_j(f)}(\xi)=\widehat{W_j\ast f}(\xi)=\widehat{W_j}(\xi)\hat{f}(\xi)$<br>
+事实上，$\forall\varphi\in\S(\R^n),\act{\widehat{W_j},\varphi}=\act{W_j,\hat\varphi}$ $$
+\begin{aligned}
+\act{W_j,\hat\varphi}&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}\lim_{\varepsilon\rarr0}\int_{|\xi|\geq\varepsilon}\frac{\xi_j}{|\xi|^{n+1}}\hat{\varphi}(\xi)d\xi\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}\lim_{\varepsilon\rarr0}\int_{\varepsilon\leq|\xi|\leq\varepsilon^{-1}}\frac{\xi_j}{|\xi|^{n+1}}\hat\varphi(\xi)d\xi\&amp;+\lim_{\varepsilon\rarr0}\int_{|\xi|\geq\varepsilon^{-1}}\frac{\xi_j}{|\xi|^{n+1}}\varphi(\xi)d\xi\\
+&amp;(|\frac{\xi_j}{|\xi|^{n+1}}\hat\varphi(\xi)|\lt\lt c\frac{1}{|\xi|^{n+2}},\varepsilon^{-1}\rarr\infty)\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}\lim_{\varepsilon\rarr0}\int_{\varepsilon\leq|\xi|\leq\varepsilon^{-1}}\frac{\xi_j}{|\xi|^{n+1}}\hat\varphi(\xi)d\xi\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}\lim_{\varepsilon\rarr0}\int_{\varepsilon\leq|\xi|\leq\varepsilon^{-1}}\frac{\xi_j}{|\xi|^{n+1}}(\intrn\varphi(x)e^{-\ip x\cdot\xi}dx)d\xi\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}\lim_{\varepsilon\rarr0}\intrn\varphi(x)(\int_{\varepsilon\leq|\xi|\leq\varepsilon^{-1}}\frac{\xi_j e^{-\ip x\xi}}{|\xi|^{n+1}}d\xi)dx\\
+&amp;(\xi=r\theta,r=|\xi|,\theta\in S^{n-1},d\xi=r^{n-1}drd\theta,x\cdot\xi=rx\cdot\theta,\&amp;|\xi|^{n+1}=r^{n+1},\xi_j=r\theta_j,x\cdot\theta=\sum^m_{k=1}x_k\theta_k)\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}\int^{\varepsilon-1}_\varepsilon\int_{S^{n-1}}\frac{r\theta_j}{r^{n+1}}e^{-\ip rx\cdot\theta}r^{n-1}drd\theta\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}(-i)\int_{S^{n-1}}\int^{\varepsilon-1}_\varepsilon\frac{\theta_j}{r}sin(2\pi rx\cdot\theta)drd\theta\\
+&amp;\rArr\lim_{\varepsilon\rarr0}\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}(-i)\int_{S^{n-1}}\int^{\varepsilon-1}_\varepsilon...drd\theta\\
+&amp;=\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}(-i)\int_{S^{n-1}}\theta_j(\int^{+\infty}_0sin(2\pi rx\cdot\theta)\frac1rdr)d\theta
+\end{aligned}
+$$ 两个等式$1^\circ\int^{+\infty}_0sin(2\pi rx\cdot\theta)\frac{dr}{r}=\frac{\pi}{2}sgn(x\cdot\theta)$<br>
+$2^\circ~\forall x\neq0,-i\frac{\pi}{2}\frac{\Gamma(\frac{n+1}{2})}{\pi^\frac{n+1}{2}}\int_{S^{n-1}}\theta_jsgn(x\cdot\theta)d\theta=-i\frac{x_j}{|x|}\in L^1_{loc}(\R^n)$
+$\rArr\act{\widehat{W_j}(x),\varphi(x)}=\act{W_j,\hat{\varphi}}=\intrn\varphi(x)(-i\frac{x_j}{|x|})dx$<br>
+$\rArr\widehat{W_j}(x)=-i\frac{x_j}{|x|}~in~\S'(\R^n)\rArr\widehat{W_j}(\xi)=-i\frac{\xi_j}{|\xi|}$<br>
+$\rArr\widehat{R_j(f)}(\xi)=-i\frac{\xi_j}{|\xi|}\hat{f}(\xi)$ $$\qed$$</p>
+<p>推论 $\norm{R_j(f)}_{L^2}\leq\norm{f}_{L^2},\forall f\in\S(\R^n)$<br>
+证明：$\norm{R_j(f)}^2_{L^2}=\norm{\widehat{R_jf}}^2_{L^2}=\intrn|-\frac{i\xi_j}{|\xi|}\hat{f}(\xi)|d\xi\leq\intrn|\hat f|^2d\xi=\norm{\hat f}^2_{L^2}=\norm{f}^2_{L^2}$ $$\qed$$</p>
+<p>延拓$\widetilde{R_j}:L^2\rarr L^2,\begin{cases}\widetilde{R_j}|_{\S(\R^n)}=R_j\\\norm{\widetilde{R_j}}_{L^2\rarr L^2}\leq1\end{cases}$，仍记为$R_j$</p>
+<p>命题 $\forall f\in\S(\R^n)$(或$f\in L^2(\R^n)$)，有$\sum^n_{j=1}R^2_j(f)=-f~(in~\S'(\R^n))$<br>
+证明：$\widehat{R^2_jf}(\xi)=-i\frac{\xi_j}{|\xi|}\widehat{R_jf}(\xi)=-i\frac{\xi_j}{|\xi|}(-i)\frac{\xi_j}{|\xi|}\hat{f}(\xi)=-\frac{\xi^2_j}{|\xi|^2}\hat{f}(\xi)$<br>
+$\rArr\widehat{\sum^n_{j=1}R^2_jf}(\xi)=\sum^n_{j=1}(-1)\frac{\xi^2_j}{|\xi|^2}\hat{f}(\xi)=-\hat{f}(\xi),(\sum^n_{j=1}\xi^2_j=|\xi|^2)$<br>
+$\rArr\sum^n_{j=1}R^2_jf=-f$ $$\qed$$</p>
+<p>例 $\forall u\in\S(\R^n),\norm{\triangledown^2u}_{L^2}\leq c\norm{\triangle u}_{L^2}$（椭圆估计）<br>
+事实上，只需证$\forall j,k\in\lrb{1,2,...,n},\norm{\partial_j\partial_ku}_{L^2}\leq c\norm{\triangle u}_{L^2}$<br>
+设$\triangle u=f\rArr\hat{f}(\xi)=-4\pi|\xi|^2\hat{u}(\xi)\rArr\hat{u}(\xi)=-\frac{1}{4\pi|\xi|^2}\hat{f}(\xi)$<br>
+而$\widehat{\partial_j\partial_ku}(\xi)=-\ip\xi_j(-\ip\xi_k)\hat{u}(\xi)$<br>
+$$
+\begin{aligned}
+\widehat{\partial_j\partial_ku}(\xi)&amp;=-\ip\xi_j\cdot\ip\xi_k\frac{\hat f(\xi)}{4\pi|\xi|^2}\\
+&amp;=-\frac{(-i\xi_j)}{|\xi|}\frac{(-i\xi_k)}{|\xi|}\hat{f}(\xi)\\
+&amp;=-\widehat{R_jR_kf}(\xi)
+\end{aligned}
+$$ $\rArr\partial_j\partial_ku=-R_jR_kf=-R_jR_k(\triangle u)$<br>
+$\rArr\norm{\partial_j\partial_ku}^2_{L^2}\leq\norm{R_jR_k(\triangle u)}^2_{L^2}\leq\norm{\triangle u}^2_{L^2}$<br>
+$\rArr\sum^n_{j,k=1}\norm{\partial_j\partial_ku}^2_{L^2}\leq n^2\norm{\triangle u}^2_{L^2}\rArr\norm{\triangledown^2u}^2_{L^2}\leq n^2\norm{\triangle u}^2_{L^2}$</p>
+<hr>
+<p>设$K$是定义在$\R^n\backslash\lrb{0}$上的可测函数，满足size条件$$
+\sup_{R&gt;0}\int_{R\leq|x|\leq2R}|K(x)|dx=A_1(&lt;+\infty)\tag{1.1}
+$$ 更严格的$$
+\sup_{x\in\R^n}|x^n||K(x)|=A'_1\tag{1.2}
+$$ $(1.2)\rArr(1.1)$，事实上，假设$(1.2)$成立，$\forall x\in\R^n,|K(x)|\leq A'_1|x|^{-n}$<br>
+$$
+\begin{aligned}
+\forall R&gt;0,\int_{R\leq|x|\leq2R}|K(x)|dx&amp;\leq A'_1
+\int_{R\leq|x|\leq2R}|x|^{-n}dx\\
+&amp;=A'_1\int^{2R}_R\int_{S^{n-1}}|r|^{-n}r^{n-1}d\theta dr\\
+&amp;=\omega_{n-1}A'_1\int^{2R}_R\frac1rdr\\
+&amp;=\omega_{n-1}A'_1ln2
+\end{aligned}
+$$ $i.e.~\forall R&gt;0,\int_{R\leq|x|\leq2R}|K(x)|dx\leq\omega_{n-1}A'_1ln2$<br>
+$\rArr\sup_{R&gt;0}\int_{R\leq|x|\leq2R}|K(x)|dx\leq\omega_{n-1}A'_1ln2=A_1&lt;+\infty\rArr(1.1)$<br>
+通常$(1.1)\not\rArr(1.2)$ $$\qed$$</p>
+<p>例 $H(f)=W_0\ast f,\act{W_0,\varphi}=\frac{1}{\pi}P.V.\intrn\frac{1}{y}\varphi(y)dy,K(y)=\frac1y$满足(1.2)<br>
+$n\geq2,\act{W_j,\varphi}=c_nP.V.\intrn\frac{y_j}{|y|^{n+1}}\varphi(y)dy,K(y)=\frac{y_j}{|y|^{n+1}}$<br>
+$\sup_{x\in\R^n}(|y|^n|K(y)|)\leq1&lt;+\infty$<br>
+一般地，$K(x)=\frac{\Omega(\frac{x}{|x|})}{|x|^n},\frac{x}{|x|}\in S^{n-1},\Omega\in L^1(S^{n-1})$，且$K(x)$满足$\int_{S^{n-1}}\Omega(y)dS=0$</p>
+<p>对$R_j,K_j(y)=\frac{y_j}{|y|}\cdot\frac{1}{|y|^n},\Omega(\frac{y}{|y|})=\frac{y_j}{|y|}$，则$\Omega(x)=x_j,x\in S^{n-1},\int_{S^{n-1}}\Omega(x)dS=0$<br>
+事实上，$$
+\begin{aligned}
+\int_{R\leq|x|\leq2R}|K(x)|dx&amp;=\int_{R\leq|x|\leq2R}\frac{1}{|x|^n}|\Omega(\frac{x}{|x|})|dx\\
+&amp;=\int_{S^{n-1}}|\Omega(\theta)|\int^{2R}_R\frac1{r^n}r^{n-1}drd\theta\\
+&amp;=ln2\int_{S^{n-1}}|\Omega(\theta)|d\theta\\
+&amp;\leq ln2\norm{\Omega}_{L^1(S^{n-1})}&lt;+\infty
+\end{aligned}
+$$ $\rArr\sup_{R&gt;0}\int_{R\leq|x|\leq2R}|K(x)|dx\leq ln2\norm{\Omega}_{L^1(S^{n-1})}=A_1\rArr(1.1)$</p>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-06-26-调和分析入门6.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="l1rn%E4%B8%8A%E7%9A%84fourier%E5%8F%98%E6%8D%A2">$L^1(\R^n)$上的Fourier变换</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\F{\mathcal{F}}$
+$\gdef\T{\mathcal{T}}$
+$\gdef\intrn{\int_{\R^n}}$
+$\gdef\ip{2\pi i}$</p>
+<p>定义 设$f\in L^1(\R^n)$，记$(\F f)(\xi)=\hat{f}(\xi)=\intrn f(x)e^{-2\pi ix\cdot\xi}dx,\forall\xi\in\R^n$，称$\F f(\xi)$或$\hat{f}$为$f$的Fourier变换.</p>
+<p>例1 $\R^1$上, $f(x)=\Chi_{[a,b]}(x)$，则$\hat f(\xi)=\int_\R f(x)e^{-\ip x\cdot\xi}dx=\int^a_be^{-\ip x\xi}dx$ $$
+\hat f(\xi)=\begin{cases}
+b-a &amp;\xi=0\\
+\frac{e^{-\ip a\xi}-e^{-\ip b\xi}}{\ip\xi}&amp;\xi\neq0
+\end{cases}
+$$ 例2 $\R^1$上，$f(x)=e^{-\pi x^2}~(x\in\R)$ $$
+\begin{aligned}
+\hat{f}(\xi)=\int_\R e^{-\pi x^2}e^{-\ip x\xi}dx
+&amp;=\int_\R e^{-\pi(x^2+2ix\xi)}dx\\
+&amp;=\int_\R e^{-\pi(x+i\xi)^2+\pi(i\xi)^2}\\
+&amp;=e^{-\pi\xi^2}\int^{+\infty}_{-\infty}e^{-\pi(x+i\xi)^2}dx\\
+&amp;=e^{-\pi\xi^2}\int_{i\xi-\infty}^{i\xi+\infty}e^{-\pi z^2}dz\\
+&amp;=e^{-\pi\xi^2}\int^{+\infty}_{-\infty}e^{-\pi x^2}dx\\
+&amp;=e^{-\pi\xi^2}
+\end{aligned}
+$$ 注：$f(\cdot)=e^{-\pi(\cdot)^2}$则$\hat{f}(\cdot)=e^{-\pi(\cdot)^2}$</p>
+<p>例3 $f(x)=e^{-2\pi|x|},x\in\R,f\in L^1(\R)$ $$
+\begin{aligned}
+\hat{f}(\xi)&amp;=\int_\R e^{-2\pi|x|}e^{-\ip x\xi}dx\\
+&amp;=\int^0_{-\infty}e^{2\pi x-\ip x\xi}dx+\int^{+\infty}_0e^{-2\pi x-\ip x\xi}dx\\
+&amp;=\int^0_{-\infty}e^{2\pi(1-i\xi)x}dx+\int^{+\infty}_0e^{-2\pi(1+i\xi)x}dx\\
+&amp;=\frac{1}{2\pi(1-i\xi)}e^{2\pi(1-i\xi)x}\Big|^0_{-\infty}+\frac{1}{-2\pi(1+i\xi)}e^{-2\pi(1+i\xi)x}\Big|^{+\infty}_0\\
+&amp;=\frac{1}{2\pi(1-i\xi)}+\frac{1}{2\pi(1+i\xi)}\\
+&amp;=\frac{1}{\pi}\frac{1}{1+\xi^2}
+\end{aligned}
+$$ 注：分离变量，$F=f(x_1...x_n)g(x_{n+1}...x_{n+m})$，有$\hat F=\hat f+\hat g$</p>
+<p>例4 $f(x)=e^{-\pi|x|},x\in\R^n,x=(x_1,...,x_n),|x|^2=x^2_1+...+x_n^2$.<br>
+$\hat{f}=\displaystyle\prod^n_{i=1}\widehat{e^{-\pi x_i^2}}(\xi_i)=\prod^n_{i=1}e^{-\pi\xi_i^2}=e^{-\pi|\xi|^2}$</p>
+<p>例5 $f(x)=e^{-2\pi|x|},x\in\R^n,\hat{f}(\xi)=c_n\frac{1}{(1+|\xi|^2)^\frac{n+1}{2}},\forall\xi\in\R^n$</p>
+<p>一些记号：<br>
+$1^\circ$ 平移 $(\tau_yf)(x)=f(x-y),\forall x,y\in\R^n$<br>
+$2^\circ$ 伸缩 $(\delta_af)(x)=f(ax), x\in\R^n$，$a&gt;0$给定<br>
+$3^\circ$ 反射 $\widetilde{f}(x)=f(-x),\forall x\in\R^n$<br>
+$4^\circ$ 展缩 $f_\varepsilon(x)=\varepsilon^{-n}f(\varepsilon^{-1}x)=\varepsilon^{-n}(\delta_{\varepsilon^{-1}}f)(x)$<br>
+$5^\circ$ 多重指标$\alpha,\beta,\alpha=(\alpha_1,...,\alpha_n)\in\N^n,\alpha_1,...,\alpha_n\in\N=\lrb{0,1,...}$，长度$|\alpha|=\alpha_1+...+\alpha_n$.<br>
+$\alpha\leq\beta\lrArr\alpha_i\leq\beta_i,\forall i=1,...,n$.<br>
+$\beta-\alpha=(\beta_1-\alpha_1,...,\beta_n-\alpha_n)$<br>
+$\partial^\alpha_x=\partial^{\alpha_1}_{x_1}...\partial^{\alpha_n}_{x_n}$，$x^\alpha=x_1^{\alpha_1}...x_n^{\alpha_n}，(ax)^\alpha=a^{|\alpha|}x^\alpha$<br>
+$6^\circ$ $M_hf(\xi)=e^{-ih}f(\xi)$</p>
+<p>基本性质：$f,g\in L^1(\R^n),y\in\R^n,b\in\mathbb C,\alpha$为多重指标<br>
+(1) $\norm{\hat f}_{L^\infty}\leq\norm{f}_{L^1}$<br>
+(2) $\widehat{f+g}=\hat f+\hat g$<br>
+(3) $\widehat{bf}=b\hat f$<br>
+(4) $\hat{\widetilde{f}}=\widetilde{\hat f}$<br>
+(5) $\hat{\overline{f}}=\overline{\widetilde{\hat{f}}}$<br>
+(6) $\widehat{\tau_yf}(\xi)=e^{-\ip y\cdot\xi}\hat{f}(\xi)=M_{2\pi y\xi}\hat{f}(\xi)$<br>
+(7) $\widehat{e^{\ip xy}f(x)}(\xi)=(\tau_y\hat{f})(\xi)$<br>
+(8) $\widehat{\delta_tf}(\xi)=t^{-n}\hat{f}(t^{-1}\xi)=(\hat{f})_t(\xi)=\widehat{f(t\cdot)}(\xi)$<br>
+(9) $\widehat{\partial^\alpha_xf}(\xi)=(\ip\xi)^\alpha\hat{f}(\xi)=(\ip)^{|\alpha|}\xi^\alpha\hat{f}(\xi),\partial^\alpha_xf\in L^1$<br>
+(10) $\widehat{(-\ip x)^\alpha f(x)}(\xi)=\partial^\alpha_\xi\hat{f}(\xi)$<br>
+(11) $\widehat{f\ast g}(\xi)=\hat{f}(\xi)\hat{g}(\xi)$<br>
+$$
+\begin{aligned}
+\widehat{f\ast g}(\xi)&amp;=\intrn (f\ast g)(x)e^{-\ip x\xi}dx\\
+&amp;=\intrn \intrn f(x-y)g(y)dye^{-\ip x\xi}dx~~(Fubini)\\
+&amp;=\intrn (\intrn f(x-y)e^{-\ip(x-y)\xi}e^{-\ip y\xi}dx)g(y)dy\\
+&amp;=\intrn (\intrn f(x-y)e^{-\ip(x-y)\xi}dx)e^{-\ip y\xi}g(y)dy\\
+&amp;=\intrn \hat{f}(\xi)e^{-\ip y\xi}g(y)dy\\
+&amp;=\hat{f}(\xi)\hat{g}(\xi)
+\end{aligned}
+$$</p>
+<p>定理 若$f\in L^1(\R^n)$，则$\hat{f}\in C_0(\R^n)=\lrb{f\in C(\R^n)|\lim\limits_{|x|\rarr\infty}f(x)=0}$ ($\norm{f}_{C_0}=\sup_{x\in\R^n}|f(x)|$，$f$一致连续)</p>
+<p>证明：$1^\circ$ 先证$\hat{f}$在$\R^n$上一致连续.<br>
+事实上，$\forall x,h\in\R^n,$ $$
+\begin{aligned}
+&amp;\hat{f}(x+h)-\hat{f}(x)\\
+&amp;=\intrn f(y)e^{-\ip y(x+h)}dy-\intrn f(y)e^{-\ip yx}dy\\
+&amp;=\intrn f(y)e^{-\ip yx}(e^{-\ip yh}-1)dy\\
+&amp;=(\int_{|r|\leq r}+\int_{|y|&gt;r})f(y)e^{-\ip yx}(e^{-\ip yh}-1)dy\\
+&amp;=I_1(h,x)+I_2(h,x)
+\end{aligned}
+$$ 由$|I_2|\leq\int_{|y|&gt;r}|f(y)|2dy$. $\forall\varepsilon&gt;0,\exist r_0&gt;0~s.t.~\forall0&lt;r\leq r_0$有$\int_{|y|&gt;r}|f(y)|dy&lt;\varepsilon$（因为$f\in L^1,\int_{|y|&gt;r}f(y)dy\rarr0~(r\rarr+\infty)$）. 令$r=r_0$则$|I_2(r_0,h)|&lt;\varepsilon,\forall h,x\in\R^n$.<br>
+对于$I_1=I_1(r_0,h)=\int_{|y|\leq r_0}f(y)e^{-\ip xy}(e^{-\ip hy}-1)dy$<br>
+在$\lrb{|y|\leq r_0}$，对上面的$\varepsilon&gt;0,\exist\delta_0&gt;0~s.t.~\forall|h|&lt;\delta_0,|e^{-\ip hy}-1|&lt;\varepsilon,\forall |y|\leq r_0~i.e.~e^{-\ip hy}-1\rightrightarrows0~ in~ \lrb{|y|\leq r_0}$<br>
+$\rArr|I_1|\leq\int_{|y|\leq r_0}|f(y)||e^{-\ip hy}-1|\leq\varepsilon\int_{|y|\leq r_0}|f(y)|dy&lt;\varepsilon\norm{f}_{L^1}$<br>
+$\rArr|I_1|+|I_2|&lt;(1+\norm{f}_{L^1})\varepsilon~(\forall x\in\R^n)$<br>
+$i.e.~|\hat{f}(x+h)-\hat{f}(x)|\rightrightarrows0~(|h|\rarr0,x\in\R^n)$</p>
+<p>$2^\circ$ 证明Riemann-Lebsgue引理：设$f\in L^1(\R^n)$，则$\lim\limits_{|\xi|\rarr\infty}\hat{f}(\xi)=0$<br>
+(1) 对$f(x)=\Chi_{[a,b]}(x)~on~\R^n,\hat{f}(\xi)\begin{cases}\frac{e^{-\ip \xi a}-e^{-\ip \xi b}}{\ip\xi}&amp;\xi\neq0\\b-a &amp;\xi=0\end{cases}$<br>
+$\forall|\xi|\geq1,0&lt;|\hat{f}(\xi)|\leq\frac{2}{2\pi|\xi|}=\frac{1}{\pi|\xi|}\rarr0~(|\xi|\rarr\infty)$.<br>
+(2) 阶梯函数$g(x_1,...,x_n)=\displaystyle\prod^n_{j=1}\Chi_{[a_j,b_j]}(x)~on~\R^n$<br>
+$\rArr\hat{g}(\xi_1...\xi_n)=\displaystyle\prod^n_{j=1}\widehat{\Chi_{[a_j,b_j]}}(\xi_j)\rArr|\hat{g}(\xi)|\rarr0(|\xi|\rarr\infty)$.<br>
+(3) $g$为有限个阶梯函数的和，同上有$|\hat{g}(\xi)|\rarr0~(|\xi|\rarr\infty)$<br>
+(4) $\forall f\in L^1(\R^n)$，由{$\sum_{finite}$阶梯函数}在$L^1(\R^n)$中稠密. $\forall\varepsilon&gt;0,\exist g=${$\sum_{finite}$阶梯函数}$s.t.~f=g+h$且$\norm{h}_{L^1}&lt;\varepsilon$. $$
+\begin{aligned}
+|\hat{f}(\xi)|\leq|\hat{g}(\xi)+\hat{f}(\xi)|&amp;\leq|\hat{g}(\xi)|+|\hat{f}(\xi)|\\
+&amp;\leq|\hat{g}(\xi)|+\norm{h}_{L^1}\\
+&amp;&lt;2\varepsilon\quad(|\xi|\rarr\infty)
+\end{aligned}
+$$ $\rArr\lim\limits_{|\xi|\rarr+\infty}\hat{f}(\xi)=0$</p>
+<p>问题：$\forall g\in C_0(\R^n),\exist f\in L^1(\R^n)~s.t.~\hat{f}=g$ ？<br>
+反例（周民强调和分析讲义P25）：<img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/6-1.png" alt="1"></p>
+<p>定理（乘法公式）设$f,g\in L^1(\R^n)$，则有$\intrn \hat{f}(x)g(x)dx=\intrn f(x)\hat{g}(x)dx$</p>
+<p>证明：$$
+\begin{aligned}
+\intrn \hat{f}(x)g(x)dx&amp;=\intrn 1\intrn f(y)e^{-\ip yx}dy~g(x)dx\\
+&amp;=\int_{\R^n\times\R^n}f(y)e^{-\ip yx}g(x)dydx~~(Tonelli)\\
+&amp;=\intrn (\intrn g(x)e^{-\ip yx}dx)f(y)dy~~(Fubini)\\
+&amp;=\intrn \hat{g}(y)f(y)dy=\intrn f(x)\hat{g}(x)dx
+\end{aligned}
+$$</p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/6-2.png" alt="2"></p>
+<p>例 Poisson核. $f(x)=e^{-2\pi|x|},\hat{f}(y)=\Gamma(\frac{n+1}{2})\pi^{-\frac{n+1}{2}}\frac{1}{(1+|y|^2)^\frac{n+1}{2}}$</p>
+<p>$\widehat{\delta_af(y)}=a^{-n}\hat{f}(a^{-1}y)=(\hat{f}(y))_{a^{-1}}$</p>
+<p>定理（Fourier变换的逆）若$f\in L^1(\R^n),\hat{f}\in L^1(\R^n)$，则$\T(\F f)(x)=\F(\T f)(x)=f(x)~a.e.~x\in\R^n$. 其中$\T g(x)=\intrn g(y)e^{\ip yx}dy=\hat{g}(-x)~(\forall g\in L^1)$.</p>
+<p>注：$\T\F f=f,\forall f\in L^1~i.e.~\T\F=Id$恒等算子.$\F\T f=f~i.e.~\F\T=Id\rArr\T$是$\F$的逆，记作$\F^{-1}$</p>
+<p>注意，$$
+\begin{aligned}
+(\hat{f})^{\check{}}&amp;=\intrn \hat{f}(y)e^{\ip yx}dy\\
+&amp;=\intrn(\intrn f(z)e^{-\ip yz}dz)e^{\ip xy}dy\\
+&amp;=\intrn(\intrn e^{-\ip y(z-x)}dy)f(z)dz
+\end{aligned}
+$$ $e^{\ip yx}\notin L^1$不能用乘法公式<br>
+$\intrn e^{-\ip y(z-x)}dy$不可积，没有意义(don't make sense)</p>
+<p>证明：$1^\circ~\forall\varepsilon&gt;0$，定义$\varphi_x(\xi)=e^{\ip x\xi}e^{-\pi\varepsilon^2|\xi|^2}=e^{\ip x\xi}\delta_\varepsilon(e^{-\pi|\xi|^2}),\forall x,\xi\in\R^n$<br>
+$\rArr\widehat{\varphi_x}(y)=\varepsilon^{-n}e^{-\pi|\frac{y-x}{\varepsilon}|^2}=g_\varepsilon(x-y)$，高斯核$g(x)=e^{-\pi|x|^2}$.<br>
+$2^\circ~\intrn\varphi_x(\xi)\hat{f}(\xi)d\xi=\intrn\widehat{\varphi_x}(y)f(y)dy=\intrn g_\varepsilon(x-y)f(y)dy=(g_\varepsilon\ast f)(x)$</p>
+<p>另一方面，$\intrn\varphi_x(\xi)\hat{f}(\xi)d\xi=\intrn e^{-\pi\varepsilon|\xi|^2}e^{\ip x\xi}\hat{f}(\xi)d\xi$ $$
+\begin{aligned}
+\lim_{\varepsilon\rarr0}\intrn\varphi_x(\xi)\hat{f}(\xi)d\xi&amp;=\intrn\lim_{\varepsilon\rarr0}e^{-\pi\varepsilon|\xi|^2}e^{\ip x\xi}\hat{f}(\xi)d\xi\\
+&amp;=\intrn e^{\ip x\xi}\hat{f}(\xi)d\xi\\
+&amp;=\F^{-1}(\hat{f})(x)=\F^{-1}(\F f)(x)~~(\forall x\in\R^n)
+\end{aligned}
+$$
+又$\intrn\varphi_x(\xi)\hat{f}(\xi)d\xi=(g_\varepsilon\ast f)(x)$，$\lrb{g_\varepsilon}_{\varepsilon&gt;0}$为恒等逼近，$f\in L^1$<br>
+$\rArr\lim\limits_{\varepsilon\rarr0}\norm{g_\varepsilon\ast f-f}_{L^1}=0~(i.e.~g_\varepsilon\ast f\rarr f~in~L^1)$<br>
+$\rArr\exist\varepsilon_j\rarr0(j\rarr\infty)~s.t.~g_{\varepsilon_j}\ast f\rarr f~a.e.~x\in\R^n$<br>
+又$g_\varepsilon\ast f\rarr\F^{-1}(\F f)(x),\forall x\in\R^n$.<br>
+所以$\F^{-1}(\F f)=f(x)~a.e.~x\in\R^n$<br>
+$3^\circ$ 类似地，可证$\F(\F^{-1}f)(x)=f(x)~a.e.~x\in\R^n$</p>
+<p>注：(1) $f,\hat{f}\in L^1\rArr(\hat f)^{\check{}}(x)=(\hat f)^{\hat{}}(-x)\in C_0(\R^n)\rArr\check{f}\in C_0(\R^n), (\hat f)^{\check{}}(x)=f(x)~a.e.~x\in\R^n$<br>
+$\rArr$改变$f(x)$在某个零测集上的值，有$f\in C(\R^n)$且这时$(\hat f)^{\check{}}(x)=f(x),\forall x\in\R^n$<br>
+(2) $f\in L^1,\hat{f}=0~a.e.~x\in\R^n\rArr\hat{f}\in L^1\rArr(\hat f)^{\check{}}(x)=f(x)~a.e.~x\in\R^n$<br>
+另一方面，$(\hat f)^{\check{}}(x)=f(x)=0\rArr f=0~a.e.~x\in\R^n$</p>
+<p>定义（Schwartz空间）$S(\R^n)=\lrb{f\in C^\infty(\R^n):\norm{f}_{(k)}&lt;c_k,\forall k\in\N}$，其中$$
+\norm{f}_{(k)}=\max_{|\alpha|+l\leq k}\sup_{x\in\R^n}(1+|x|^2)^\frac{l}2|\partial^\alpha_xf(x)|
+$$</p>
+<p>注：$(1+|x|^2)^\frac{l}2\text{\textasciitilde}(1+|x|)^l.~\exist c=c_l~s.t.~c^{-1}(1+|x|)^l\leq(1+|x|)^\frac{l}2\leq c(1+|x|^2)^l$</p>
+<p>称$S(\R^n)$为Schwartz空间（速降函数空间）.</p>
+<p>$f\in S(\R^n)\rArr$<br>
+$(1+|x|)^l|\partial^\alpha_xf(x)|&lt;c_k,\forall x\in\R^n,\forall\alpha,l,|\alpha|+l\leq k$<br>
+$i.e.~|\partial^\alpha_x(x^\beta f(x))|&lt;c_k,\forall x\in\R^n(|\alpha|+|\beta|\leq k)$</p>
+<p>定理 若$f\in S(\R^n)$，则$\hat f\in S(\R^n)$.</p>
+<p>注：$S(\R^n)\subset L^1(\R^n)$且在$L^1(\R^n)$中稠密，$S(\R^n)$是一个Frechet空间.</p>
+
+</body>
+</html>

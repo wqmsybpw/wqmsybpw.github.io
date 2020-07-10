@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-07-08-调和分析入门9.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E5%88%86%E5%B8%832">分布(2)</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\F{\mathcal{F}}$
+$\gdef\T{\mathcal{T}}$
+$\gdef\intrn{\int_{\R^n}}$
+$\gdef\ip{2\pi i}$
+$\gdef\qed{~\tag*{\Large□}}$
+$\gdef\C{C^\infty}$
+$\gdef\bc{\mathbb{C}}$
+$\gdef\S{\mathscr{S}}$
+$\gdef\D{\mathscr{D}}$
+$\gdef\E{\mathscr{E}}$
+$\gdef\act#1{\lt#1\gt}$</p>
+<p>定义 $\forall u\in\S'(\R^n)$，定义$\F(u)=\hat u$及$\F^{-1}(u)=\check u$为$$
+\forall g\in\S(\R^n),\begin{cases}\act{\hat{u},g}=\act{u,\hat{g}}\\\act{\check{u},g}=\act{u,\check{g}}\end{cases}
+$$</p>
+<p>注：$g\in\S(\R^n)\rArr\hat{g},\check{g}\in\S(\R^n)$. 验证$\hat{u},\check{u}\in\S'(\R^n),\F:\S'(\R^n)\rarr\S'(\R^n)$<br>
+$\E'(\R^n)\subsetneqq\S'(\R^n).~\forall u\in\E'(\R^n),\hat{u}\in\S'(\R^n).~\F:\E'(\R^n)\rarr\S'(\R^n)$.<br>
+$\F:\C_c(\R^n)\rarr\S(\R^n)$ 测不准原理，Fourier变换后可能不具有紧支撑.</p>
+<p>例 $$
+\begin{cases}
+(\widehat{\partial^\alpha\delta_0})=(\ip x)^\alpha~(\alpha\in\N^n)\\
+\hat{\delta_0}=1~in~\S'(\R^n)
+\end{cases},
+(\ip x)^\alpha=(\ip)^{|\alpha|}x_1^{\alpha_1}...x_n^{\alpha_n}\in L^1_{loc}(\R^n)
+$$ $\forall f\in\S(\R^n),L_{(\ip x)^\alpha}(f)=\intrn(\ip x)^\alpha f(x)dx$<br>
+事实上，$\forall f\in\S(\R^n),\act{\widehat{\partial^\alpha\delta_0},f}=\act{\partial^\alpha\delta_0,\hat{f}}=(-1)^{|\alpha|}\act{\delta_0,\partial^\alpha\hat{f}}$ $$
+\begin{aligned}
+(-1)^{|\alpha|}\act{\delta_0,\widehat{(-\ip x)^\alpha f}}&amp;=(-1)^{|\alpha|}\widehat{(-\ip x)^\alpha f}(0)\\
+&amp;=(-1)^{|\alpha|}\intrn(-\ip x)^\alpha f(x)e^{-\ip x0}dx\\
+&amp;=(-1)^{|\alpha|}\intrn(-\ip x)^\alpha f(x)dx\\
+&amp;=(-1)^{|\alpha|}(-1)^{|\alpha|}\intrn(\ip x)^\alpha f(x)dx\\
+&amp;=\intrn (\ip x)^\alpha f(x)dx\\
+&amp;=L_{(\ip x)^\alpha}(f)=\act{(\ip x)^\alpha,f}
+\end{aligned}
+$$ $\rArr\widehat{\partial^\alpha\delta_0}=(\ip x)^\alpha$. 得到$\forall f\in\S(\R^n),\act{\widehat{\delta_0},f}=\hat{f}(0)=\int_\R f(x)dx=\act{1,f(x)}$</p>
+<p>例 $e^{|x|^2},\exist f\in \S(\R^n),\act{e^{|x|^2},f(x)}=\intrn e^{|x|^2}f(x)dx=+\infty\rArr e^{|x|^2}\notin\S'(\R^n)$.</p>
+<p>例 $\hat{1}=\tilde{\delta_0}=\delta_0~in~\S'(\R^n)$</p>
+<p>性质 $\forall f,g\in\S(\R^n)$<br>
+$1^\circ\forall t\in\R^n$ $$
+\begin{aligned}
+\intrn g(x)f(x-t)dx&amp;=\intrn g(y+t)f(y)dy\\
+&amp;=\intrn g(x)(\tau^tf)(x)dx\\
+&amp;=\intrn (\tau^{-t}g)(x)f(x)dx
+\end{aligned}
+$$  $2^\circ\intrn g(ax)f(x)dx=\intrn g(y)f(a^{-1}y)a^{-n}dy$<br>
+$\rArr\intrn g(ax)f(x)dx=\intrn g(x)a^{-n}f(a^{-1}x)dx$<br>
+$\rArr\intrn(\delta^ag)(x)f(x)dx=\intrn g(x)(f)_a(x)dx$<br>
+$3^\circ\intrn\tilde{g}(x)f(x)dx=\intrn g(x)\tilde{f}(x)dx$<br>
+$4^\circ\intrn\hat{g}(x)f(x)dx=\intrn g(x)\tilde{f}(x)dx$.</p>
+<p>定义 $\forall u\in\S'(\R^n),\forall f\in\S(\R^n),\forall t\in\R^n,\forall a&gt;0,$定义$\act{\tau^tu,f}=\act{u,\tau^{-t}f},\act{\delta^au,f}=\act{u,(f)_a},\act{\tilde{u},f}=\act{u,\tilde{f}}$. 设$A\in\R^{n\times n}$是可逆矩阵,$\act{u^A,f}=(detA)^{-1}\act{u,f^{A^{-1}}},f^A(x)=f(Ax)$.</p>
+<p>定义 $\forall u\in\S'(\R^n),h\in\S(\R^n).~\act{h\ast u,f}=\act{u,\tilde{h}\ast f},\forall f\in\S(\R^n)$.<br>
+例 设$u=\delta_{x_0},f\in\S(\R^n).~\forall g\in\S(\R^n),\act{f\ast u,g}=\act{u,\tilde{f}\ast g}=\act{\delta_{x_0},\tilde{f}\ast g}=(\tilde{f}\ast g)(x_0)=\intrn\tilde{f}(x_0-x)g(x)dx\rArr f\ast\delta_{x_0}=f(x-x_0)$<br>
+特别的$x_0=0\in\R^n,f\ast\delta_0=f(x)=\delta_0\ast f~(in~\S'(\R^n))$</p>
+<p>定义 $h\in\C(\R^n)$且满足$\forall\alpha\in\N^n,\exist$常数$c_\alpha,k_\alpha&gt;0~s.t.~|\partial^\alpha h(x)|\leq c_\alpha(1+|x|)^{k\alpha},\forall x\in\R^n.$ 设$u\in\S'(\R^n),$定义乘积$hu$为$\act{hu,f}=\act{u,hf},\forall f\in\S(\R^n)$. (易证$hf\in\S(\R^n),hu\in\S'(\R^n)$)</p>
+<p>注：一般$u\in\S'(\R^n),h\in\C(R^n),hu$无定义. 若$u\in\E'(\R^n)$，可定义$hu$.</p>
+<p>命题 (1) 若$g$满足$Supp(g)\subset K,K$为$\R^n$中一些集合的一个，则$\forall f\in\C_c(\R^n\backslash K),$有$\intrn f(x)g(x)=0$.<br>
+(2) $Supp(g)=\cap K$，这些$K$满足$K$为闭集，$\forall f\in\C_c(\R^n\backslash K),\intrn f(x)g(x)dx=0$</p>
+<p>定义 设$u\in\D'(\R^n)$,则$Supp(u)$为满足下面性质的所有闭集$K$的交：对$\varphi\in\E(\R^n),Supp(\varphi)\subseteq K^c=\R^n\backslash K\rArr\act{u,\varphi}=0$</p>
+<p>例 $Supp(\delta_{x_0})=\lrb{x_0}$<br>
+事实上，$K_\varepsilon=\overline{B_{x_0}(\varepsilon)},\forall\varphi\in\E(\R^n),Supp\varphi\subseteq\R^n\backslash K_\varepsilon$.<br>
+$\act{\delta_{x_0},\varphi}=\varphi(x_0)=0\rArr Supp(\delta_{x_0})\subseteq\cap_{\varepsilon&gt;0}K_\varepsilon=\cap_{\varepsilon&gt;0}\overline{B_{x_0}(\varepsilon)}=\lrb{x_0}$.<br>
+$\lArr$证$\lrb{x_0}\subseteq Supp(\delta_{x_0})$</p>
+<p>例 $g\in L^1_{loc}(\R^n),g\in\D'(\R^n)$. 两个$Supp(g)$一样，若$Supp(g)$为紧集，则$g\in\E'(\R^n)$.</p>
+<p>定理($\F u$的性质) $u,v\in\S'(\R^n),f\in\S(\R^n),y\in\R^n,b\in\bc,\alpha\in\N^n,a&gt;0$.<br>
+(1) $\widehat{u+v}=\hat{u}+\hat v$<br>
+(2) $\widehat{bu}=b\hat u$<br>
+(3) $u_j\rarr u~in~\S'(\R^n)\rArr\widehat{u_j}\rarr\hat u~in~\S'(\R^n)$<br>
+(4) $\widehat{\widetilde{u}}=\widetilde{\widehat{u}}$<br>
+(5) $\widehat{(\tau^yu)}=e^{-\ip y\cdot\xi}\hat u$<br>
+(6) $\widehat{e^{\ip x\cdot y}u}=\tau^y\hat{u}$<br>
+(7) $\widehat{\delta^au}=(\hat u)_a=a^{-n}\delta^{a^{-1}}\hat u$<br>
+(8) $\widehat{\partial^\alpha u}=(\ip\xi)^\alpha\hat u$<br>
+(9) $\partial^\alpha\hat u=\widehat{(-\ip x)^\alpha u}$<br>
+(10) $\check{\hat u}=u$<br>
+(11) $\widehat{f\ast u}=\hat f\hat u$<br>
+(12) $\widehat{fu}=\hat f\ast\hat u$<br>
+(13) $\partial^m_j(fu)=\sum^m_{k=0}C^k_m\partial^k_jf\partial^{m-k}_ju,m\in\Z^+$<br>
+$\partial^\alpha(fu)=\sum^{\alpha_1}_{\gamma_1=0}\cdots\sum^{\alpha_n}_{\gamma_n=0}\binom{\alpha_1}{\gamma_1}\cdots\binom{\alpha_n}{\gamma_n}(\partial^\gamma f)(\partial^{\alpha-\gamma}u)$<br>
+(14) 若$u_k,u\in L^p(\R^n).~u_k\rarr u~in~L^p(\R^n)~(k\rarr\infty)$，则$u_k\rarr u~in~\S'(\R^n)~(\S(\R^n)\subset L^p(\R^n)\subset\S'(\R^n))$</p>
+<p>定义 称一个分布$u\in\S'(\R^n)$与函数$h$在一个开集$\Omega$上相等，若$\act{u,f}=\intrn h(x)f(x)dx,\forall f\in\C_c(\Omega)$</p>
+<p>定理 若$u\in\S'(\R^n),h\in\S(\R^n)$则$h\ast u\in\S'(\R^n)$且$h\ast u\in\C(\R^n)$. 而且$\forall\alpha\in\N^n,\exist$常数$c_\alpha,k_\alpha&gt;0~s.t.~|\partial^\alpha(h\ast u)(x)|\leq c_\alpha(1+|x|)^{k_\alpha}$，如果$u$具有紧支撑，有$h\ast u\in\S(\R^n)$<br>
+证明：（只证$h\ast u\in\C(\R^n)$）事实上，$\forall\varphi\S(\R^n)$有$\act{h\ast u,\varphi}=\act{u,\tilde{h}\ast\varphi}=u(\tilde{h}\ast\varphi)=u(\intrn\tilde{h}(x-y)\varphi(y)dy)=u(\intrn\tau^y\tilde{h}\varphi(y)dy)$<br>
+注意到，$\intrn\tau^y\tilde{h}(x)\varphi(y)dy=\lim\limits_{m\rarr\infty}\sum^m_{i=1}\Phi_{m_i}~in~\S(\R^n)$<br>
+$u(\intrn\tau^y\tilde{h}(\cdot)\varphi(y)dy)=\lim\limits_{m\rarr\infty}u(\sum^m_{i=0}\Phi_{m_i})=\lim\limits_{m\rarr\infty}\sum^m_{i=0}u(\Phi_{m_i})$<br>
+$=\lim\limits_{m\rarr\infty}\sum^m_{i=0}u(\tau^{y_i}\tilde{h}(\cdot))\varphi(y_i)=\intrn u(\tau^y\tilde{h})\varphi(y)dy=\act{u(\tau^y\tilde{h}),\varphi(y)}$<br>
+$\rArr h\ast u=u(\tau^y\tilde{h})=\act{u,\tau^y\tilde{h}}~in~\S'(\R^n)$<br>
+下证$u(\tau^xh)\in\C(\R^n)$
+设$e_j=(0,0,...,0,1,0,...,0)$ $$
+\begin{aligned}
+&amp;\frac{(h\ast u)(x_1,...,x_j+\delta,...,x_n)-(h\ast u)(x_1,...,x_n)}{\delta}\&amp;=\frac{(h\ast u)(x+\delta e_j)-(h\ast u)(x)}{\delta}\\
+&amp;=\frac{\tau^{-\delta e_j}(h\ast u)(x)-(h\ast u)(x)}{\delta}\\
+&amp;=\frac{u(\tau^{-\delta e_j}\tau^xh)-u(\tau^xh)}{\delta}\\
+&amp;=u(\frac{\tau^{-\delta e_j}(\tau^xh)-(\tau^xh)}{\delta})\\
+&amp;\rarr u(\partial_{x_j}(\tau^xh))~(\delta\rarr0)\\
+&amp;=u(\tau^x\partial_{x_j}h)
+\end{aligned}
+$$ $\lim\limits_{\delta\rarr0}\frac{\tau^{-\delta e_j}(h\ast u)(x)-(h\ast u)(x)}{\delta}=u(\tau^x\partial_jh)$存在.<br>
+$\rArr\partial_j(h\ast u)$存在，$\forall j=1,2,...,n$.<br>
+$\rArr$可证$\partial^\alpha(h\ast u)$存在$\rArr h\ast u\in\C(\R^n)$ $$\qed$$</p>
+<p>定理 对任意$u\in\S'(\R^n)$给定，存在$\lrb{f_k}_{k\in\N}\subset\C_c(\R^n)~s.t.~f_k\rarr u~in~\S'(\R^n)~i.e.~\C_c(\R^n)$在$\S'(\R^n)$中稠密.<br>
+证明：固定$\varphi\in\C_c(\R^n)$且$\varphi_{U(0)}=1$<br>
+$\varphi_k(x)=(\delta^\frac1k\varphi)(x)=\varphi(\frac{x}{k}),k\in\N$<br>
+$\rArr\forall u\in\S'(\R^n),\varphi_ku\rarr u~in~\S'(\R^n)$(用$\S'(\R^n)$中极限的定义)，$\varphi_ku\in\E'(\R^n),\varphi_k\hat{u}\rarr\hat{u}~in~\S'(\R^n)$.<br>
+$\rArr(\varphi_k\hat u\check)\rarr(\hat u\check)=u~in~\S'(\R^n)$，而$(\varphi_k\hat{u}\check)=\check{\varphi_k}\ast (\hat{u}\check)=\check{\varphi_k}\ast u,\varphi_k\in\S(\R^n),\check{\varphi_k}\in\S(\R^n)$<br>
+$\rArr (\varphi_k\hat{u}\check)=\check{\varphi_k}\ast u\in\C(\R^n)$<br>
+$\rArr\varphi_j(\varphi_k\hat u\check)\in\C_c(\R^n)$<br>
+$\rArr\varphi_j(\varphi_k\hat u\check)\rarr u~in~\S'(\R^n)~(j\rarr\infty,k\rarr\infty)$ $$\qed$$</p>
+<p>定理 如果$u\in\S'(\R^n),Supp(u)\subseteq\lrb{x_0}$，则$\exist k\in\N,a_\alpha\in\bc~(|\alpha|\leq k)~s.t.~u=\sum_{|\alpha|\leq k}a_\alpha\partial^\alpha\delta_{x_0}~(in~\S'(\R^n))$</p>
+<p>证明：不失一般性，假设$x_0=0$，对$u\in\S'(\R^n)$有$\exist m,k\in\N,c_{m,k}&gt;0$ $$
+|\act{u,f}|\leq\sum_{\substack{|\alpha|\leq m\|\beta|\leq k}}\sup|x^\alpha\partial^\beta f(x)|=c_l\rho_l(f),l=m+k.
+$$ 断言若$\varphi\in\S(\R^n)$且$(\partial^\alpha\varphi)(0)=0,\forall|\alpha|\leq k$则$\act{u,\varphi}=0$<br>
+事实上，定义$\xi(x)=\begin{cases}1~&amp;|x|\geq2\\smooth\in[-1,1]\\0~&amp;|x|\leq1\end{cases},1-\xi(x)\in\C_c(\R^n),\xi^\varepsilon(x)=\xi(\frac{x}{\varepsilon}),x\in\R^n,\varepsilon&gt;0$<br>
+有$\xi^\varepsilon\varphi\in\C_c(\R^n),\partial^\alpha(\xi^\varepsilon\varphi)|_{U^c(0)}=0$<br>
+$\xi^\varepsilon\varphi\rarr\varphi~in~\S(\R^n)~i.e.~\rho_{\alpha,\beta}(\xi^\varepsilon\varphi-\varphi)\rarr0~as~\varepsilon\rarr0,\forall|\alpha|\leq n,|\beta|\leq k$.<br>
+$\rArr\act{u,\varphi}=\act{u,\xi^\varepsilon\varphi}+\act{u,\xi^\varepsilon\varphi-\varphi}$<br>
+因为$Supp(u)\subseteq\lrb{0}$,有$\act{u,\xi^\varepsilon\varphi}=0\rArr\act{u,\varphi}=\act{u,\xi^\varepsilon\varphi-\varphi}$<br>
+$\rArr|\act{u,\varphi}|\leq|\act{u,\xi^\varepsilon\varphi}|+|\act{u,\xi^\varepsilon\varphi-\varphi}|$<br>
+$|\act{u,\varphi}|\leq|\act{u,\xi^\varepsilon\varphi-\varphi}|\leq c_{m,k}\sum_{\substack{|\alpha|\leq k\|\beta|\leq m}}\rho_{\alpha,\beta}(\xi^\varepsilon\varphi-\varphi)\rarr0~(\varepsilon\rarr0)$<br>
+$\rArr\act{u,\varphi}=0$<br>
+现在对$f\in\S(\R^n)$，设$\eta\in\C_c(\R^n),\eta|_{U(0)}=1$<br>
+$f(x)=\eta(x)f(x)+(1-\eta(x))f(x),(1-\eta(x))f(x)|_{U(0)}=0$<br>
+$f(x)=\displaystyle\sum_{|\alpha|\leq k}\frac{(\partial^\alpha f)(0)}{\alpha!}x^\alpha+h(x),h(x)=o(x^{k+1})~(|x|\rarr0)$<br>
+注意到$\varphi=\eta(x)h(x)$满足断言的条件，$\varphi\in\C_c,(\partial^\alpha\varphi)(0)=0$<br>
+$$
+\begin{aligned}
+\rArr\act{u,\eta h}=0\rArr\act{u,f}&amp;=\act{u,\eta f}+\act{u,(1-\eta)f}\\
+&amp;=\act{u,\eta(x)\sum_{|\alpha|\leq k}\frac{(\partial^\alpha f)(0)}{\alpha!}x^\alpha}\\
+&amp;+\act{u,\eta h}+\act{u,(1-\eta)f}
+\end{aligned}
+$$ 又$\act{u,(1-\eta)f}=0$
+$\rArr\act{u,f}=\act{u,\sum_{|\alpha|\leq k}\frac{(\partial^\alpha f)(0)}{\alpha!}\eta(x)x^\alpha}$
+$=\sum_{|\alpha|\leq k}\frac{\partial^\alpha f(0)}{\alpha!}\act{u,\eta(x)x^\alpha}=\sum_{|\alpha|\leq k}\frac{\partial^\alpha f(0)}{\alpha!}u(x^\alpha\eta(x))$<br>
+取$a_\alpha=u(x^\alpha\eta(x))\in\bc$<br>
+$\rArr\act{u,f}=\sum_{|\alpha|\leq k}a_\alpha+\frac{1}{\alpha!}(\partial^\alpha f)(0)=\sum_{|\alpha|\leq k}a_\alpha\frac{1}{\alpha!}\act{\partial^\alpha\delta_0,f}=\act{\sum_{|\alpha|\leq k}a_\alpha\frac{1}{\alpha!}\partial^\alpha\delta_0,f},\forall f\in\S(\R^n)$<br>
+$\rArr u=\sum_{|\alpha|\leq k}\frac{a_\alpha}{\alpha!}\partial^\alpha\delta_0$ $$\qed$$</p>
+<p>推论 设$u\in\S'(\R^n)$且$Supp(\hat u)\subseteq\lrb{\xi_0}$，则$u$一定是有限个$(-\ip\xi)^\alpha e^{-\ip\xi\cdot\xi_0}$的线性组合，其中$\alpha\in\N^n$. 特别的，若$Supp(\hat u)\subseteq\lrb{0}$，则$u$是一个多项式.<br>
+证明：$Supp\hat u\subseteq\lrb{\xi_0}\rArr\hat u=\sum_{|\alpha|\leq k}\beta_\alpha\partial^\alpha\delta_{\xi_0}$<br>
+$\rArr u=\sum_{|\alpha|\leq k}\beta_\alpha(\partial^\alpha\delta_{\xi_)}\check)=\sum_{|\alpha|\leq k}\beta_\alpha(-\ip\xi)^\alpha e^{-\ip\xi\cdot\xi_0}$<br>
+$\xi_0=0\rArr u=\sum_{|\alpha|\leq k}\beta_\alpha(-\ip)^{|\alpha|}\xi^\alpha$ $$\qed$$</p>
+<p>定义 若$u\in\D'(\R^n)$满足$\triangle u=0~in~\D'(\R^n)$，称$u$是调和分布. 若$u$还满足$u\in C^2(\R^n)~s.t.~\triangle u=0$（通常意义下），称$u$是调和函数.</p>
+<p>例 复值函数$f(z)=u(x,y)+iv(x,y),z=x+iy\in\R^n$. 若$f$是解析函数，则$\begin{cases}\triangle u(x,y)=0~&amp;\forall(x,y)\in\R^n\\\triangle v(x,y)=0&amp;\forall(x,y)\in\R^n\end{cases}$</p>
+<p>定理 如果$u\in\S'(\R^n)$且$\triangle u=0$,则$u$是多项式($\rArr u$是调和函数)<br>
+证明：由$u\in\S'(\R^n),\triangle u=0$得$\widehat{\triangle u}=0~in~\S'(\R^n)$<br>
+$\rArr\sum^n_{j=1}(\ip\xi_j)^2\hat{u}(\xi)=0~in~\S'(\R^n)$<br>
+$\rArr-4\pi^2|\xi|^2\hat{u}(\xi)=0~in~\S'(\R^n)\rArr Supp(\hat{u})\subseteq\lrb{0}~(u(\xi)\neq0\rArr\xi=0)$<br>
+$\rArr u$是多项式 $$\qed$$</p>
+<p>定义 分布$u$称为线性常系数微分算子$\mathscr{L}$的基本解，若$\mathscr{L}u=\delta_0~(in~\D'(\R^n))$<br>
+注：$\delta_0\ast f=f,\forall f\in\S(\R^n).~(\mathscr{L}u)\ast f=\mathscr{L}(u\ast f)=f~i.e.~u\ast f$为$\mathscr{L}v=f$的解.</p>
+<p>定理 $n\geq3,\triangle(|x|^{2-n})=-\frac{(n-2)2\pi^\frac{n}{2}}{\Gamma(\frac{n}{2})}\delta_0~in~\D'(\R^n)$<br>
+$n\geq2,\triangle(log|x|)=2\pi\delta_0~i.e.~\triangle\Gamma(x)=\delta_0,\Gamma(x)=\begin{cases}\frac{\Gamma(\frac{n}{2})}{(2-n)2\pi^\frac{n}{2}|x|^{n-2}}&amp;n\geq3\\\frac{1}{2\pi}log|x|&amp;n=2\end{cases}$</p>
+<p>注：$\Gamma(x)\in L^1_{loc}(\R^n)$  $$
+\begin{aligned}
+\int_{|x|\leq R_0}|\Gamma(x)|dx&amp;=c_0\int_{|x|\leq R_0}\frac{1}{|x|}dx\\
+&amp;=c_0\int^{R_0}_0\int_{S^2}\frac{1}{r}r^2drd\theta\\
+&amp;=c_0\int^{R_0}_0rdr\int_{S^2}d\theta\\
+&amp;=c_0w_2\frac{1}{2}R_0^2&lt;+\infty
+\end{aligned}
+$$ 证明见PDE教材.</p>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-06-25-调和分析入门5.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E6%9E%81%E5%A4%A7%E5%87%BD%E6%95%B0">极大函数</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\tzq#1#2{\large{\chi}\tiny_{B(#1,#2)}\normalsize}$</p>
+<p>一些记号：$A\subseteq\R^n$可测，$m(A),|A|$为Lebsgue测度.<br>
+$\forall x\in\R^n,r&gt;0,B(x,r)=B_x(r)=B_r(x)=\lrb{y\in\R^n:|y-x|&lt;r}$为开球，$aB(x,r)=B(x,ar)$.<br>
+假设$f\in L^1_{loc}(\R^n)$($i.e.~\forall K\subseteq\R^n$为紧集，$f\in L^1(K)$即局部可积$\int_K|f(x)|d\mu&lt;+\infty$)，$|f|$在$B(x,\delta)$上的平均值为$$
+\underset{B(x,\delta)}{Avg}|f|=\frac{\int_{B(x,\delta)}|f(y)|dy}{m(B(x,\delta))}
+$$，$m(B(x,\delta))=m(B(0,\delta))=\delta^n m(B(0,1))=\delta^n\nu_n$，$\nu_n$表示单位球体积$\nu_n=\frac{\pi^\frac{n}2}{\Gamma(\frac{n}{2}+1)}$<br>
+$\tzq{0}{\delta}(z)=\tzq01(\delta^{-1}z)$<br>
+$$
+\begin{aligned}
+\underset{B(x,\delta)}{Avg}|f|=\frac{1}{\nu_n\delta^n}\int_{B(x,\delta)}|f(y)|dy&amp;=\frac{1}{\nu_n\delta^n}\int_{|x-y|&lt;\delta}|f(y)|dy\\
+&amp;=\frac{1}{\nu_n\delta^n}\int_{|z|&lt;\delta}|f(x-z)|dz\\
+&amp;=\frac{1}{\nu_n\delta^n}\int_{\R^n}|f(x-z)|\tzq0\delta(z)dz\\
+&amp;=\frac{1}{\nu_n\delta^n}\int_{\R^n}|f(x-z)|\tzq01(\delta^{-1}z)dz\\
+&amp;=\int_{\R^n}|f(x-z)|\nu_n^{-1}\delta^{-n}\tzq01(\delta^{-1}z)dz\\
+&amp;=(|f|\ast\nu_n^{-1}\delta^{-n}\tzq01(\delta^{-1}\cdot))(x)
+\end{aligned}
+$$</p>
+<p>定义 $\forall f\in L^1_{loc}(\R^n)$，函数$$
+\begin{aligned}
+M(f)(x)=\sup_{\delta&gt;0}\underset{B(x,\delta)}{Avg}|f|&amp;=\sup_{\delta&gt;0}\frac{1}{\nu_n\delta^n}\int_{|y|&lt;\delta}|f(x-y)|dy\\
+&amp;=\sup_{\delta&gt;0}\frac{1}{m(B(x,\delta))}\int_{B(x,\delta)}|f(y)|dy
+\end{aligned}
+$$ 称为$f$的中心$Hardy-Littlewood$极大函数，$M$为$H-L$极大算子.</p>
+<p>一些基本性质：<br>
+(1) $M(|f|)(x)=M(f)(x)\geq0,\forall f\in L^1_{loc}(\R^n)$<br>
+(2) $\norm{M(f)}_{L^\infty}\leq\norm{f}_{L^\infty},\forall f\in L^\infty(\R^n)$，即$M$是$(\infty,\infty)-$型.<br>
+(3) $|f(x)|\leq M(f)(x)~a.e.~x\in\R^n(\rArr\norm{M(f)}_{L^\infty}=\norm{f}_{L^\infty})$<br>
+(4) M是次线性的$i.e.\begin{cases}M(f+g)\leq M(f)+M(g),&amp;\forall f,g\in L^1_{loc}\\M(\lambda f)=|\lambda|M(f),&amp;\forall\lambda\in\R\end{cases}$<br>
+(5) $E_{Mf}(\alpha)=\lrb{x\in\R^n|M(f)(x)&gt;\alpha}$对$\forall\alpha&gt;0$给定是$\R^n$上的开集($d_{Mf}(\alpha)=m(E_{Mf}(\alpha))$).</p>
+<p>(5)的证明：只需证$\R^n\backslash E_{Mf}(\alpha)$是闭集. 事实上，假设$\lrb{x_{(k)}}_{k\in\N}\subset\R^n\backslash E_{Mf}(\alpha)$且$x_{(k)}\rarr x(k\rarr\infty)\in\R^n$，只需证$$
+\sup_{\delta&gt;0}\frac1{m(B(x,\delta))}\int_{B(x,\delta)}|f(y)|dy\leq\alpha(\rArr x\in\R^n\backslash E_{Mf}(\alpha))
+$$ 定义$Q_k=B(x_k,\delta),Q=B(x,\delta)$，对称差$Q_k\triangle Q=(Q_k\backslash Q)\cup(Q\backslash Q_k),f_k(y)=f(y)\chi_{Q_k\triangle Q}(y)$<br>
+$\rArr\forall y\in\R^n,|f_k(y)|\leq|f(y)|$且$\lim\limits_{k\rarr\infty}f_k(y)=0,\forall~a.e.~y\in\R^n$，则$$
+\lim_{k\rarr\infty}\frac1{|Q|}\int_Q|f_k(y)|dy=\frac1{|Q|}\int_Q\lim\limits_{k\rarr\infty}|f_k(y)|dy=0
+$$ (Lebsgue控制收敛定理,$\int_Q|f_k(y)|dy\leq\int_Q|f(y)|dy&lt;+\infty,\lim\limits_{k\rarr\infty}|f_k(y)|dy=0$)<br>
+另一方面，因为$x_k\in\R^n\backslash E_{Mf}(\alpha)$, $$
+\frac{1}{|Q|}\int_{Q_k}|f(y)|dy=\frac{1}{|Q_k|}\int_{Q_k}|f(y)|dy\leq\alpha
+$$
+$$
+\begin{aligned}
+\rArr\frac1{|Q|}\int_Q|f(y)|dy&amp;\leq\frac{1}{|Q|}\int_{Q_k}|f(y)|dy+\frac1{|Q|}\int_{Q\backslash Q_k}|f(y)|dy\\
+&amp;\leq\alpha+\frac1{Q}\int_Q|f(y)\chi_{Q\backslash Q_k}(y)|dy\\
+&amp;=\alpha+\frac1{|Q|}\int_Q|f_k(y)|dy
+\end{aligned}
+$$ 令$k\rarr\infty$得$\frac1{|Q|}\int_Q|f(y)|dy\leq\alpha~i.e.~\forall\delta&gt;0,\frac1{|B(x,\delta)|}\int_{B(x,\delta)}|f(y)|dy\leq\alpha$<br>
+对$\delta&gt;0$取上界，得$Mf(x)\leq\alpha\rArr x\in\R^n\backslash E_{Mf}(\alpha)$</p>
+<p>注：任何开集$U\subset\R^n,\exist K_j\subset U$为紧集，$\lim\limits_{j\rarr\infty}m(K_j)=mU$</p>
+<p>例. $\R$上的$f(x)=\begin{cases}1~&amp;x\in(a,b)\\0~&amp;otherwise\end{cases}=\chi_{(a,b)}(x)$，求$M(f)(x)$.</p>
+<p>$$
+\begin{aligned}
+\frac{1}{|B(x,\delta)|}\int_{B(x,\delta)}|f(y)|dy&amp;=\frac{1}{2\delta}\int_{y\in(x-\delta,x+\delta)}f(y)dy\\
+&amp;=\frac{1}{2\delta}\int_{y\in(x-\delta,x+\delta)}\chi_{(a,b)}(y)dy\\
+&amp;=\frac{1}{2\delta}\int_{(x-\delta,x+\delta)\cap(a,b)}1dy\\
+&amp;=\frac1{2\delta}m((x-\delta,x+\delta)\cap(a,b))
+\end{aligned}
+$$
+经过计算得到$$
+Mf(x)=\begin{cases}
+\frac{b-a}{2(x-a)}~&amp;x\geq b\\
+1~&amp;x\in(a,b)\\
+\frac{b-a}{2(b-x)}~&amp;x\leq a
+\end{cases}
+$$</p>
+<p>定义 非中心的$H-L$极大函数，$f\in L^1_{loc}(\R^n),\widetilde{M}f(x)=\displaystyle\sup_{\overset{\delta&gt;0}{x\in B(y,\delta)}}\underset{B(y,\delta)}{Avg}|f|=\displaystyle\sup_{\overset{\delta&gt;0}{|x-y|&lt;\delta}}\frac1{m(B(y,\delta))}\int_{B(y,\delta)}|f(z)|dz$</p>
+<p>$E_{\widetilde{M}f}(\alpha)=\lrb{x\in\R^n|\widetilde{M}f(x)&gt;\alpha}$为开集.</p>
+<p>$M(f)(x)\geq\frac{\int_{B(0,R)}|f(y)dy|}{\nu_n(|x|+R)^n}$，若$f\in L^1_{loc}(\R^n),M(f)\in L^1(\R^n)$则$f=0~a.e.$，所以$M$不是(1,1)-型</p>
+<p>但$\frac{1}{(|x|+R)^n}\in L^{1,\infty}(\R^n)$，下证$Mf\in L^{1,\infty}(\R^n),\forall f\in L^1$(即M为弱(1,1)型)</p>
+<p>引理 设$\lrb{B_1,B_2,\cdots,B_k}$为有限个$\R^n$上的开球，则存在有限子集$\lrb{B_{j_1},\cdots,B_{j_l}}$，其中元素两两不相交且满足$\displaystyle\sum^l_{r=1}|B_{j_r}|\geq3^{-n}|\bigcup^k_{i=1}B_i|$</p>
+<p>$Lemma$ Let $\lrb{B_1,B_2,\cdots,B_k}$ be a finite collection of open balls in $\R^n$. Then there exists finite subcollection $\lrb{B_{j_1},\cdots,B_{j_l}}$ of pairwise disjoint balls such that $\displaystyle\sum^l_{r=1}|B_{j_r}|\geq3^{-n}|\bigcup^k_{i=1}B_i|$</p>
+<p>证明：$1^\circ$ 对集合重新排序使得$|B_1|\geq|B_2|\geq...\geq|B_k|$<br>
+$2^\circ$ 设$j_1=1,j_2=min\lrb{s\in\lrb{2,...,k}|B_s\cap B_1=\empty},j_3=min\lrb{s&gt;j_2|(B_{j_1}\cup B_{j_2})\cap B_s=\empty}...$这样下去可得$\lrb{j_1,...,j_i}$，取$j_{i+1}=min\lrb{s&gt;j_i|B_s\cap(\cup^i_{m=1}B_{j_m})=\empty}$.<br>
+这个过程在l($\leq k$)步后停止，得到$\lrb{B_{j_1},\cdots,B_{j_l}}$.<br>
+$3^\circ$ 事实上，$\forall m\in\lrb{1,...,k}\backslash{j_1,...,j_l}$有$B_m\cap(\cup^l_{i=1}B_{j_i})\neq\empty$. 假设$j_{i_0}=min\lrb{j_h|B_{j_h}\cap B_m\neq\empty,h=1,...,l}$，则必然$j_{i_0}&lt;m$. 否则由$B_m\cap\lrb{B_{j_1}\cup...\cup B_{j_{i_0-1}}}=\empty$及$j_{i_0}$定义，$m$在$2^\circ$会被选择，矛盾.<br>
+所以$d(B_{j_{i_0}})\geq d(B_m)\rArr B_m\subset3B_{j_{i_0}}$(画图) $$
+\rArr\bigcup^k_{m=1}B_m\subset\bigcup^l_{i=1}3B_{j_i}\rArr|\bigcup^k_{m=1}B_m|\leq|\bigcup^l_{i=1}3B_{j_i}|\leq\sum^l_{i=1}|3B_{j_i}|=3^n\sum^l_{i=1}|B_{j_i}|
+$$
+$\rArr\displaystyle\sum^l_{i=1}|B_{j_i}|\geq3^{-n}|\bigcup^k_{m=1}B_m|$</p>
+<p>定理 $\widetilde{M}:L^1(\R^n)\rarr L^{1,\infty}(\R^n)$且$\norm{\widetilde{M}f}_{L^{1,\infty}}\leq3^n\norm{f}_{L^1(\R^n)}~(\forall f\in L^1(\R^n))$，从而$\forall p&gt;1,\widetilde{M}:L^p\rarr L^p$有$\norm{\widetilde{M}f}_{L^p}\leq c_{p,n}\norm{f}_{L^p}(\forall f\in L^p),c_{p,n}$为p,n有关常数.</p>
+<p>证明：因为$\norm{\widetilde{M}f}_{L^{1,\infty}}=\displaystyle\sup_{\alpha&gt;0}(\alpha d_{\widetilde{M}f}(\alpha))$，只需证$d_{\widetilde{M}f}(\alpha)\leq\frac{3^n}{\alpha}\norm{f}_{L^1}(\forall\alpha&gt;0)$.<br>
+事实上，$d_{\widetilde{M}f}(\alpha)=m(E_{\widetilde{M}f}(\alpha))=\displaystyle\sup_{K\subset\subset E_{\widetilde{M}f}}m(K)$.<br>
+对任意紧集$K\subset E_{\widetilde{M}f}(\alpha)$给定，$\forall x\in K,\exist$开球$B_x\subset E_{\widetilde{M}f}(\alpha)$，而$E_{\widetilde{M}f}(\alpha)=\lrb{x|\widetilde{M}f(x)&gt;\alpha}$，从而$\frac1{|B_x|}\int_{B_x}|f(y)|dy&gt;\alpha$.<br>
+又$\displaystyle\bigcup_{x\in K}B_x\supset K~i.e.~\lrb{B_x|x\in K}$覆盖紧集$K$.<br>
+由有限覆盖定理，$\exist$有限个$\lrb{B_{x_1},...,B_{x_k}}$覆盖了$K$，即$K\subset\displaystyle\bigcup^k_{i=1}B_{x_i}$.<br>
+由前面的引理，$\exist$两两不相交的一些开球$\lrb{B_{x_{j_1}},...,B_{x_{j_l}}}\subset\lrb{B_{x_1},...,B_{x_k}}~s.t.$ $$
+|\bigcup^k_{i=1}B_{x_i}|\leq3^n\sum^l_{r=1}|B_{x_{j_r}}|\rArr|K|\leq3^n\sum^l_{r=1}|B_{x_{j_r}}|.
+$$ 又$|B_{x_{j_r}}|&lt;\frac1\alpha\int_{B_{x_{j_r}}}|f(y)|dy$，所以$|K|\leq\frac{3^n}{\alpha}\displaystyle\sum^l_{r=1}\int_{B_{x_{j_r}}}|f(y)|dy$<br>
+注意$B_{x_{j_r}}$两两不相交，$|K|\leq\frac{3^n}{\alpha}\int_{\bigcup^l_{r=1}B_{x_{j_r}}}|f(y)|dy\leq\frac{3^n}{\alpha}\int_{E_{\widetilde{M}f}(\alpha)}|f(y)|dy$<br>
+$\rArr\displaystyle\sup_{K\subset\subset E_{\widetilde{M}f}(\alpha)}|K|\leq\frac{3^n}{\alpha}\int_{E_{\widetilde{M}f}(\alpha)}|f(y)|dy\rArr d_{\widetilde{M}f}(\alpha)=|E_{\widetilde{M}f}(\alpha)|\leq\frac{3^n}{\alpha}\int_{E_{\widetilde{M}f}(\alpha)}|f(y)|dy$<br>
+$\rArr\alpha d_{\widetilde{M}f}(\alpha)\leq3^n\norm{f}_{L^1}~(\forall\alpha&gt;0)$，对$\alpha&gt;0$取上界得$\norm{\widetilde{M}f}_{L^{1,\infty}}\leq3^n\norm{f}_{L^1}$.</p>
+<p>牛顿-莱布尼兹公式的推广：$f(x)\in C(\R^n),\lim\limits_{\delta\rarr0}\frac1{|B(x,\delta)|}\int_{B(x,\delta)}f(y)dy=f(x),~(\forall x\in\R^n)$.</p>
+<p>定理(Lebsgue微分定理) 设$f\in L^1_{loc}(\R^n),Lrf(x)=\frac{1}{|B(x,r)|}\int_{B(x,r)}f(y)dy$，则<br>
+(1) $\lim\limits_{r\rarr0}Lrf(x)$存在$a.e.~x\in\R^n$<br>
+(2) $\lim\limits_{r\rarr0}Lrf(x)=f(x)~a.e.~x\in\R^n$.</p>
+<p>证明：$1^\circ$ 不失一般性，可以假设$f\in L^1(\R^n)$. 事实上，若$f\in L^1_{loc}(\R^n)$，考虑$f_R(x)=f(x)\chi_{|x|&lt;R}(x)$，则$\forall R&gt;0,f_R(x)\in L^1(\R^n),\int_{\R^n}|f_R(x)|dx=\int_{|x|&lt;R}|f(x)|dx\leq\int_{|x|\leq R}|f(x)|dx&lt;+\infty$.<br>
+若$f_R(x)\in L^1(\R^n)$定理成立$(\forall R&gt;0)$，则$\lim\limits_{r\rarr0}Lrf_R(x)$存在$a.e.\R^n$<br>
+$Lrf(x)=\frac1{|B(x,r)|}\int_{B(x,r)}f(y)dy=\frac1{|B(x,r)|}\int_{B(x,r)}f_R(y)dy,r&lt;\frac{R}{4},f_R(y)=f(y)\chi_{|y|&lt;R}$.<br>
+因为$|y|&lt;|x|+r(\forall y\in B(x,r),|y-x|&lt;r).~|x|\leq\frac{R}{2},r&lt;\frac{R}{4}$. 从而$|y|&lt;\frac34R&lt;R$，所以$f_R(y)=f(y)\chi_{|y|&lt;R}=f(y)~(\forall y\in B(x,r),r&lt;\frac{R}4,|x|\leq\frac{R}{2})$<br>
+$\rArr Lrf(x)=\frac1{|B(x,r)|}\int_{B(x,r)}f_R(y)dy=Lrf_R(x)~(|x|\leq\frac{R}{2},|r|&lt;\frac{R}{4})$<br>
+$i.e.~\lim\limits_{r\rarr0}Lrf(x)$存在$a.e.~|x|\leq\frac{R}{2}.~(\forall R)$<br>
+$i.e.~\mu\lrb{x|\lim\limits_{r\rarr0}Lrf(x)~not~exist,|x|\leq\frac{R}{2}}=0(\forall R)$<br>
+$\lrb{x\in\R^n|\lim\limits_{r\rarr0}Lrf~not~exist}=\displaystyle\bigcup_{N\in\N}\lrb{x\in\R^n|\lim\limits_{r\rarr0}Lrf~not~exist,|x|&lt;N}$.<br>
+$\forall N,$取$R=2N+1\rArr\mu(\lrb{x\in\R^n|\lim\limits_{r\rarr0}Lrf~not~exist,|x|&lt;N&lt;\frac{R}{2}})=0$.<br>
+$\rArr\mu(\lrb{x\in\R^n|\lim\limits_{r\rarr0}Lrf(x)~not~exist})=0$<br>
+$\rArr\lim\limits_{r\rarr0}Lrf(x)$存在$a.e.~x\in\R^n$，所以可以假设$f\in L^1(\R^n)$.</p>
+<p>$2^\circ$ 设$\Omega_f(x)=\overline{\lim\limits_{r\rarr0}}Lrf(x)-\underset{r\rarr0}{\underline{\lim}}Lrf(x)$ (即$Lrf(x)$极限点的震荡)（目标：$\Omega_f(x)=0~a.e.~x\in\R^n$）</p>
+<p>事实上，分解$f=g+h,g\in C_c(\R^n),\norm{h}_{L^1}&lt;\eta$ （因为$C_c(\R^n)$在$L^1(\R^n)$上稠密，任何可积函数可用具有紧支撑的光滑函数逼近）<br>
+因为$\overline{\lim\limits_{r\rarr0}}Lrf(x)\leq\overline{\lim\limits_{r\rarr0}}Lrg+\overline{\lim\limits_{r\rarr0}}Lrh,\underset{r\rarr0}{\underline{\lim}}Lrf(x)\geq\underset{r\rarr0}{\underline{\lim}}Lrg+\underset{r\rarr0}{\underline{\lim}}Lrh$，所以$\Omega_f(x)\leq\Omega_g(x)+\Omega_h(x),\Omega_f$是次线性的.<br>
+注意到$g\in C_c(\R^n)$，故$\Omega_g(x)=0,\forall x\in\R^n\rArr\Omega_f(x)\leq\Omega_h(x),\forall x\in\R^n$.<br>
+另一方面，$\Omega_h(x)\leq2M(v)(x),\forall v\in L^1_{loc}(\R^n)~a.e.~x\in\R^n$.(因为$Lrv(x)=\frac{1}{|B(x,r)|}\int_{B(x,r)}v(y)dy\leq\frac1{|B(x,r)|}\int_{B(x,r)}|v(y)|dy\leq M(v)(x)$).特别地，$\Omega_h(x)\leq2Mh(x),\forall x\in\R^n$.<br>
+因为$M:L^1\rarr L^{1,\infty},\norm{Mh}_{L^{1,\infty}}\leq c\norm{h}_{L^1}\rArr\forall\beta&gt;0,\displaystyle\sup_{\beta&gt;0}d_{Mh}(\beta)\leq \frac{c}{\beta}\norm{h}_{L^1}$<br>
+$\rArr d_{\Omega_h}(\alpha)\leq d_{2Mh}(\alpha)=d_{Mh}(\frac{\alpha}{2})\leq c\frac2\alpha\norm{h}_{L^1}\leq\frac{2c}{\alpha}\eta,\forall\alpha&gt;0$<br>
+$0\leq d_{\Omega_f(\alpha)}\leq\frac{2c}{\alpha}\eta~(\forall\alpha&gt;0)$，令$\eta\rarr0$得$d_{\Omega_f}(\alpha)=0$<br>
+$i.e.~\mu(\lrb{x\in\R^n|\Omega_f(x)&gt;\alpha})=0,\forall\alpha&gt;0$<br>
+$\rArr\forall N\in\N,\mu(\lrb{x\in\R^n|\Omega_f(x)&gt;\frac1n})=0$<br>
+$\rArr\mu(\displaystyle\bigcup_{N\in\N}\lrb{x\in\R^n|\Omega_f(x)&gt;\frac1n})=0$<br>
+$\rArr\mu(\lrb{x\in\R^n|\Omega_f(x)\neq0})=0~i.e.~\Omega_f(x)=0~a.e.~x\in\R^n$<br>
+$\rArr\lim\limits_{r\rarr0}Lrf(x)$存在$a.e.~x\in\R^n$.</p>
+<p>$3^\circ$ 证明$\lim\limits_{r\rarr0}Lrf(x)=f(x)~a.e.~x\in\R^n$<br>
+先证明$\lim\limits_{r\rarr0}f=f~in~L^1~i.e.~\lim\limits_{r\rarr0}\norm{Lrf-f}_{L^1}=0$<br>
+事实上，$$
+\begin{aligned}
+Lrf(x)-f(x)&amp;=\frac{1}{|B(x,r)|}\int_{B(x,r)}f(y)dy-f(x)\\
+&amp;=\frac{1}{|B(x,r)|}\int_{B(x,r)}f(y)dy-f(x)\frac{1}{|B(x,r)|}\int_{B(x,r)}1dy\\
+&amp;=\frac{1}{|B(x,r)|}\int_{B(x,r)}(f(y)-f(x))dy\\
+&amp;=\frac{1}{\nu_nr^n}\int_{|z|&lt;r}(f(x-z)-f(x))dz
+\end{aligned}
+$$ $$
+\begin{aligned}
+\rArr\norm{Lrf-f}_{L^1(\R^n)}&amp;\leq\frac{1}{\nu_nr^n}\int_{\R^n}\big|\int_{|z|&lt;r}(f(x-z)-f(x))dz\big|dx\\
+&amp;\leq\frac{1}{\nu_nr^n}\int_{\R^n}\int_{|z|&lt;r}|f(x-z)-f(x)|dzdx\\
+&amp;=\frac{1}{\nu_nr^n}\int_{|z|&lt;r}\int_{\R^n}|f(x-z)-f(x)|dxdz
+\end{aligned}
+$$ 因为$w_{f,1}(z)\rarr0(|z|\rarr0),~i.e.~\forall\varepsilon&gt;0,\exist\eta_0&gt;0~s.t.~\forall z:|z|&lt;\eta_0,w_{f,1}(z)&lt;\varepsilon$.<br>
+对上述$\varepsilon,\exist r_0=\eta_0&gt;0,\forall r,r&lt;r_0=\eta_0$有$|z|&lt;r&lt;\eta_0\rArr w_{f,1}(z)&lt;\varepsilon$.<br>
+$\rArr\norm{Lrf-f}_{L^1(\R^n)}\leq\frac{1}{\nu_nr^n}\int_{|z|&lt;r}\varepsilon dz=\varepsilon\frac{1}{\nu_nr^n}\int_{|z|&lt;r}1dz=\varepsilon$.<br>
+$\rArr\lim\limits_{r\rarr0}\norm{Lrf-f}_{L^1(\R^n)}=0$<br>
+所以$\exist r_j\rarr0(j\rarr\infty)~s.t.~Lr_jf(x)-f(x)\rarr0~a.e.~x\in\R^n$<br>
+$i.e.~\lim\limits_{j\rarr\infty}Lr_jf(x)=f(x)~a.e.~x\in\R^n$<br>
+又因为已经证明$\lim\limits_{r\rarr0}Lrf(x)$存在$a.e.~x\in\R^n$，由唯一性得$\lim\limits_{r\rarr0}Lrf(x)=f(x)~a.e.~x\in\R^n$.</p>
+<p>该定理的推广</p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/5-dltg.png" alt="0"></p>
+
+</body>
+</html>

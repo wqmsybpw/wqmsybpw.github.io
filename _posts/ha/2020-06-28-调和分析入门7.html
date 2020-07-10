@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-06-28-调和分析入门7.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="l2rn%E4%B8%AD%E7%9A%84fourier%E5%8F%98%E6%8D%A2">$L^2(\R^n)$中的Fourier变换</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\F{\mathcal{F}}$
+$\gdef\T{\mathcal{T}}$
+$\gdef\intrn{\int_{\R^n}}$
+$\gdef\ip{2\pi i}$
+$\gdef\qed{~\tag*{\Large□}}$
+$\gdef\LL{L^1\cap L^2}$</p>
+<p>注意$\LL(\R^n)$在$L^2(\R^n)$中稠密（$C_c^\infty(\R^n)\subset \LL(\R^n),~C^\infty_c(\R^n)\hookrightarrow L^2(\R^n)$）.$\forall f\in \LL(\R^n)$，定义$(\F f)(\xi)=\hat{f}(\xi)=\intrn f(x)e^{-\ip x\xi}dx~(\forall\xi\in\R^n)$.</p>
+<p>引理 假设$f\in L^1(\R^n),\hat f\geq0$. 若$f$在零点连续，则$f(0)=\intrn \hat{f}(\xi)d\xi$，并且$\hat{f}(\xi)\in L^1(\R^n)$，$f(x)=\intrn e^{\ip x\xi}\hat{f}(\xi)d\xi=(\hat{f}\check)(x)~a.e.~x\in\R^n$.</p>
+<p>证明：$f\in L^1\rArr\hat{f}\in C_0(\R^n)$. 考虑$\intrn e^{-2\pi\varepsilon|\xi|}\hat{f}(\xi)d\xi~(\forall\varepsilon&gt;0)$<br>
+$1^\circ,\forall\varepsilon&gt;0$
+$$
+\begin{aligned}
+\intrn e^{-2\pi\varepsilon|\xi|}\hat{f}(\xi)d\xi&amp;=\intrn\widehat{e^{-2\pi\varepsilon|\xi|}}(y)f(y)dy\\
+&amp;=\intrn\delta_\varepsilon(\frac{c_n}{(1+|y|^2)^\frac{n+1}{2}})f(y)dy\\
+&amp;=\intrn\varepsilon^{-n}\frac{c_n}{(1+|\varepsilon^{-1}y|^2)^\frac{n+1}{2}}f(y)dy\\
+&amp;=\intrn\frac{c_n\varepsilon}{(\varepsilon+|y|^2)^\frac{n+1}{2}}f(y)dy\&amp;=\intrn P_\varepsilon(y)f(y)dy
+\end{aligned}
+$$ $P_\varepsilon(y)=(P_\varepsilon(y))_\varepsilon=\frac{c_n\varepsilon}{(\varepsilon+|y|^2)^\frac{n+1}{2}}\geq0$<br>
+$\int_\R P(y)dy=1,\lrb{P_\varepsilon}_{\varepsilon&gt;0}$是恒等逼近，故$\intrn P_\varepsilon(y)dy=1.$<br>
+计算$$
+\begin{aligned}
+\intrn e^{-\pi\varepsilon|\xi|}\hat{f}(\xi)d\xi-f(0)&amp;=\intrn P_\varepsilon(y)f(y)dy-f(0)\\
+&amp;=\intrn P_\varepsilon(y)f(y)dy-f(0)\intrn P_\varepsilon(y)dy\\
+&amp;=\intrn P_\varepsilon(y)(f(y)-f(0))dy\\
+&amp;=(\int_{|y|&lt;\delta}+\int_{|y|\geq\delta})P_\varepsilon(y)(f(y)-f(0))dy\\
+&amp;=I_1+I_2
+\end{aligned}
+$$ $\delta&gt;0$待定<br>
+$2^\circ$ $\forall\sigma&gt;0$，由$f$在零点连续，$\exist\delta_0&gt;0~s.t.~\forall|y|&lt;\delta_0$有$|f(y)-f(0)|&lt;\sigma$. 令$\delta=\delta_0$，则$$
+\begin{aligned}
+|I_1|&amp;=|\int_{|y|&lt;\delta_0}P_\varepsilon(y))(f(y)-f(0))dy|\\
+&amp;\leq\int_{|y|&lt;\delta_0}P_\varepsilon(y)|f(y)-f(0)|dy\\
+&amp;\leq\sigma\int_{|y|&lt;\delta_0}P_\varepsilon(y)dy\\
+&amp;\leq\sigma
+\end{aligned}
+$$  $3^\circ$ $$
+\begin{aligned}
+|I_2|&amp;\leq\int_{|y|\geq\delta_0}P_\varepsilon(y)|f(y)-f(0)|dy\\
+&amp;\leq\int_{|y|\geq\delta_0}P_\varepsilon(y)|f(y)|dy+|f(0)|\int_{|y|\geq\delta_0}P_\varepsilon(y)dy\\
+&amp;\leq\sup_{|y|\geq\delta_0}P_\varepsilon(y)\norm{f}_{L^1}+|f(0)|\int_{|y|\geq\delta_0}P_\varepsilon(y)dy\\
+&amp;\leq\frac{c_n}{(\varepsilon+\delta_0^2)^\frac{n+1}{2}}\norm{f}_{L^1}\varepsilon+|f(0)|\int_{|y\geq\delta_0|}P_\varepsilon(y)dy
+\end{aligned}
+$$ 因为$\lrb{P_\varepsilon}_{\varepsilon&gt;0}$为恒等逼近，所以对$\forall U(0),\int_{U^c(0)}P_\varepsilon(y)dy\rarr0~(\varepsilon\rarr0)$<br>
+$\rArr$对上述$\forall\sigma&gt;0,\exist\varepsilon_0&gt;0~s.t.~\forall 0&lt;\varepsilon&lt;\varepsilon_0,|I_1|+|I_2|&lt;(1+c)\sigma$<br>
+$\rArr\lim\limits_{\varepsilon\rarr0}\intrn e^{-2\pi\varepsilon|\xi|}\hat{f}(\xi)d\xi=f(0)$.<br>
+$4^\circ$证明$\lim\limits_{\varepsilon\rarr0}\intrn e^{-2\pi\varepsilon|\xi|}\hat{f}(\xi)d\xi=\intrn\hat{f}(\xi)d\xi$. 由唯一性，$f(0)=\intrn\hat{f}(\xi)d\xi$（$\hat{f}\in L^1$和Lebsgue控制收敛）$$\qed$$</p>
+<p>定理(Plancherel恒等式) 若$f\in \LL(\R^n)$，则$\hat{f}\in L^2(\R^n)$且$\norm{\hat f}_{L^2}=\norm{f}_{L^2}$.<br>
+注：$f\in L^1\rArr\hat{f}\in C_0(\R^n)\not\rArr\hat{f}\in L^2$<br>
+证明：定义$h=f\ast g,g(x)=\overline{\widetilde{f}}(x)=\overline{f(-x)}\in L^1$，则$h\in L^1(\R^n)$<br>
+$\rArr\hat{h}(x)=\hat{f}(x)\hat{g}(x)=\hat{f}(x)\widehat{\overline{\widetilde{f}}}(x)=\hat{f}(x)\overline{\hat{f}}(x)=|\hat{f}(x)|^2\geq0$<br>
+事实上，$h(x)=\intrn f(y)g(x-y)dy,h(0)=\intrn f(y)g(-y)dy$<br>
+$\rArr h(x)-h(0)=\intrn f(y)(g(x-y)-g(-y))dy$<br>
+$\rArr|h(x)-h(0)|\leq\intrn|f(y)||f(y-x)-f(y)|dy$<br>
+$\rArr|h(x)-h(0)|\leq\norm{f}_{L^2}(\intrn|f(y-x)-f(y)|^2dy)^\frac12\quad(H\ddot{o}lder)$<br>
+$\rArr|h(x)-h(0)|\leq\norm{f}_{L^2}w_{f,2}(x)\rarr0~(|x|\rarr0)$<br>
+故$h(x)$在$x=0$处连续，由引理得$\hat{h}\in L^1$且$h(0)=\intrn\hat{h}(\xi)d\xi=\intrn|\hat{f}(\xi)|^2d\xi\rArr\hat f\in L^2$<br>
+另一方面，$h(0)=\intrn f(y)g(-y)dy=\intrn f(y)\overline{f(y)}dy=\intrn|f(y)|^2dy$<br>
+故$\norm{\hat f}_{L^2}=\norm{f}_{L^2}$ $$\qed$$</p>
+<p>由Hahn-Banach定理，$\exist \LL$中$\F$的保范延拓$\F^E:L^2\rarr L^2~s.t.~\F^E|_{\LL}=\F,\norm{\F^Ef}_{L^2}=\norm{f}_{L^2},\forall f\in L^2$. 之后$\F^E$仍记为$\F$.</p>
+<p>注：$\F f$的极限形式$f\in L^2$<br>
+(1) $\forall f\in L^2,\LL$在$L^2$稠密$\rArr$有$\lrb{f_k}_{k\in\N}\subset \LL~s.t.~\norm{f_k-f}_{L^2}\rarr0~(k\rarr\infty)$<br>
+$\rArr\lrb{f_k}_{k\in\N}$为$L^2$中Cauchy列$\rArr\norm{\widehat{f_k-f_j}}_{L^2}=\norm{f_k-f_j}_{L^2}\rarr0~(k,j\rarr\infty)$.<br>
+$\rArr\norm{\hat{f}_k-\hat{f}_j}_{L^2}\rarr0~(k,j\rarr\infty)\rArr\lrb{\hat{f}_k}_{k\in\N}$为$L^2$中Cauchy列，而$L^2$完备，$\exist g\in L^2~s.t.~\norm{\hat{f}_k-g}_{L^2}\rarr0~(k\rarr\infty)$. 又$\norm{f_k-f}_{L^2}\rarr0~(k\rarr\infty)\rArr g=\F f$<br>
+$i.e.~g=\F f=\lim\limits_{k\rarr\infty}\hat{f}_k=\lim\limits_{k\rarr\infty}\intrn f_k(x)e^{-\ip x\xi}dx~in~L^2.$<br>
+$\forall f\in L^2,f_k\in \LL$，$f_k$有很多取法比如$f_k(x)=\begin{cases}f(x)~&amp;|x|\leq k\\0~&amp;|x|&gt;k\end{cases}$.</p>
+<p>考虑$\F:L^2\rarr L^2$的性质：<br>
+(1) $\hat f(\xi)=\F f(\xi)=\intrn e^{-\ip x\xi}f(x)dx,\forall f\in \LL$<br>
+(2) $\forall f\in L^2,\norm{f}_{L^2}=\norm{\hat{f}}_{L^2}$<br>
+(3) $\widehat{\alpha f+\beta g}=\alpha\hat{f}+\beta\hat{g}$</p>
+<p>定理（乘法公式） $f,g\in L^2(\R^n)$，则$\intrn\hat{f}(x)g(x)dx=\intrn f(x)\hat{g}(x)dx$<br>
+证明：因为$\LL$在$L^2$中稠密，$\forall h\in L^2,\exist\lrb{h_k}_{k\in\N}\subset \LL~s.t.~\norm{h_k-h}_{L^2}\rarr0~(k\rarr\infty)$.<br>
+$1^\circ$ 设$g\in \LL,f\in L^2$，故$\hat{g}\in L^2,\hat{f}\in L^2$. $\forall f\in L^2$，因为$\LL$在$L^2$中稠密，取$\lrb{f_k}_{k\in\N}\subset \LL~s.t.~\norm{f_k-f}_{L^2}\rarr0~(k\rarr\infty)~i.e.~f_k\rarr f~in~L^2.~\norm{\widehat{f_k-f}}_{L^2}=\norm{f_k-f}_{L^2}\rarr0~(k\rarr\infty)\rArr\norm{\hat{f}_k-\hat{f}}_{L^2}\rarr0~(k\rarr\infty)\rArr \hat{f}_k\rarr\hat{f}~in~L^2$(强收敛)<br>
+考虑$I_k=\intrn f_k(x)\hat{g}(x)dx=\intrn\hat{f}_k(x)g(x)dx$ $$
+\lim_{k\rarr\infty}I_k=\lim_{k\rarr\infty}\intrn\hat{f}_k(x)g(x)=\intrn\hat{f}(x)g(x)dx
+$$ 另一方面，因为$\hat g\in L^2$和弱收敛定理，$$
+\lim_{k\rarr\infty}I_k=\lim_{k\rarr\infty}\intrn f_k(x)\hat{g}(x)dx=\intrn f(x)\hat{g}(x)dx
+$$ 所以$\forall g\in \LL,f\in L^2,\intrn\hat{f}(x)g(x)dx=\intrn f(x)\hat{g}(x)dx$<br>
+$2^\circ$ 一般地，$\forall g,f\in L^2$<br>
+因为$\LL$在$L^2$中稠密，取$\lrb{g_j}_{j\in\N}\subset\LL~s.t.~g_j\rarr g~in~L^2\rArr\hat{g}_j\rarr\hat{g}~in~L^2$. 对$g_i\in\LL$，由$1^\circ,I_j=\intrn\hat{g}_jf(x)dx=\intrn g_j(x)\hat{f}(x)dx,\forall f\in L^2$. 重复$1^\circ$的过程得到$\lim\limits_{j\rarr\infty}I_j=\intrn \hat{g}(x)f(x)dx$和$\lim\limits_{j\rarr\infty}I_j=\intrn g(x)\hat{f}(x)dx$<br>
+$\rArr\forall g,f\in L^2,\intrn\hat{f}(x)g(x)dx=\intrn f(x)\hat{g}(x)dx$. $$\qed$$</p>
+<p>$\F:L^2\rarr L^2$是单射<br>
+引理 $\F:L^2\rarr L^2$是满射<br>
+证明：第一步，证明$E=\F(L^2)$是$L^2$的闭子空间. 第二步，$L^2=E\oplus E^\perp,E^\perp=\lrb{f\in L^2|&lt;f,g&gt;=0,\forall g\in E}$，证明$E^\perp=\lrb{0}$<br>
+$1^\circ$定义$E=\lrb{\hat{f}|f\in L^2}$. 事实上，$E$是$L^2$的子空间，$E\subset L^2$. $\forall h_1,h_2\in E,\exist f_1,f_2\in L^2~s.t.~h_1=\hat{f}_1,h_2=\hat{f}_2\rArr h_1+h_2=\widehat{f_1+f_2}\in E$.<br>
+$\forall h\in E,\lambda\in\Bbb C\rArr h=\hat{f}\rArr\lambda h=\lambda\hat{f}=\widehat{\lambda f}\in E$.<br>
+下证$E$是闭的. 事实上，因为$\forall\lrb{f_k}\in E~(\forall k\in\N)$. 令$f_k=\hat{h}_k~(h_k\in L^2,\forall k\in\N)$且$f_k\rarr g~in~L^2$. 即$\hat{h}_k\rarr g~in~L^2~i.e.~\norm{\hat{h}_k-g}_{L^2}\rarr0~(k\rarr\infty)$.<br>
+从而$\lrb{\hat{h}_k}_{k\in\N}$为$L^2$的Cauchy列$\rArr\lrb{h_k}_{k\in\N}$也是$L^2$中的Cauchy列.<br>
+$\exist h\in L^2~s.t.~h_k\rarr h~in~L^2~i.e.~\norm{h_k-h}_{L^2}\rarr0(k\rarr\infty)\rarr\norm{\hat{h}_k-\hat{h}}_{L^2}\rarr0(k\rarr\infty)$<br>
+$i.e.~\hat{h}_k\rarr\hat{h}~in~L^2$. 所以$g=\hat h\in E\rArr E$为闭集.<br>
+$2^\circ~L^2=E\oplus E^\perp,E^\perp=\lrb{f\in L^2|&lt;f,g&gt;=0,\forall g\in E}$. 下证$E^\perp=\lrb{0}$. 事实上由反证法，若$w\in E^\perp$且$w\neq0$，则$\intrn w\bar fdx=0,\forall f=\hat h\in E~i.e.~\intrn w\overline{\hat{h}}dx=0,\forall h\in L^2$.<br>
+取$h=\widetilde{\hat{w}}$，从而$\hat{h}=w\rArr\int w\bar wdx=0\rArr\norm{w}^2_{L^2}=0\rArr w=0$矛盾.
+$\rArr E^\perp=\lrb{0}$ $$\qed$$</p>
+<p>定义（酉算子）设$(H,\norm{\cdot})$为Hilbert空间，若$T\in\mathcal{B}(H,H)$满足(1)$\norm{Tx}=\norm{x}$,(2)$T:H\rarr H$为满射，则称$T$是$H$上的一个酉算子.<br>
+$\F$是$L^2$中的酉算子.</p>
+<p>引理（$L^2$中的逆变换）假设$\F^{-1}$为$\F$在$L^2$中的逆，则$(\F^{-1}f)(x)=(\F f)(-x),\forall f\in L^2~i.e.~\F^{-1}=\widetilde{\F}$</p>
+<p>证明：$1^\circ f\in\LL,(\F^{-1}f)(x)=(\F f)(-x). 2^\circ\forall f\in L^2$取$\lrb{f_k}_{k\in\N}\subset\LL~s.t.~f_k\rarr f~in~L^2$. 后略.</p>
+<p>定理 $\forall f,h\in L^2,\intrn f(x)\overline{h(x)}dx=\intrn\hat{f}(x)~\overline{\hat{h}(x)}dx$ (Plancherel关系)</p>
+<p>证明：$$
+\begin{aligned}
+\forall f,h,\in L^2.&lt;f,h&gt;=\intrn f(x)\bar h(x)dx
+&amp;=\intrn f(x)\widehat{\widecheck{\overline{h(x)}}}dx\\
+&amp;=\intrn \widehat{f(x)}\widecheck{\overline{h(x)}}dx\\
+&amp;=\intrn \widehat{f(x)}\widetilde{\widehat{\overline{h(x)}}}dx\\
+&amp;=\intrn\widehat{f(x)}\widetilde{\widetilde{\overline{\widehat{h(x)}}}}dx\\
+&amp;=\intrn\widehat{f(x)}\overline{\widehat{h(x)}}dx\\
+&amp;=&lt;\hat{f},\hat{g}&gt;
+\end{aligned}
+$$ $$\qed$$</p>
+<p>定理 $f,g\in L^2,\widehat{f\ast g}(x)=\hat{f}(x)\hat{g}(x)$.<br>
+证明：$1^\circ f,g\in L^2\rArr\hat{f},\hat{g}\in L^2,\hat{f}(x)\hat{g}(x)\in L^1$<br>
+$\rArr(\hat{f}(\xi)\hat{g}(\xi)\check)$有意义<br>
+$2^\circ$ $\varphi_x(y)=\overline{g(x-y)}=\overline{\tilde{g}(y-x)}=\overline{\tau_x\tilde{g}(y)}=\tau_x(\overline{\widetilde{g}}(y))$ $$
+\begin{aligned}
+\rArr\widehat{\varphi_x}(\xi)&amp;=e^{-\ip x\xi}\widehat{\overline{\widetilde{g}}}(\xi)\\
+&amp;=e^{-\ip x\xi}\widetilde{\overline{\widehat{\widetilde{g}}}}(\xi)\\
+&amp;=e^{-\ip x\xi}\overline{\widehat{g}}(\xi)
+\end{aligned}
+$$ $$
+\begin{aligned}
+3^\circ ~(f\ast g)(x)=\intrn f(y)g(x-y)dy&amp;=\intrn f(y)\overline{\varphi_x(y)}dy\\
+&amp;=\intrn\hat{f}(\xi)\overline{\widehat{\varphi_x}(\xi)}d\xi\\
+&amp;=\intrn\hat{f}(\xi)\overline{e^{-\ip x\xi}\overline{\widehat{g}}(\xi)}d\xi\\
+&amp;=\intrn\hat{f}(\xi)e^{\ip x\xi}\hat{g}(\xi)d\xi\\
+&amp;=\intrn(\hat{f}(\xi)\hat{g}(\xi))e^{\ip x\xi}d\xi\\
+&amp;=\widehat{\hat{f}(\xi)\hat{g}(\xi)}(-x)=(\hat{f}(\xi)\hat{g}(\xi)\check)(x)
+\end{aligned}
+$$ $$\qed$$</p>
+<p>$(1&lt;p&lt;2)~L^p(\R^n)$中的Fourier变换<br>
+定义 $L^1+L^2=\lrb{f\in L^1_{loc}(\R^n)|f=f_1+f_2,f_1\in L^1,f_2\in L^2}$，可以验证$L^1+L^2$为线性空间.<br>
+引理 $\forall f\in L^p(\R^n),1&lt;p&lt;2.~\forall\alpha&gt;0,f_1(x)=f(x)\Chi_{|f(x)|&gt;\alpha}(x),f_2(x)=f(x)\Chi_{|f(x)|\leq\alpha}(x).~f=f_1+f_2.$ 验证$f_1\in L^1,f_2\in L^2$.<br>
+事实上，$$
+\begin{aligned}
+\intrn|f_1|dx&amp;=\intrn|f(x)|\Chi_{|f(x)|&gt;\alpha}(x)dx\&amp;=\int_{|f(x)|&gt;\alpha}|f(x)|dx\\
+&amp;=\int_{|f(x)|&gt;\alpha}|f(x)|^p|f(x)|^{-(p-1)}dx\\
+&amp;\leq\int_{|f(x)|&gt;\alpha}|f(x)|^pdx\cdot\alpha^{-(p-1)}\\
+&amp;\leq\alpha^{-(p-1)}\intrn|f(x)|^pdx&lt;+\infty
+\end{aligned}
+$$ $\rArr f_1\in L^1,f_2\in L^2$类似. $$
+\begin{aligned}
+\intrn|f_2(x)|^2dx&amp;=\intrn|f(x)|^2\Chi_{|f(x)|\leq\alpha}(x)dx\\
+&amp;\leq\int_{|f(x)|\leq\alpha}|f(x)|^2dx\\
+&amp;\leq\int_{|f(x)|\leq\alpha}|f(x)|^p|f(x)|^{2-p}dx\\
+&amp;\leq\alpha^{2-p}\norm{f}^p_{L^p}&lt;+\infty
+\end{aligned}
+$$ $$\qed$$<br>
+注：分解不唯一</p>
+<p>$\forall f\in L^p,f=f_1+f_2=g_1+g_2,f_1,g_1\in L^1,g_2,f_2\in L^2\rArr f_1-g_1=g_2-f_2\rArr g_2-f_2,f_1-g_1\in\LL$. 但是$\widehat{f_1}+\widehat{f_2}=\widehat{g_1}+\widehat{g_2}$. 事实上，$$
+\begin{aligned}
+\widehat{f_1}+\widehat{f_2}-(\widehat{g_1}+\widehat{g_2})&amp;=\widehat{f_1}-\widehat{g_1}+\widehat{f_2}-\widehat{g_2}\\
+&amp;=\widehat{f_1-g_1}+\widehat{f_2-g_2}\in\LL\\
+&amp;=\widehat{f_1-g_1-(g_2-f_2)}=\widehat{0}=0
+\end{aligned}
+$$</p>
+<p>定义 $\forall f\in L^p(\R^n),1&lt;p&lt;2$定义$\hat{f}=\widehat{f_1}+\widehat{f_2}$，其中$f=f_1+f_2.~f_1\in L^1,f_2\in L^2$.</p>
+<p>定理(Hausdoff-Young不等式) $\forall f\in L^p,1&lt;p&lt;2.$ $\norm{\hat f}_{L^{p'}}\leq\norm{f}_{L^p}$<br>
+证明：因为$\F:L^1\rarr L^\infty,\norm{\F f}_{L^\infty}\leq\norm{f}_{L^1}$，及$\F:L^2\rarr L^2,\norm{\F f}_{L^2}=\norm{f}_{L^2}$. 由Riesz-Thorin插值定理，得$\F:L^p\rarr L^{p'},\norm{\F f}_{L^{p'}}\leq\norm{f}_{L^p}$ $$\qed$$
+注：$f\in L^p~(1&lt;p&lt;2)\rArr\hat{f}\in L^{p'}~(2&lt;p'&lt;+\infty)~(\frac1p+\frac1{p'}=1)$.</p>
+
+</body>
+</html>

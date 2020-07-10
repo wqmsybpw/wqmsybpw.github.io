@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-07-10-调和分析入门12.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E4%B8%80%E8%88%AC%E7%9A%84%E5%A5%87%E7%A7%AF%E5%88%86%E7%AE%97%E5%AD%90%E5%8D%B7%E7%A7%AF%E5%9E%8B">一般的奇积分算子(卷积型)</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\intrn{\int_{\R^n}}$
+$\gdef\qed{~\tag*{\Large□}}$
+$\gdef\act#1{\lt#1\gt}$</p>
+<p>定义 设$K\in L^1_{loc}(\R^n\backslash\lrb{0})$满足<br>
+(I)$\exist$常数$c_1&gt;0~.s.t~\forall 0&lt;\varepsilon&lt;N$，有$|\int_{\varepsilon&lt;|x|&lt;N}K(x)dx|\leq c_1$且对给定的$N,\lim\limits_{\varepsilon\rarr0}\int_{\varepsilon\lt|x|\lt N}K(x)dx$存在.<br>
+(II)$\exist c_2&gt;0~s.t.~\forall R&gt;0$有$\int_{|x|\lt R}|K(x)||x|dx\leq c_2R$<br>
+(III)（Harmander条件）<br>
+$\exist$常数$c_3&gt;0~s.t.~\forall y\neq0,\int_{|x|\geq2|y|}|K(x-y)-K(x)|dx\leq c_3$<br>
+则称$K(x)$是一个广义的$Calder\acute{o}n-Zygmund$奇异积分（也简称$C-Z$核），$c_i(i=1,2,3)$为$K(x)$的$C-Z$常数.</p>
+<p>引理 设$K(x)$为$C-Z$核，$0\lt\varepsilon_0\lt N_0$给定，$K_{\varepsilon_0,N_0}(x)=K(x)\Chi_{\lrb{x|\varepsilon_0\leq|x|\lt N_0}}(x)$，则$K_{\varepsilon_0,N_0}$也是$C-Z$核，且它的$C-Z$常数只依赖于$K(x)$的$C-Z$常数与维数$n$，与$\varepsilon_0,N_0$无关.</p>
+<p>证明：周民强《调和分析讲义》第130页</p>
+<p>注：$K_{\varepsilon,N}$是$K(x)$的截断$C-Z$核</p>
+<p>引理 设$K(x)$是$C-Z$核，则$|\widehat{K_{\varepsilon,N}}(\xi)|\leq c~(\forall\xi\in\R^n)$，且$c$只依赖于$K(x)$的$C-Z$核.</p>
+<p>证明：131页.</p>
+<p>定理 设$K\in L^1(\R^n)$满足Hormander条件，$$
+\sup_{y\neq0}\int_{|x|\geq2|y|}|K(x-y)-K(x)|dx\leq c_\ast~and~Tf(x)\overset{def}{=}K\ast f(x)
+$$ 若$T$是强$(p_0,p_0)$型(某个$1\lt p_0\lt\infty$)，则$\forall 1&lt;p&lt;\infty$，$T$是强$(p,p)$型，且它的模与$\norm{K}_{L^1}$无关（只依赖于$c_\ast,\norm{T}_{L^{p_0}\rarr L^{p_0}}$）</p>
+<p>证明：由Hormander条件，BCP的两个条件成立. Thanks to BCP 定理，我们得到$T$为弱(1,1)型，又$T$是强$(p_0,p_0)$型（某个$1\lt p_0\lt\infty$）. 由Marcinkiewicz插值定理,$T$是强$(q,q)$型（$\forall 1&lt;q&lt;p_0$）.另一方面，由对偶，令$\tilde{K}(x)=K(-x),\tilde{T}f(x)=\tilde{K}\ast f(x)$，可验证$\tilde{T}$也满足Hormander条件.<br>
+断言 $\forall\frac1p+\frac1q=1,T$是$L^p$有界$\lrArr\tilde{T}$是$L^{p'}$有界（$1\lt p,p'\lt\infty$）并且它们有相同的模.<br>
+事实上，$\forall g\in L^{p'},f\in L^p.~\act{Tf,g}=\intrn K\ast f(x)g(x)dx=\intrn f(x)\tilde{K}\ast g(x)dx=\act{f,\tilde{T}g}$<br>
+现在已经证明了$T$是强$(p,p)$型（$1&lt;p&lt;p_0$）<br>
+$\rArr\tilde{T}$是强$(q,q)$型（$p'_\lt p\lt\infty$）<br>
+$\norm{\tilde{T}}_{L^q\rarr L^q}=\norm{T}_{L^{q'}\rarr L^{q'}}$与$\norm{K}_{L^1}$无关，而$\tilde{T}f(x)=\tilde{K}\ast f(x)$<br>
+$\tilde{K}\in L^1$满足(H)条件$\overset{BCP}{\rArr}\tilde{T}$是弱$(1,1)$型，又$\tilde{T}$为强$(q,q)$型，$\forall p'_0\lt q\lt\infty$<br>
+$\rArr\tilde{T}$是强$(p,p)$型，$\forall 1\lt p\lt\infty$<br>
+$\overset{Claim}{\rArr}T$是强$(p,p)$型（$\forall 1\lt p\lt\infty$）且它的模与$\norm{K}_{L^1}$无关 $$\qed$$</p>
+<p>定理 设$K(x)$是$C-Z$核，$T_\varepsilon f(x)=\int_{|x-y|\gt\varepsilon}K(x-y)f(y)dy\quad(2.1)$. ($\forall\varepsilon&gt;0~given$) ($\forall f\in L^p(\R^n),1\lt p\lt\infty$)<br>
+则$\exist$常数$c_p&gt;0~s.t.~\forall f\in L^p(\R^n),\forall\varepsilon&gt;0$有$\norm{T_\varepsilon f}_{L^p}\leq c_p\norm{f}_{L^p}\quad(2.2)$且$T_\varepsilon f\overset{strong}{\rarr}Tf~in~L^p(\R^n)~for~some~Tf\in L^p$<br>
+进一步，$\norm{Tf}_{L^p}\leq c_p\norm{f}_{L^p}~(\forall f\in L^p(\R^n))$<br>
+注：$Tf(x)=\lim\limits_{\varepsilon\rarr0}T_\varepsilon f(x)=P.V.\intrn K(x-y)f(y)dy$</p>
+<p>证明：$1^\circ ~f\in C^\infty_c(\R^n),2^\circ~f\in L^p(\R^n)~(1\lt p\lt\infty)$<br>
+$1^\circ~\forall 0\lt\varepsilon\lt N$(给定)，$f\in C^\infty_c(\R^n)$<br>
+$K_{\varepsilon,N}(x)=K(x)\Chi_{\varepsilon\lt|x|\lt N}(x)$，令$T_{\varepsilon,N}f(x)=K_{\varepsilon,N}\ast f(x)$<br>
+由引理，$\norm{\widehat{K_{\varepsilon,N}}}_{L^\infty}\leq c$<br>
+$$
+\begin{aligned}
+\norm{T_{\varepsilon,N}f}_{L^2}&amp;=\norm{\widehat{T_{\varepsilon,N}f}}_{L^2}\\
+&amp;=\norm{\widehat{K_{\varepsilon,N}}(\xi)\hat{f}(\xi)}_{L^2}\\
+&amp;\leq c\norm{\hat{f}}_{L^2}=c\norm{f}_{L^2}
+\end{aligned}
+$$ $\rArr T_{\varepsilon,N}$是强$(2,2)$型. 而$K_{\varepsilon,N}\in L^1(\R^n),K_{\varepsilon,N}$满足Hormander条件（由引理）<br>
+$\rArr T_{\varepsilon,N}$是强$(p,p)$型（由前定理）<br>
+$i.e.~\forall 1\lt p\lt\infty,\exist c_p&gt;0~s.t.~(\forall 0\lt\varepsilon\lt N),\norm{T_{\varepsilon,N}f}_{L^p}\leq c_p\norm{f}_{L^p}$<br>
+而$f\in C^\infty_c(\R^n),T_\varepsilon f(x)=T_{\varepsilon,N}f(x),\forall x\in\R^n$<br>
+当$N$足够大，$N&gt;|x|+2diam|Supp(f)|$ $$
+\begin{aligned}
+K_{\varepsilon,N}\ast f(x)&amp;=\int_{\varepsilon\lt|x-y|\lt N}K(x-y)f(y)dy\\
+&amp;=\int_{\varepsilon\lt|x-y|}K(x-y)f(y)dy
+\end{aligned}
+$$ $\overset{Fatou}{\rArr}\norm{T_\varepsilon f}_{L^p}\leq c_p\norm{f}_{L^p},\forall f\in C^\infty_c(\R^n)$<br>
+下证$Tf$的存在性<br>
+$\forall f\in C^\infty_c(\R^n),\lrb{T_\varepsilon f}_{\varepsilon&gt;0}$为$L^p(\R^n)$中的Cauchy列<br>
+事实上，$$
+\begin{aligned}
+\forall 0\lt\eta\lt\varepsilon,~&amp;T_\eta f(x)-T_\varepsilon f(x)\\
+&amp;=\int_{\eta\lt|y|\leq\varepsilon}K(y)f(x-y)dy\\
+&amp;=\int_{\eta\lt|y|\leq\varepsilon}K(y)(f(x-y)-f(x))dx\\
+&amp;+f(x)\int_{\eta\lt|y|\leq\varepsilon}K(y)dy=J_1+J_2
+\end{aligned}
+$$
+注意$\intrn|f(x-y)-f(x)|^pdx\leq c|y|^p$（以前可能证过）<br>
+对$J_1$,$$
+\begin{aligned}
+\norm{J_1}_{L^p}&amp;\leq c\int_{\eta\lt|y|\leq\varepsilon}|K(y)|\norm{f(x-y)-f(y)}_{L^p}\\
+&amp;\leq c\int_{\eta\lt|t|\leq\varepsilon}|K(y)||y|dy\\
+&amp;\leq cc_2\varepsilon
+\end{aligned}
+$$ 对$J_2$，由C-Z核的条件(I),$\lim\limits_{\eta\rarr0}\int_{\eta\lt|y|\leq1}K(y)dy$存在<br>
+$\rArr\lim\limits_{\eta\rarr0,\varepsilon\rarr0}|\int_{\eta\lt|y|\leq\varepsilon}K(y)dy|=0$<br>
+$\rArr\norm{J_2}_{L^p}\leq|\int_{\eta\lt|y|\leq\varepsilon}K(y)dy|\cdot\norm{f}_{L^p}=o(1)~as~\eta,\varepsilon\rarr0$<br>
+$\rArr\eta,\varepsilon\rarr0,~\norm{J_1+J_2}_{L^p}\rarr0~i.e.~\norm{T_\eta f(x)-T_\varepsilon f(x)}_{L^p}\rarr0$<br>
+$\rArr\lrb{T_\varepsilon f}_{\varepsilon&gt;0}$是$L^p(\R^n)$中的Cauchy列（$1\lt p\lt\infty$）<br>
+$\exist!Tf\in L^p~s.t.~\lim\limits_{\varepsilon\rarr0}\norm{T_\varepsilon f-Tf}_{L^p}\rarr0$<br>
+$\rArr Tf(x)=P.V.\intrn K(x-y)f(y)dy$且$\norm{Tf}_{L^p}\leq c_p\norm{f}_{L^p}~(\forall f\in L^p)$<br>
+$2^\circ~\forall f\in L^p(\R^n)~(1\lt p\lt\infty),\forall\varepsilon&gt;0,f=g+h,g\in C^\infty_c(\R^n),\norm{h}_{L^p}\lt\delta$(由$C^\infty_c$在$L^p$中稠密)
+$$
+\begin{aligned}
+\norm{T_\varepsilon f-T_\eta f}_{L^p}&amp;\leq\norm{T_\eta(f-g)}_{L^p}+\norm{T_\eta g-T_\varepsilon g}_{L^p}+\norm{T_\varepsilon(f-g)}_{L^p}\\
+&amp;\leq c\norm{f-g}_{L^p}~(\eta,\varepsilon\rarr0)\\
+&amp;\lt c\delta
+\end{aligned}
+$$ $\rArr\lrb{T_\varepsilon}_{\varepsilon&gt;0}$是$L^p$中Cauchy列<br>
+$\rArr\forall f\in L^p(\R^n),\lim\limits_{\varepsilon\rarr0}\norm{T_\varepsilon f-Tf}_{L^p}=0$且$\norm{Tf}_{L^p}\leq c_p\norm{f}_{L^p},Tf(x)=P.V.\intrn K(x-y)f(y)dy$ $$\qed$$</p>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-07-08-调和分析入门8.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E5%88%86%E5%B8%831">分布(1)</h1>
+<p>$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\norm#1{\Vert#1\Vert}$
+$\gdef\F{\mathcal{F}}$
+$\gdef\T{\mathcal{T}}$
+$\gdef\intrn{\int_{\R^n}}$
+$\gdef\ip{2\pi i}$
+$\gdef\qed{~\tag*{\Large□}}$
+$\gdef\C{C^\infty}$
+$\gdef\bc{\mathbb{C}}$
+$\gdef\S{\mathscr{S}}$
+$\gdef\D{\mathscr{D}}$
+$\gdef\E{\mathscr{E}}$
+$\gdef\act#1{\lt#1\gt}$</p>
+<p>定义(测试函数)<br>
+(1)$\C_c(\R^n)=${$f\in\C(\R^n)|Supp(f)$为紧集}. 可证$(\C_c(\R^n),+,\cdot)$为线性空间. 对$\lrb{\phi_j}_{j\in\N}\subset\C_c(\R^n),\phi\in\C_c(\R^n)$. 称在$\C_c(\R^n)$的意义下$\phi_j\rarr\phi~(j\rarr\infty)$. 若满足：<br>
+(1)存在紧集$K\subseteq\R^n~s.t.~Supp(\phi_j-\phi)\subset K,\forall j\in\N$.<br>
+(2)$\forall$多重指标$\alpha,\lim\limits_{j\rarr\infty}\partial^\alpha_x\phi_j(x)=\partial^\alpha_x\phi(x)$（在$K$中一致收敛）$i.e.~\forall\alpha,\displaystyle\max_{x\in K}|\partial^\alpha_x(\phi_j-\phi)|\rarr0~(j\rarr\infty)$.<br>
+$(\C_c(\R^n),+,\cdot)$是一个局部凸的拓扑线性空间(TVS)，记为$\D(\R^n)$或$\C_c(\R^n)$.（测试函数空间）<br>
+设$T:\C_c(\R^n)\rarr\bc$为线性泛函，称$T$在$\C_c(\R^n)$是连续的，当且仅当$T(\phi_j)\rarr T(\phi)~(\forall\phi_j\rarr\phi~in~\C_c(\R^n))$<br>
+设对偶$(\D(\R^n))'=\D'(\R^n)=${所有$\D(\R^n)$上的连续线性泛函}. $\D(\R^n)$不可赋范.</p>
+<p>(2) （速降函数空间）<br>
+$\S(\R^n)=\lrb{f\in\C(\R^n)|\forall k\in\N,\exist c_k&gt;0~s.t.~\rho_k(f)\leq c_k}$. 其中$$
+\rho_k(f)=\max_{|\alpha|+l\leq k}\sup_{x\in\R^n}[(1+|x|^2)^\frac{l}2|\partial^\alpha_x f(x)|]
+$$ 对$\phi_j,\phi\in\S(\R^n)$，称$\phi_j\rarr\phi~(j\rarr\infty)~in~\S(\R^n)$, 若满足$\forall k\in\N,\rho_k(\phi_j-\phi)\rarr0~(j\rarr\infty)$.<br>
+$\S'(\R^n)$为$\S(\R^n)$上的所有连续线性泛函.</p>
+<p>(3)$(\C(\R^n),+,\cdot)$. 对$\lrb{\phi_j}_{j\in\N},\phi\in\C(\R^n)$. 若$\forall\alpha\in\N^n,N\in\N,\lim\limits_{j\rarr\infty}\displaystyle\sup_{|x|\lt N}|\partial^\alpha_x(\phi_j-\phi)|=0$，则$\phi_j\rarr\phi~(j\rarr\infty)$.<br>
+$\forall\alpha,N,k,\rho_{\alpha,N}(f)=\displaystyle\sup_{|x|\leq N}|\partial^\alpha_x f(x)|,\forall f\in\C(\R^n)\lrArr\rho_k(f)=\displaystyle\max_{|\alpha+N\leq k|}\sup_{|x|\leq N}|\partial^\alpha_xf(x)|$.<br>
+$\phi_j\rarr\phi~in~\C(\R^n)\lrArr\rho_{\alpha,N}(\phi_j-\phi)\rarr0~(j\rarr\infty),\forall\alpha,N$<br>
+记$\C(\R^n)$为$\E(\R^n)$，$\E'(\R^n)$为$\E(\R^n)$上的连续线性泛函.</p>
+<p>定义(分布或称广义函数)<br>
+(1) 可以验证$\D&quot;(\R^n)$是线性空间，对$T_j,T\in\D'(\R^n)~(\forall j\in\N)$，称$\D'(\R^n)$上$T_j\rarr T$，若$T_j(f)\rarr T(f),\forall f\in\D(\R^n)~(j\rarr\infty)$. $D'(\R^n)$是TVS，若$T\in\D'(\R^n)$，则称$T$是一个分布.<br>
+(2) 类似可得$\S'(\R^n)$为TVS,$\forall T\in\S'(\R^n)$，称$T$是一个缓增分布.<br>
+(3) 类似地$\E'(\R^n)$是TVS,$\forall T\in\E'(\R^n)$称$T$是一个具有紧支撑的分布.</p>
+<p>命题 (a) 一个$\D(\R^n)$上的线性泛函$T$是分布当且仅当$\forall$ 紧集$K\subseteq\R^n,\exist c&gt;0,m\in\N~s.t.~|T(f)|\leq c\sum_{|\alpha|\leq m}\norm{\partial^\alpha_xf}_{L^\infty(\R^n)},\forall f\in\D(\R^n)$且$Supp(f)\subset K$.<br>
+(b) 线性泛函$T\in\S'(\R^n)\lrArr\exist c&gt;0,k\in\N~s.t.~|T(f)|\leq c\rho_k(f),\forall f\in\S(\R^n)$.<br>
+(c) 线性泛函$T\in\E'(\R^n)\lrArr\exist c&gt;0,m,N\in\N~s.t.~|T(f)|\leq c\sum_{|\alpha|\leq m}\rho_{\alpha,N}(f),\forall f\in\E(\R^n)$.</p>
+<p>证明：只证(b).$(\lArr)~|T(f_j-f)|\leq c\rho_k(f_j-f)$. 若$f_j\rarr f~in~\S(\R^n)$，则$\rho_k(f_j-f)\rarr0~(j\rarr\infty)\rArr T(f_j-f)\rarr0~(j\rarr\infty)~i.e.~T(f_j)\rarr T(f)~(j\rarr\infty)$，即$T$是连续的.<br>
+$(\rArr)$若$T$是连续的，则$T(f_j-f)\rarr0~(f_j\rarr f~in~\S(\R^n))~i.e.~\forall\varepsilon&gt;0,\exist\delta&gt;0,\forall\rho_k(f_j-f)&lt;\delta,$有$|T(f_j-f)|&lt;\varepsilon\rArr\forall\varepsilon&gt;0,\exist k\in\N,\delta&gt;0~s.t.~\forall\rho_k(f)\leq\delta$，有$|T(f)|&lt;\varepsilon$. 特别地，取$\varepsilon=1$,$$|T(f)|\leq\frac1\delta\rho_k(f),\forall f\in\S(\R^n)\qed$$ 注：对于命题(a)若有$m\in\N$不依赖于$K$使$|Tf|\leq c_k\sum_{|\alpha|\leq m}\norm{\partial^\alpha_xf}_{L^\infty},\forall f\in\D(\R^n),Supp(f)\subset K$，我们称分布$T$至多为$m$阶的.</p>
+<p>例 Dirac分布，$\delta_0(f)=\act{\delta_0,f}=f(0),\forall f\in\C(\R^n)$. 有$\delta_0\in\E'(\R^n)$<br>
+对任意紧集$K\subset\R^n$取$c=1,m=0,\forall f\in\C(\R^n)$且$Suppf\subset K,|\delta_0(f)|=|f(0)|\leq1\max_{x\in\R^n}|f(x)|$. $\delta_0$是至多0阶的分布.</p>
+<p>注：$\D(\R^n)\subsetneqq\S(\R^n)\subsetneqq\E(\R^n),\E'(\R^n)\subsetneqq\S'(\R^n)\subsetneqq\D'(\R^n)$.</p>
+<p>$\delta_0\in\E'(\R^n)$<br>
+证明：(1)$\forall f\in\E(\R^n),\act{\delta_0,f}=f(0)\in\bc.\forall f,g\in\E(\R^n),\act{\delta_0,af+bg}=a\act{\delta_0,f}+b\act{\delta_0,g}\rArr delta_0$为线性泛函. (2) $\forall f_j\rarr f~in~\E(\R^n)$有$\forall\alpha\in\N^n,N\in\N,\max_{|x|\leq N}|\partial^\alpha_x(f_j-f)(x)|\rarr0~(j\rarr\infty)$.<br>
+取$\alpha=(0,...,0),N=1,\max_{|x|\leq1}|(f_j-f)(x)|\rarr0~i.e.~f_j(x)\leftleftarrows f(x) ~on~|x|\leq1$<br>
+$\rArr f_j(0)\rarr f(0)\rArr\act{\delta_0,f_j}\rarr\act{\delta_0,f}~(j\rarr\infty)$ （连续）<br>
+由(1)(2)$\delta_0\in\E'(\R^n)$.</p>
+<p>例2 对任意函数$g$定义$\act{g,f}=Lg(f)=\intrn f(x)g(x)dx$<br>
+(1) 取$g=1$，则$1\in\S'(\R^n).~L_1(f)=\intrn f(x)dx~(\forall f\in\S(\R^n))$有意义. $$
+\begin{aligned}
+\intrn|f(x)|dx&amp;=\intrn(1+|x|)^{-m}|f(x)(1+|x|)^m|dx\\
+&amp;\leq\rho_m(f)\intrn(1+|x|)^{-m}dx\\
+&amp;&lt;+\infty~(\forall m&gt;n)
+\end{aligned}
+$$ $f_k\rarr f ~in~\S(\R^n),L_1(f_k-f)\rarr0~(k\rarr\infty)\rArr1=L_1\in\S'(\R^n)$但$1\notin\E'(\R^n)$.<br>
+(2)$g\in L^1_{loc}(\R^n)$. 若$Supp(g)$是紧的，则$g\in\E'(\R^n)$. 验证$1^\circ~\forall f\in\E(\R^n),|L_g(f)|=|\intrn g(x)f(x)dx|=\int_{Supp(g)}|g(x)||f(x)|dx\leq\int_K|g(x)||f(x)|dx\le+\infty$,$K$是有界闭集.<br>
+$2^\circ~f_k\rarr f~in~\E(\R^n)$有$L_g(f_k-f)\rarr0$.<br>
+(3)$g=e^{|x|^2}\in\D'(\R^n),g\notin\S'(\R^n).~L_g(f)=\intrn e^{|x|^2}f(x)dx,\forall f\in\C_c(\R^n)$.<br>
+(4)$g\in L^1_{loc}(\R^n)~(1\leq p\leq\infty),g\in S'(\R^n)$. 但一般$g\notin\E'(\R^n)$除非$g$具有紧支撑.</p>
+<p>例3 任意有限的Borel测度是一个缓增分布<br>
+例4 $g\in\C(\R^n),\exist k\in\N,|g(x)|\leq c(1+|x|)^k~(\forall x\in\R^n),g\in\S'(\R^n)$<br>
+$\forall f\in\S(\R^n),|L_g(f)|=|\intrn g(x)f(x)dx|\leq c\intrn(1+|x|)^k|f(x)|dx\leq\sup_{x\in\R^n}(|f(x)|(1+|x|)^m)\intrn(1+|x|)^{k-m}dx$<br>
+取$m~s.t.~m&gt;n+k&lt;+\infty,L_g(f_k-f)\rarr0~(k\rarr\infty),\forall f_k\rarr f~in~\S(\R^n)$.<br>
+例5 $log|x|\in\S'(\R^n)$.<br>
+例6 $\forall f\in\E(\R^n),\act{T,f}=\lim\limits_{\varepsilon\rarr0^+}\int_{\varepsilon\leq|x|\leq1}f(x)\frac{dx}{x}=\lim\limits_{\varepsilon\rarr0^+}\int_{\varepsilon\leq|x|\leq1}\frac{f(x)-f(0)}{x}dx$  $$
+\begin{aligned}
+\forall\varepsilon&gt;0,&amp;|\int_{\varepsilon\leq|x|\leq1}\frac{f(x)-f(0)}{x}dx|\\
+&amp;\leq\intrn\Chi_{\varepsilon\leq|x|\leq1}(x)|\frac{f(x)-f(0)}{x-0}|dx\leq\max_{|x|\leq1}|f'(x)|\\
+&amp;\leq2\norm{f'}_{L^\infty}
+\end{aligned}
+$$ 所以$\act{T,f}$有意义.<br>
+再验证$\forall f_k\rarr f~in~\E(\R^n)$有$\act{T,f_k}\rarr\act{T,f}\rArr T\in\E'(\R^n)$.</p>
+<p>定义(分布的导数) 对$T\in\D'(\R^n),\alpha\in\N^n$.定义$\partial^\alpha_xT$为$$
+\forall\varphi\in\D(\R^n),\act{\partial^\alpha_xT,\varphi}=(-1)^{|\alpha|}\act{T,\partial^\alpha_x\varphi}
+$$ 称$\partial^\alpha_xT$为分布$T$的$\partial^\alpha_x$导数.</p>
+<p>命题 上述意义下$\partial^\alpha_xT\in\D'(\R^n)$<br>
+证明：容易验证其是$\D(\R^n)$上的线性连续泛函.</p>
+<p>注：$1^\circ\forall T\in\D'(\R^n),\forall\alpha\in\N^n,$所有的$\partial^\alpha_xT$总是存在且$\partial^\alpha_xT\in\D'(\R^n)$.<br>
+$2^\circ~f\in L^1_{loc}(\R^n),f\in\C(\R^n),\varphi\in\C_c(\R^n),\forall\alpha\in\N^n,\act{\partial^\alpha_xf,\varphi}=(-1)^{|\alpha|}\act{f,\partial^\alpha_x\varphi}$<br>
+$3^\circ~T\in\S'(\R^n),\forall\varphi\in\S(\R^n),\act{\partial^\alpha_xf,\varphi}=(-1)^{|\alpha|}\act{f,\partial^\alpha_x\varphi}$<br>
+$4^\circ~T\in\E'(\R^n),\forall\varphi\in\E(\R^n),\act{\partial^\alpha_xf,\varphi}=(-1)^{|\alpha|}\act{f,\partial^\alpha_x\varphi}$</p>
+<p>例1 $g\in\D'(\R^n),\partial^\alpha_xg\in\D'(\R^n).~\forall f\in\D(\R^n),\act{\partial^\alpha_xg,f}=\act{\partial^\alpha_xL_g,f}=(-1)^{|\alpha|}\act{L_g,\partial^\alpha_xf}=(-1)^{|\alpha|}\intrn g(x)\partial^\alpha_xf(x)dx$.</p>
+<p>例2 Heavside函数(一维)$H(x)=\begin{cases}1\quad&amp;x&gt;0\\0&amp;x\leq0\end{cases},H(x)\in L^1_{loc}(\R^n)$<br>
+$\partial_xH=\partial_xL_H\in\D'(\R^n)$，由定义$$
+\begin{aligned}
+\act{\partial_xH,\varphi}&amp;=(-1)\act{L_H,\partial_x\varphi}\\
+&amp;=(-1)\int_\R H(x)\partial_x\varphi(x)dx\\
+&amp;=(-1)\int^{+\infty}_0\partial_x\varphi(x)dx\\
+&amp;=(-1)\varphi(x)|^{+\infty}_0=\varphi(0)
+\end{aligned}
+$$ $\rArr\act{\partial_xL_H,\varphi}=\varphi(0),\forall\varphi\in\D(\R^n)$<br>
+$\rArr\partial_xL_H=\delta_0~i.e.~\partial_xH=\delta_0$</p>
+<p>例3 $\act{\partial_x\delta_0,\varphi}=(-1)\act{\delta_0,\partial_x\varphi}=(-1)(\partial_x\varphi)(0).~\forall\varphi\in\D(\R^n)$.类似可求$\partial^m_x\delta_0$.</p>
+<p>例4 $\R$上$u(x)=\begin{cases}x\quad x\geq0\\0&amp;x&lt;0\end{cases}.~\forall x&gt;0,\partial_xu(x)=1. \forall x&lt;0,\partial_xu(x)=0,x=0,\partial_xu(x)$不存在.<br>
+$u(x)\in L^1_{loc}(\R^n).~\forall\varphi\in\D(\R^n),$设$Supp(\varphi)\subset[-M,M],\act{\partial_xL_u,\varphi}=(-1)\act{L_u,\partial_x\varphi}=-\int_\R u(x)\partial_x\varphi dx=-\int_0^{M+1}x\partial_x\varphi(x)dx=-(x\varphi(x)|^{M+1}_0-\int^{M+1}_0\varphi(x)dx)=\int^{M+1}_0\varphi(x)dx$<br>
+$\rArr\act{\partial_xL_u,\varphi}=\int^{M+1}_0\varphi(x)dx=\int^{+\infty}_0\varphi(x)dx=\int_\R H(x)\varphi(x)dx$<br>
+$\rArr\partial_xL_u=H(x)~in~D'(\R^n)~i.e.~\partial_xu=H(x)~in~\D'(\R)$<br>
+$u(x)\in L^1_{loc}(\R^n)\rArr\partial_xL_u\in L^1_{loc}(\R).~i.e.~\exist H(x)\in L^1_{loc}(\R)~s.t.~\partial_xL_u=L_H$而$\partial_xL_H=\delta_0\notin L^1_{loc}(\R^n)$.</p>
+<p>定义（弱导数）对$u\in L^1_{loc}(\R^n)$，给定$\alpha\in\N^n$. 如果存在$v_\alpha\in L^1_{loc}(\R^n)~s.t.~L_{v_\alpha}=\partial^\alpha_xL_u~in~\D'(\R^n)$，则称$v_\alpha$是$u$的$\alpha$阶弱导数</p>
+<p>注：对于分布导数$\partial^\alpha_x$总是存在. 作为$u\in L^1_{loc}(\R^n)$的弱导数可能不存在，只能用定义算弱导数.</p>
+<p>例 $u(x)=\begin{cases}\frac1c\quad x&gt;0\\0&amp;x&gt;0\end{cases},u\notin L^1_{loc}(\R)$. $x=0$处$\partial_xu(x)$不存在，没有$v\in L^1_{loc}(\R)$诱导出$\partial^\alpha_xu$.</p>
+
+</body>
+</html>
