@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-06-13-纠错码理论(代数部分1).md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E7%BA%A0%E9%94%99%E7%A0%81%E7%90%86%E8%AE%BA%E4%BB%A3%E6%95%B0%E9%83%A8%E5%88%861">纠错码理论(代数部分1)</h1>
+<h2 id="%E6%9C%89%E9%99%90%E5%9F%9F">有限域</h2>
+<h3 id="1%E8%BF%91%E4%B8%96%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80">1.近世代数基础</h3>
+<h4 id="%E7%BE%A4">群</h4>
+<p>$\gdef\lrb#1{\lbrace#1\rbrace}$</p>
+<p>定义 设$G$是非空集合，映射$G\times G\rarr G$称为$G$上的一个二元运算. 对$(a,b)\in G\times G,(a,b)$的像记作$ab$或$a+b$.</p>
+<p>定义 设$G$是非空集合，并在$G$上定义了一个二元运算，若<br>
+(i) 结合律: 对任意的$a,b,c\in G$, 有$a(bc)=(ab)c$;<br>
+(ii) 单位元: 存在$e_G\in G$，使得对任意$a\in G,ae_G=e_Ga=a$;<br>
+(iii) 可逆元: 对任意$a\in G$，存在$a$的逆元$a^{-1}\in G$,使得$a^{-1}a=aa^{-1}=e_G$.<br>
+则$G$称为群.</p>
+<p>若群G满足<br>
+(iv) 交换性: 对任意的$a,b\in G$有$ab=ba$.<br>
+则称$G$是Abel群或交换群.</p>
+<p>若$G$是有限群，则$|G|$称为$G$的阶.<br>
+<strong>若无特殊说明，本课程只考虑Abel群.</strong></p>
+<p>定义 设$G$和$H$是群，$f:G\rarr H$是群之间的一个映射，若对任意的$a,b\in G$，有$f(ab)=f(a)f(b)$，则称$f$是$G$到$H$的一个群同态.</p>
+<p>若$f$是满的，称为满同态；若$f$是单的，称为单同态；若$f$是双射，称为同构，记为$G\cong H$</p>
+<p>注：设$e_G$和$e_H$分别是$G$和$H$的单位元，若$f$是$G$到$H$的同态，则$f(e_G)=f(e_H)$.</p>
+<p>定义 设$f:G\rarr H$是群同态，称$$
+Kerf=\lbrace a\in G|f(a)=e_H\rbrace
+$$ 为$f$的核.<br>
+称$$
+Imf=\lbrace f(a)|a\in G\rbrace
+$$ 为$f$的像.</p>
+<p>定理1 设$f:G\rarr H$为群同态，则<br>
+(i) $f$是单同态当且仅当$Kerf=\lbrace e_G\rbrace$.<br>
+(ii) $f$是同构当且仅当存在同态$g:H\rarr G$使得$fg=1_H,gf=1_G$.</p>
+<p>定义 设$H$是群$G$的非空子集，若在$G$的运算下，$H$构成群，则称$H$是$G$的一个子群，记为$H&lt;G$.</p>
+<p>定理2 设$H$是群$G$的非空子集，对任意$a,b\in H$，若$ab^{-1}\in H$，则$H$是$G$的子群.</p>
+<p>定义 设$X$是群$G$的一个子集，$G$中包含$X$的最小子群称为$X$的生成子群，记为$&lt;X&gt;$.<br>
+由一个元素生成的子群$&lt;a&gt;$称为循环(子)群.</p>
+<p>定理3 设$G$是群，$X$是$G$的一个子群，则$$
+&lt;X&gt;=\lbrace a_1^{n_1}a_2^{n_2}\cdots a_t^{n_t}|a_i\in X,n_i\in\Z\rbrace
+$$
+定理4 每个无限循环群同构于加法群$\Z$，每个有限循环群同构于加法群$\Z/(m)$. 循环群的子群和同态像都是循环群.</p>
+<p>定义 设$G$是群，$a\in G$，循环子群$&lt;a&gt;$的阶称为元素$a$的阶，记为$ord~a$.</p>
+<p>定义 设$H$是群$G$的子群，$a,b\in G$，若$ab^{-1}\in H$，则称$a$模$H$同余$b$.</p>
+<p>注：设$H$是群$G$的子群<br>
+(i) 模$H$同余是$G$上的一个等价关系.<br>
+(ii) 设$a\in G$，在模$H$同余下，$a$的等价类为$aH=\lbrace ah|h\in H\rbrace$. 称$aH$为$H$在$G$中的陪集.<br>
+(iii) 对任意$a\in G,|H|=|aH|$.<br>
+(iv) $G$是$H$的陪集之并.<br>
+(v) $G$中$H$的二个陪集或者不交或者相等，并且对$a,b\in G$,$$
+aH=bH\lrArr a^{-1}b\in H
+$$ (vi) 设$G$是有限群，$K&lt;H&lt;G$，$G$中所有$H$的陪集个数称为$H$在$G$中的指数, 记为$[G:H]$，则$$
+[G:K]=[G:H][H:K]
+$$ 特别，$|G|=[G:H]|H|$.<br>
+(vii) 设$G$是有限群，$a\in G$，则$a$的阶$ord~a$整除群$G$的阶$|G|$.</p>
+<p>定理5 设$N$是$G$的子群，记$G/N$表示$N$的陪集之集，则$G/N$在$(aN)(bN)=abN$的运算规则下构成群，单位元为$N$. 此时$G/N$为$G$关于$N$的商群.</p>
+<p>定理6 设$N$是$G$的子群，则$$
+g:\begin{cases}G\rarr G/N\\a\mapsto aN\end{cases}
+$$ 是满同态且$ker~g=N$.</p>
+<p>证明：(1)$g(ab)=abN=(aN)(bN)=g(a)g(b)$，$g$是同态.<br>
+(2) $g$是满的.<br>
+(3) $ker~g=N$，对$a\in N$有$g(a)=aN=N$，所以$N\subseteq ker~g$. 反之，设$g(a)=N$则$aN=N$，从而$a\in N$，即$ker~g\subseteq N$.</p>
+<p>定理7(第一同态基本定理) 设$f:G\rarr H$是群同态，则$f$诱导出群同构$$
+\bar f:\begin{cases}G/ker~f\rarr Im~f\\aker~f\mapsto f(a)\end{cases}
+$$ 证明：记$N=ker~f$.<br>
+(1) $\bar f$是同态: $\bar f((aN)(bN))=\bar f(abN)=f(ab)=f(a)f(b)=\bar f(aN)\bar f(bN)$<br>
+(2) $\bar f$是满的: 对任意$a\in G$，即对任意$f(a)\in Im~f$有$\bar f(aN)=f(a)$<br>
+(3) $\bar f$是单的: 设$aN\in G/N$, 使得$\bar f(aN)=e_H$则$f(a)=e_H$，所以$a\in N$即$aN=N$. (定理1)</p>
+<h4 id="%E7%8E%AF">环</h4>
+<p>定义 设集合$A$含加法运算&quot;+&quot;和乘法运算&quot;·&quot;，若满足<br>
+(i) 对于加法运算，$A$构成Abel群<br>
+(ii) 乘法运算满足结合律<br>
+(iii) 对任意$x,y,z\in A$满足分配律$$
+(x+y)z=xz+yz,z(x+y)=zx+zy
+$$ 则称$A$是环. 若乘法是交换的，称$A$是交换环.</p>
+<p><strong>若无特别说明，以下均为交换环</strong></p>
+<p>环的一些基本概念：<br>
+(i) 单位元：若存在$1_A\in A$使得对任意$a\in A$有$a1_A=1_Aa=a$则称$1_A$是$A$的单位元<br>
+(ii) 可逆元：$a\in A$，存在$a^{-1}\in A$使得$aa^{-1}=1$<br>
+(iii) 零因子：对非零元$a,b\in A$若$ab=0$则称$a$是零因子(b也是)<br>
+(iv) 整环：含单位元的无零因子环<br>
+(v) 若$K$是整环且每个非零元都可逆，称$K$是域<br>
+(vi) 子环：设$B$是环$A$的子集，若对$A$的加法和乘法，$B$构成环，则称$B$是$A$的子环<br>
+(vii) 理想：设$J$是环$A$的子环，若对任意$a\in A$和$b\in J$有$ab\in J$，则称$J$是$A$的一个理想</p>
+<p>例：设$S=\lbrace \alpha_1,\cdots,\alpha_n\rbrace$是$A$的子集，则$(\alpha_1,\cdots,\alpha_n)=\lbrace c_1\alpha_1,\cdots,c_n\alpha_n|c_1,\cdots,c_n\in A\rbrace$是$A$的一个理想，称为有限生成理想.</p>
+<p>(viii) 主理想：对$\alpha\in A$称$(\alpha)=\lbrace c\alpha|c\in A\rbrace$是主理想.<br>
+(ix) 素理想：设$P\not=A$是环$A$的一个理想，$I,J$是$A$中任意两个理想，若$IJ\subseteq P$，就有$I\subseteq P$或$J\subseteq P$，则称$P$是$A$的一个素理想, 其中$$
+IJ=\lbrace a_1b_1+\cdots+a_nb_n|a_i\in I,b_i\in J\rbrace
+$$ 注：设$P\neq A$是$A$的一个理想，则$P$是$A$的素理想当且仅当对任意$a,b\in A,~ab\in P\rArr a\in P$或$b\in P$<br>
+(x) 极大理想：设$M\neq A$是环$A$的理想，若对于满足$M\subseteq I\subseteq A$的理想$I$都有$I=A$或者$I=M$，则称$M$是$A$的一个极大理想</p>
+<p>注：(1) 极大理想必是素理想 (2) 每个不等于$A$的理想都包含在一个极大理想中 (3) $\lbrace0\rbrace$是$A$的素理想当且仅当$A$是整环.</p>
+<p>(xi) 商环(剩余类环) 设$A$是环，$I$是$A$的理想，则$A$的加法群商群$A/I$在连同下列定义的乘法运算构成环，称为商环$$
+(a+I)(b+I)=ab+I
+$$ 注：加法运算为 $(a+I)+(b+I)=(a+b)+I$</p>
+<p>注：设$A$是非零环，$M$是$A$的一个理想，则$M$是极大理想当且仅当$A/M$是域.<br>
+(xii) 同态，同态核，同构，同态基本定理.</p>
+<h4 id="%E7%BE%A4%E7%9A%84%E7%9B%B4%E7%A7%AF%E6%9C%89%E9%99%90%E4%BA%A4%E6%8D%A2%E7%BE%A4%E7%BB%93%E6%9E%84">群的直积、有限交换群结构</h4>
+<p>群$G$的子群是比$G$小的群，现在我们由群$G_1$和$G_2$构造一个更大的群. 考虑集合$G_1\times G_2=\lbrace(g1,g2):g_1\in G_1,g_2\in G_2\rbrace$. 如果$G_1$和$G_2$分别有n和m个元素，则集合$G_1\times G_2$有mn个元素. 定义如下运算$$
+(g_1,g_2)\cdot(h_1,h_2)=(g_1h_1,g_2h_2)
+$$ 则$G_1\times G_2$形成群，叫做群$G_1$和$G_2$的直积.$$
+(g_1,g_2)^{-1}=(g_1^{-1},g_2^{-1})
+$$ 类似可定义多个群$G_1,G_2,\cdots,G_n$的直积$$
+G=G_1\times G_2\times\cdots\times G_n
+$$ 考虑映射$\varphi:G_i\rarr G=G_1\times G_2\times\cdots\times G_n,\varphi(g)=\lbrace1,\cdots,1,g,1,\cdots,1\rbrace$ 这是群的单同态，从而$G_i$同构于$G$的子群$$
+\lrb{1}\times\cdots\times\lrb{1}\times G_i\times\lrb{1}\times\cdots\times\lrb{1}
+$$ 在这种同构下，可把$G_i$看成$G$的子群.</p>
+<p>对每个正整数$m$，任意两个$m$阶循环群都彼此同构，所以本质上只有一个$m$阶循环群记成$C_m$.<br>
+m阶循环群可用加法群$Z_m=Z/mZ$作为样板，它是由m阶元素$\bar1$生成的：$$
+Z_m=\lrb{\bar0,\bar1,\bar1+\bar1=\bar2,\cdots,(m-1)\bar1=\overline{m-1}}
+$$ 当m为素数p时，p阶群一定是循环群，因为取群中一个元素$g\neq1$，则g必为p阶元素.<br>
+如果$m\geq2$并且m不是素数，m阶群可以有多种不同的群结构.</p>
+<p>定理：设$m=p_1^{e_1}p_2^{e_2}\cdots p_g^{e_g}\geq2$则$$
+C_m\cong C_{p_1^{e_1}}\times C_{p_2^{e_2}}\times\cdots\times C_{p_g^{e_g}}
+$$  证明：只需证明若$m=ab$(ab为互素正整数)，则$C_m\cong C_a\times C_b$. 设$C_m$由元素$g$生成即$C_m=\lrb{1,g,\cdots,g^{m-1}}$而$g$为$m$阶元素.<br>
+取$h=g^a,l=g^b$则$h,l$分别是$b$阶和$a$阶元素，从而$C_a=\lrb{1,l,\cdots,l^{a-1}}$和$C_b=\lrb{1,h,\cdots,h^{b-1}}$是a阶和b阶循环群.<br>
+作映射$f:C_a\times C_b\rarr C_m,f(g_1,g_2)=g_1g_2(g_1\in C_a,g_2\in C_b)$，这是群同态.<br>
+若$g_2=h^\lambda=g^{a\lambda},g_1=l^\mu=g^{b\mu}$则$f(g_1,g_2)=g^{a\lambda+b\mu}$<br>
+由于$(a,b)=1$，存在$\lambda,\mu\in\Z$使得$a\lambda+b\mu=1$，于是$g=g^{a\lambda+b\mu}\in Im(f)$. 但是$Im(f)$为$C_m$的子群，而$C_m$由$g$生成，可知$Im(f)$为整个群$C_m$，即$f$是满同态.<br>
+由于$C_a\times C_b$和$C_m$均有m个元素，如果$f$是满射，则必为单射，所以$f$是群同构，即$C_m\cong C_a\times C_b$.</p>
+<p>证2：只需证$Z_m\cong Z_a\times Z_b$，考虑映射$f:Z_m\rarr Z_a\times Z_b,x(mod~m)\rarr (x(mod~a),x(mod~b))$，$x(mod~m)$表示x模m的同余类$x+mZ$，若$x\equiv y(mod~m)$则$x\equiv y(mod~a)$和$x\equiv y(mod~b)$，因为a和b为m的因子. f是加法群同态.<br>
+$Z_a\times Z_b$的零元素为$(0(mod~a),0(mod~b))=(aZ,bZ)$<br>
+如果$f$把$x(mod~m)$映成$(aZ,bZ)$即$x\equiv0(mod~a),x\equiv0(mod~b)$. 由$(a,b)=1$知$x\equiv0(mod~ab),ab=m$<br>
+于是$x(mod~m)$为$Z_m$中零元素，这表明$f$是单同态，而两边均是m元集合，可知f是满同态，从而f为群同构.</p>
+<p>$f$是满同态意味着：对任意$c_1,c_2\in\Z$均有$x\in\Z$使$x(mod~m)$在$f$下像为$(c_1(mod~a),c_2(mod~b))$这就表明同余方程组$\begin{cases}x\equiv c_1(mod~a)\\x\equiv c_2(mod~b)\end{cases}$必有解$x\in\Z$，而且由于$f$是单射，此同余方程组的全部整数解是模m的一个同余类（即原像只为$Z_m$中一个元素），本质上这就是中国剩余定理.</p>
+<hr>
+<p>有限交换群的特征群<br>
+定义：设$G$是有限交换群，$G$到非零复数乘法群$C^\ast$的群同态，$\chi:G\rarr C^\ast$(即$\chi(gh)=\chi(g)\chi(h)$)都叫做群$G$的一个特征.<br>
+例如将$G$中每个元素均映为1的同态，这是群$G$的特征，叫做平凡特征.<br>
+如果$G$是n阶交换群，则$G$中每个元素$g$的阶都是n的因子，特别的$g^n=1$. 于是对$G$的每个特征$\chi$:$$
+1=\chi(1)=\chi(g^n)=\chi(g)^n
+$$ 这表明$\chi(g)$是n次单位根.</p>
+<p>记$\zeta_n=e^\frac{2\pi i}{n}=cos\frac{2\pi}{n}+isin\frac{2\pi}n$，则n阶交换群的特征$\chi$均取值于n阶循环群$$
+\Lambda_n=\lrb{1,\zeta_n,\zeta_n^2,\cdots,\zeta_n^{n-1}}
+$$ 之中，即群$G$的每个特征$\chi$都是$G$到乘法群$\Lambda_n$的群同态.<br>
+如果$G=\lrb{1,g,\cdots,g^{n-1}}$是n阶循环群，其中$g$为n阶元素，则对$G$的每个特征$\chi$，$\chi(g)\in\Lambda_n$，因此$\chi(g)=\zeta^a_n(0\leq a\leq n-1)$.<br>
+然后对$G$中每个元素$g^b$则有$$
+\chi(g^b)=\chi(g)^b=\zeta^{ab}_n(0\leq b\leq n-1)
+$$，把这个特征记为$\chi_a$，于是n阶循环群共有n个特征$\zeta_a(0\leq a\leq n-1)$.</p>
+<p>定义 设$G$是有限交换群，对于$G$的两个特征$\chi,\chi'$，定义一个新的映射$\chi\chi':G\rarr C^*$，其中对每个$g\in G,(\chi\chi')(g)=\chi(g)\chi'(g)$.<br>
+$\chi\chi'$也是群的特征，以$\widehat G$表示$G$的全部特征组成的集合，$\widehat G$对上述运算形成群，叫做$G$的特征群.<br>
+逆元素为$\chi^{-1}(g)=\chi(g)^{-1}(g\in G)$.<br>
+由于$\chi(g)$为单位根，$\chi(g)^{-1}=\overline{\chi(g)}$(复共轭)<br>
+所以$\chi^{-1}$也表示成$\bar\chi$即$$
+\bar\chi(g)=\overline{\chi(g)}=\chi(g)^{-1}=\chi(g^{-1})
+$$ $\bar\chi$叫做$\chi$的共轭特征.</p>
+<p>例如对n阶循环群定义：$G=\lrb{1,g,\cdots,g^{n-1}}$有n个特征，则$\widehat G=\lrb{\chi_a:0\leq a\leq n-1}$，其中$\chi_a(g)=\zeta^a_n$，于是$$
+\chi_a(g^b)=\zeta^{ab}_n(0\leq b\leq n-1)
+$$, 所以特征群也可表示为$\widehat G=\lrb{\chi_a:a\in\Z_n}$，对于$a,a'\in\Z_n$. 由定义$$
+(\chi_a\chi_{a'})(g)=\chi_a(g)\chi_{a'}(g)=\zeta^a_n\zeta_n^{a'}=\zeta^{a+a'}_n=\chi_{a+a'}(g)
+$$ 这表明$\chi_a\chi_{a'}=\chi_{a+a'}$，所以映射$f:\widehat{G}\rarr\Z_n,\chi_a\mapsto\overline{a}$(模n同余类)是特征群$\widehat{G}$到加法群$\Z_n$的群同态，进而是群同构，所以$\widehat{G}$是n阶循环群，所以$\widehat{G}$和$G$是同构的.</p>
+<p>例1. 加法群$Z_m$是m阶循环群，由m阶元素1生成，所以它的特征群为$\lrb{\chi_a:a\in\Z_n}$，其中$\zeta_m=e^\frac{2\pi i}{m}.\chi_a(1)=\zeta^a_m$从而$\chi_a(b)=\zeta^{ab}_m$. 比如加法群$Z_4$的4个特征为$(i=\sqrt{-1}=\zeta_4)$</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">b</th>
+<th style="text-align:center">0</th>
+<th style="text-align:center">1</th>
+<th style="text-align:center">2</th>
+<th style="text-align:center">3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$\chi_0(b)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">$\chi_1(b)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$i$</td>
+<td style="text-align:center">-1</td>
+<td style="text-align:center">$-i$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\chi_2(b)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">-1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">-1</td>
+</tr>
+<tr>
+<td style="text-align:center">$\chi_3(b)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$-i$</td>
+<td style="text-align:center">-1</td>
+<td style="text-align:center">$i$</td>
+</tr>
+</tbody>
+</table>
+<p>例2. 对于奇素数$p$，乘法群$Z^*_p$是$p-1$阶循环群，取模p的一个原根$g$，则$Z^*_p=\lrb{1,\bar g,\cdots,\bar g^{p-2}}$，于是$Z^*_p$的特征群为$\lrb{\chi_a:a\in Z^{p-1}}$，其中$\chi_a(\bar g^p)=\zeta^{ab}_{p-1}=e^\frac{2\pi abi}{p-1}$. 比如加法群$Z^*_7=\lrb{1,\bar3,\cdots,\bar3^5}$的六个特征为：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$\bar a$</th>
+<th style="text-align:center">$1$</th>
+<th style="text-align:center">$\bar3$</th>
+<th style="text-align:center">$\bar3^2=\bar2$</th>
+<th style="text-align:center">$\bar3^3=\bar6$</th>
+<th style="text-align:center">$\bar3^4=\bar4$</th>
+<th style="text-align:center">$\bar3^5=\bar5$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$\chi_0(\bar a)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">$\chi_1(\bar a)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta$</td>
+<td style="text-align:center">$\zeta^2$</td>
+<td style="text-align:center">$\zeta^3$</td>
+<td style="text-align:center">$\zeta^4$</td>
+<td style="text-align:center">$\zeta^5$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\chi_2(\bar a)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta^2$</td>
+<td style="text-align:center">$\zeta^4$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta^2$</td>
+<td style="text-align:center">$\zeta^4$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\chi_3(\bar a)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta^3$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta^3$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta^3$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\chi_4(\bar a)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta^4$</td>
+<td style="text-align:center">$\zeta^2$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta^4$</td>
+<td style="text-align:center">$\zeta^2$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\chi_5(\bar a)$</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">$\zeta^5$</td>
+<td style="text-align:center">$\zeta^4$</td>
+<td style="text-align:center">$\zeta^3$</td>
+<td style="text-align:center">$\zeta^2$</td>
+<td style="text-align:center">$\zeta$</td>
+</tr>
+</tbody>
+</table>
+<p>$\zeta=\zeta_6=e^\frac{2\pi i}{6}=\frac12+\frac{\sqrt3}2i$</p>
+<hr>
+<p>特征的正交关系<br>
+定理：设$G$是n阶交换群，则</p>
+<p>(1)对于$\chi,\chi'\in\widehat{G},\displaystyle\sum_{g\in G}\chi(g)\chi'(g)=\begin{cases}n,\chi'=\bar\chi\\0,otherwise\end{cases}$</p>
+<p>(2)对于$g,g'\in G,\displaystyle\sum_{\chi\in \widehat{G}}\chi(g)\chi(g')=\begin{cases}n,g'=g^{-1}\\0,otherwise\end{cases}$</p>
+<p>证明：(1) $\lambda=\chi\chi'\in\widehat{G}$. 若$\chi'=\bar\chi=\chi^{-1}$，则$\lambda$是平凡特征，于是$$
+\sum_{g\in G}\chi(g)\chi'(g)=\sum_{g\in G}\lambda(g)=\sum_{g\in G}1=|G|=n
+$$ 若$\chi'\neq\bar\chi$，则$\lambda$不是平凡特征，于是有$a\in G$使得$\lambda(a)\neq1$，所以$$
+\sum_{g\in G}\chi(g)\chi'(g)=\sum_{g\in G}\lambda(g)=\sum_{g\in G}\lambda(ag)=\sum_{g\in G}\lambda(a)\lambda(g)=\lambda(a)\sum_{a\in G}\lambda(g)
+$$ 由于$\lambda(a)\neq1$，则$\displaystyle\sum_{g\in G}\lambda(g)=0$</p>
+<p>(2) 若$g'=g^{-1}$，则$\displaystyle\sum_{\chi\in\widehat{G}}\chi(g)\chi(g')=\displaystyle\sum_{\chi\in\widehat{G}}\chi(gg')=\displaystyle\sum_{\chi\in\widehat{G}}1=n$</p>
+<p>若$g'\neq g^{-1}$则$a=gg'\neq1$，下证：存在$\lambda\in\widehat{G}$使得$\lambda(a)\neq1$<br>
+由于$a\neq1$，所以a的阶$m\geq2$. 由a生成$G$的m阶循环子群即为$H$，于是商群$G/H$的阶为$\frac{n}m$<br>
+对于$\chi\in\widehat{G}$，若$\chi(a)=1$，则$\chi(H)=1$，从而对于对每个$g\in G,\chi(gH)=\chi(g)$. 因此可看成是商群$G/H$的特征.<br>
+反之，群$G/H$的每个特征$\chi$可看成是$G$的特征：$\chi(g)=\chi(gH)$，这时$\chi(a)=\chi(aH)=\chi(H)=1$. 由于群$G/H$的特征有$\frac{n}m$个，群$G$的特征有n个，而$\frac{n}m&lt;n$. 所以必存在$\lambda\in\widehat{G}$，使得$\lambda(a)\neq1$，于是$$
+\sum_{\chi\in\widehat{G}}\chi(g)\chi(g')=\sum_{\chi\in\widehat{G}}\chi(a)=\sum_{\chi\in\widehat{G}}(\lambda\chi)(a)=\sum_{\chi\in\widehat{G}}\lambda(a)\chi(a)=\lambda(a)\sum_{\chi\in\widehat{G}}\chi(a)
+$$ 由$\lambda(a)\neq1$可知，$\displaystyle\sum_{\chi\in\widehat{G}}\chi(a)=0$,即当$gg'\neq1$时，$\displaystyle\sum_{\chi\in\widehat{G}}\chi(g)\chi(g')=0$.</p>
+<hr>
+<h4 id="%E5%9F%9F%E5%9F%9F%E7%9A%84%E6%89%A9%E5%BC%A0">域，域的扩张</h4>
+<p>定义 一个域若没有真子域，则称为素域.<br>
+定理8 一个域的素子域同构于$\Z/p$或有理数域$\mathbb Q$</p>
+<p>定义 设$K$是域$F$的子域，$S$是$F$的子集，记$K(S)$表示$F$中包含$K$和$S$的最小子域，即$F$中包含$K$和$S$的所有子域之交.<br>
+对有限的$S=\lrb{\alpha_1,\cdots,\alpha_n}\subseteq F$，记$K(\alpha_1,\cdots,\alpha_n)=K(S)$，并称$K(\alpha_1,\cdots,\alpha_n)$是有限生成扩张.<br>
+对元素$\alpha\in F$，称$K(\alpha)$是$K$的单扩张.</p>
+<p>定义 设$K$是$F$的子域，$\alpha\in F$，若存在非零$f(x)\in K[x]$，使得$f(\alpha)=0$，则称$\alpha$是$K$上的代数元.<br>
+若$F$中每个元素都是$K$上的代数元，则称$F$是$K$的代数扩张.</p>
+<p>例如：<br>
+$\sqrt2$是有理数域$\mathbb Q$上的代数元，因为它是多项式$x^2-2\in Q[x]$的根.<br>
+圆周率$\pi$和$e=\sum^\infty_{n=1}\frac1{n!}$在$\mathbb Q$上是超越的.<br>
+对于$K$上的每个超越元素$x,K[x]$是多项式环，包含它的最小域是有理函数域$K(x),K(x)$中元素为多项式之商$\frac{f(x)}{g(x)}$(其中$f(x),g(x)\in K[x],g(x)\neq0$)，叫做有理函数.<br>
+扩张$K(x)/K$的次数是无限的，因为$K$上向量空间$K(x)$的一组基必包含无限多个元素(比如$1,x,x^2,\cdots,x^n,\cdots$在$K$上是线性无关的)</p>
+<p>定义 设$\alpha$是$K$的代数元，$K[x]$中使得$f(\alpha)=0$的次数最小的首一多项式称为$\alpha$在$K$上的极小多项式.<br>
+注：极小多项式必定唯一且不可约.<br>
+注：设$\alpha\in F$是$K$的代数元，记$$
+J=\lrb{f(x)\in K[x]|f(\alpha)=0}
+$$ 显然$J$是$K[x]$的一个理想，从而也是主理想.</p>
+<p>$J$中首项系数为1的生成元就是$\alpha$在$K$上的极小多项式. 任意满足$g(\alpha)=0$的$g(x)\in K[x]$都是$\alpha$的极小多项式的倍式.</p>
+<p>定义 设$K$是$F$的子域，则$F$自然看成$K$上的向量空间；若是有限维的，则称$F$是$K$的有限维扩张，维数记为$[F:K]$，也称$F$关于$K$的扩张次数.</p>
+<p>注： 有限维扩张必是代数扩张.</p>
+<p>定理9 设$F$是$K$是有限维扩张，$L$是$F$的有限维扩张，则$L$是$K$的有限维扩张且$$
+[L:K]=[L:F][F:K]
+$$ 定理10 设$F$是$K$的扩域，$\alpha\in F$是$K$的代数元，$g(x)\in F[x]$是$\alpha$的极小多项式，$deg~g(x)=n$，则<br>
+(1) $K(\alpha)$同构于$K[x]/(g(x))$<br>
+(2) $[K(\alpha):K]=n$,并且$\lrb{1,\alpha,...,\alpha^{n-1}}$构成$K(\alpha)/K$的一组基<br>
+(3) 任意$\beta\in K(\alpha)$是$K$的代数元，且$\beta$在$K$上的极小多项式次数整除n</p>
+<p>注：设$g(x)$是$K$上不可约多项式，则$K[x]/(g(x))$可视为$K$的扩域，并且有$\alpha\in K[x]/(g(x))$是$g(x)$的根，进一步有$K[x]/(g(x))=K(\alpha)$</p>
+<p>例如：$\sqrt2$在Q上的极小多项式为$x^2-2$，所以$Q[\sqrt2]$是域，$\lrb{1,\sqrt2}$是域$Q[\sqrt2]$的一组$Q-$基，即$L$中元素唯一的表示为$a+b\sqrt2(a,b\in Q)$, 当$a+b\sqrt2\neq0$时它的逆为$\frac{a}{a^2-2b^2}-\frac{b}{a^2-2b^2}\sqrt2$<br>
+域$K$叫作代数封闭域，是指每个在$K$上代数的元素均属于$K$.($K$中元素$\alpha$在$K$上也是代数的，它的极小多项式为$x-a$). 即$K[x]$中每个非零多项式在$K$中均有根，比如复数域是代数封闭域.</p>
+<p>对于任意域$K$，可以把$K$上代数的所有元素添加到$K$中，所形成的域叫作$K$的代数闭包，表示成$K^{ac}$，可以用以下两个性质刻画：<br>
+(1) $K^{ac}$中元素均在$K$上代数<br>
+(2) $K$上代数的元素均属于$K^{ac}$</p>
+<p>例如：复数域$C$不是有理数域Q的代数闭包，因为C中有许多在Q上超越的元素，C比$Q^{ac}$要大.</p>
+<p>对于$F[x]$中多项式重根的判断，方法和复数域的情形一样<br>
+定理：设$F$是域，$F^{ac}$是$F$的一个代数闭包，则$F[x]$中非零多项式$f(x)$在$F^{ac}$中有重根的充分必要条件为$(f(x),f'(x))\neq1$.<br>
+对于$F=Q,R,C$时，$F[x]$中不可约多项式都没有重根.<br>
+但是当$F$为$F_q$的某些扩域时，$F[x]$中不可约多项式可能会有重根.</p>
+<p>例如：设$t$是二元域$F_2=\lrb{0,1}$上的超越元素，$F=F_2(t)$为有理函数域. $F[x]$中多项式$f(x)=x^2-t$是不可约的，因为它的根$\sqrt{t}$不属于$F=F_2(t)$.<br>
+但是$f'(x)=2x=0,(f(x),f'(x))\neq1$，所有$f(x)=x^2-t$在$F$的代数闭包上有重根，$f(x)=x^2-(\sqrt{t})^2=(x-\sqrt{t})^2$，即$\sqrt{t}$为二重根.</p>
+<p>定理 对于有限域$F_p,F_p[x]$中不可约多项式在$F_p$的代数闭包中没有重根.<br>
+证明：$f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0$是$F_p[x]$中n次不可约多项式，如果$f(x)$有重根，$(f(x),f'(x))\neq1$. 由于$f(x)$不可约，则$f'(x)\equiv0$，因此$ia_i=0$，所以$f(x)$的系数不为0时，必然$i=0$，即$p|i$，所以$f(x)$是$x^p$的多项式，$f(x)=\sum^l_{j=0}c_jx^{jp}$，而$c_j=c_j^p$，所以$$
+f(x)=\sum_{j=0}^lc^p_jx^{jp}=(\sum^l_{j=0}c_jx^j)^p
+$$，与$f(x)$不可约矛盾.</p>
+<p>定义 设$f(x)\in K[x]$，$F$是$K$的扩域，若存在$\alpha_1,...,\alpha_n\in F$，使得$$
+f(x)=a(x-\alpha_1)(x-\alpha_2)...(x-\alpha_n)
+$$ 其中$a$是$f(x)$首项系数，则称$f(x)$在$F$中分裂. 进一步，若$F=K(\alpha_1,...,\alpha_n)$，则称$F$是$f(x)$在$K$上的分裂域.</p>
+
+</body>
+</html>

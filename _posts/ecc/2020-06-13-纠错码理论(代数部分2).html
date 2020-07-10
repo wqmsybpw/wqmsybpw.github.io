@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-06-13-纠错码理论(代数部分2).md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E7%BA%A0%E9%94%99%E7%A0%81%E7%90%86%E8%AE%BA%E4%BB%A3%E6%95%B0%E9%83%A8%E5%88%862">纠错码理论(代数部分2)</h1>
+<p>$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\fpn{\mathbb{F}_{p^n}}$
+$\gdef\F{\mathbb F}$</p>
+<p>有限域的特性</p>
+<ul>
+<li><strong>有限域的元素个数</strong></li>
+</ul>
+<p>域的特征：设$K$是域，1是$K$的乘法单位元.<br>
+若存在正整数$n$，使得$n\cdot1=0$，设$p$是最小这样的正整数，显然p是素数，此时称域$K$的特征为p，记为$charK=p$.<br>
+证明：若$p$不是素数，则$p=kl$，其中$k$和$l$是比$p$更小的正整数，由特征的定义知道$k\neq0,l\neq0$，但是$kl=p=0$，矛盾.</p>
+<p>若不存在这样的正整数，则称域$K$的特征为0，记为$charK=0$.<br>
+设域$F$是特征为$p$的域，则$F$的素域必同构于$$
+\Z/(p)=\lrb{0,1,...,p-1}
+$$ 从而$\Z/(p)$自然视为$F$的子域，并记为$\mathbb F=\Z/(p)$.</p>
+<p>定理12 (1) 设$F$是有限域，$K$是$F$的q元子域，则$F$有$q^m$个元素，其中$m=[F:K]$.<br>
+(2) 设$F$是有限域，则$F$中元素个数为$p^n$，其中$p$是$F$的特征，$n$是$F$关于其素子域上的扩张次数.</p>
+<p>证明：(1) 设$\alpha_1,...,\alpha_m\in F$是$F$在$K$上的一组基，则$F=\lrb{c_a\alpha_1+c_2\alpha_2+...+c_m\alpha_m|c_1,c_2,...,c_m\in K}$，每个$c_m$有q个取法，所以$|F|=q^m$.<br>
+(2) 因为$F$的特征为p，所以$F$有p元子域$K$,设$n=[F:K]$，则由(1)直接得到$|F|=q^n$.</p>
+<ul>
+<li><strong>有限域的存在性和唯一性</strong></li>
+</ul>
+<p>定理13 (1) 设$F$是q元有限域，则对任意$a\in F$满足$a^q=a$.<br>
+(2) 设$F$是q元有限域，则$$
+x^q-x=\prod_{a\in F}(x-a)
+$$ 从而对$F$的任意子域$K$，$F$自然是$K$上多项式$x^q-x$的分裂域.<br>
+(3) 设p为素数，n为正整数，则存在$p^n$元的有限域.<br>
+任意包含$p^n$个元素的有限域同构于$\mathbb F_p$上的多项式$x^{p^n}-x$的分裂域. 由此，我们记$p^n$元有限域为$\mathbb F_{p^n}$.</p>
+<p>证明：(1) 因为$F$乘法群$F^\ast $的阶为$q-1$，所以对$\alpha\in F^\ast $，有$\alpha^{q-1}=1$，即$\alpha^q=\alpha$；而$0^q=0$自然成立，从而结论成立.</p>
+<p>(2) $x^q-x$在$F$中的根个数至多为q，而由(1)知，$F$中每个元素都是$x^q-x$的根，所以成立.</p>
+<p>(3) 记$q=p^n$，考虑$\mathbb F_p$上多项式$x^q-x$，设$F$是$x^q-x$在$\mathbb F_p$上的分裂域，则$x^q-x$无重根且所有根构成$F$的子域. 所以$F$恰好由$x^q-x$的所有根构成，结论成立.</p>
+<ul>
+<li><strong>有理域的子域</strong></li>
+</ul>
+<p>定理14 设$\mathbb F_{p^n}$为$p^n$元有限域，其中p是素数，$char\mathbb F_{p^n}=p$，则$\mathbb F_{p^n}$的任意子域的元素个数为$p^m$，其中$m|n$. 反之设$m|n$，则$\mathbb F_{p^n}$中恰好存在一个含有$p^m$个元素的子域.</p>
+<p>证明：设$K$是$\fpn$的子域，$[\fpn:K]=t$. 因为$char\fpn=p$，所有$charK=p$(不可能比p更小),从而可设$|K|=p^m$，由此得$p^n=(p^m)^t=p^{mt}$(定理12(2)扩张次数)，即$m|n$.<br>
+反之，因为$m|n$所以$x^{p^m-1}-1|x^{p^n-1}-1$，即$x^{p^m}-x|x^{p^n}-x$，从而$x^{p^m}-x$在$\fpn$中的根集合（即$x^{p^m}-x$的分裂域，定理13下面）是$\fpn$的$p^m$元子域，显然是唯一的.</p>
+<ul>
+<li><strong>有限域的乘法群</strong></li>
+</ul>
+<p>定理15 任意有限域$\mathbb F_q$的非零元构成的乘法群$\mathbb F^\ast _q$为循环群，并称$\mathbb F^\ast _q$中的生成元为$\mathbb F_q$的本原元. 反之，设$F$是域，若$F$的乘法群$F^\ast $是循环群，则$F$是有限域.</p>
+<p>证明：设$h=q-1=p_1^{r_1}p_2^{r_2}...p_m^{r_m}$是$q-1$的标准分解，设$\alpha_i\in\mathbb F_q$满足$\alpha_i^{h/p_i}-1\neq0$. 令$\beta_i=\alpha_i^{h/p_i^{r_i}}$，则$ord~\beta_i=p_i^{r_i}$. 令$\beta=\beta_1\beta_2...\beta_m$，则$ord~\beta=q-1$. 所以乘法群$\mathbb F^\ast _q$为循环群，$\beta$是它的生成元.(前面群直积，中国剩余定理) 反之略.</p>
+<p>特别的，$F=\lrb{0,1,\alpha,\alpha^2,\cdots,\alpha^{q-2}}=\mathbb F_q[\alpha]=\mathbb F_q(\alpha)$（循环群，有限域，单扩张）</p>
+<ul>
+<li><strong>有限域上的多项式</strong></li>
+</ul>
+<p>例：设$F=Z_2,p(x)=x^3+x+1$.<br>
+由于$p(x)$次数为3，$p(0)=p(1)\neq0$，即$p(x)$在$Z_2$中无根，所以$p(x)$在$Z_2$上不可约.<br>
+$p(x)$的次数为3，$Z_2[x]/(p(x))$中元素形如$a_2x^2+a_1x+a_0,a_i\in Z_2$(p(x)体现在取模)，可表示为$Z_2$上的$3-$维向量$(a_2,a_1,a_0)$.
+运算：加法就是分量相加，乘法：$(a_2x^2+a_1x+a_0)(b_2x^2+b_1x+b_0)=a_2b_2x^4+(a_2b_1+a_1b_2)x^3+(a_2b_0+a_1b_1+a_0b_2)x^2+(a_1b_0+a_0b_1)x+a_0b_0$，<br>
+注意到$x^3\equiv x+1(mod~x^3+x+1),x^4\equiv x^2+x(mod~x^3+x+1)$，有$a_2b_2x^4\equiv a_2b_2x^2+a_2b_2x,(a_2b_1+a_1b_2)x^3\equiv (a_2b_1+a_1b_2)x+(a_2b_1+a_1b_2)$<br>
+记$(a_2,a_1,a_0)\cdot(b_2,b_1,b_0)=(c_2,c_1,c_0)$则$c_2=a_2b_2+a_2b_0+a_1b_1+a_0b_2,c_1=a_2b_2+a_2b_1+a_1b_2+a_1b_0+a_0b_1,c_0=a_2b_1+a_1b_2+a_0b_0$.</p>
+<p>上面把$Z_2$上的$3-$维向量空间做成了一个域，含8个元素，是非零数个元素的有限域.<br>
+为了简化乘法，换一种表示，首先计算x的方幂模p(x)，由$x^0\equiv1,x^1\equiv x,x^2\equiv x^2,x^3\equiv x+1,x^4\equiv x^2+x,x^5\equiv x^2+x+1,x^6\equiv x^2+1,x^7\equiv1$，取$\alpha=(010)$，作表：</p>
+<p>$\alpha^0\equiv1,\alpha^1\equiv\alpha,\alpha^2\equiv\alpha^2,\alpha^3\equiv\alpha+1,\alpha^4\equiv\alpha^2+\alpha,\alpha^5\equiv\alpha^2+\alpha+1,\alpha^6\equiv\alpha^2+1,\alpha^7\equiv1$</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$\beta$</th>
+<th style="text-align:center">$\log_\alpha\beta$</th>
+<th style="text-align:center">$k$</th>
+<th style="text-align:center">$\alpha^k$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">000</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">000</td>
+</tr>
+<tr>
+<td style="text-align:center">001</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">001</td>
+</tr>
+<tr>
+<td style="text-align:center">010</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">010</td>
+</tr>
+<tr>
+<td style="text-align:center">011</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">100</td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">011</td>
+</tr>
+<tr>
+<td style="text-align:center">101</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">110</td>
+</tr>
+<tr>
+<td style="text-align:center">110</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">111</td>
+</tr>
+<tr>
+<td style="text-align:center">111</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">101</td>
+</tr>
+</tbody>
+</table>
+<p>容易计算域中两个元素的乘积，例如$ab=(110)(111)$，由于$\log_\alpha a=4,\log_\alpha b=5$，得$ab=\alpha^4\alpha^5=\alpha^2=(100)$，$(011)(111)=(010)$.</p>
+<ul>
+<li><strong>不可约多项式的根</strong></li>
+</ul>
+<p>定理 (1) 设$\mathbb F_q$是有限域，$\mathbb F_r$是$\F_q$的有限扩张，则$\mathbb F_r$是$\F_q$的单代数扩张.<br>
+(2) 有限域$\F_q$上存在任意n次不可约多项式.<br>
+(3) 设$F$是$\F_q$的扩域，$\alpha\in F$是$\F_q$的代数元，且$\alpha$在$\F_q$上的极小多项式次数为m，则$\F_q[\alpha]=\F_q(\alpha)=\F_{q^m}$</p>
+<p>证明：(1) 设$\alpha\in\F_r$是$\F_r$的本原元,则自然有$\F_r=\F_q[\alpha]$. (2) 设$\alpha\in\F_{q^n}$满足$\F_{q^n}=\F_q(\alpha)$，则$\alpha$在$\F_q$上的极小多项式$f(x)$是$\F_q$上的n次不可约多项式. (3) 因为$[\F_q(\alpha):\F_q]=m$，从而$\F_q(\alpha)=\F_{q^m}$. (定理9)</p>
+<p>定理17 设$f(x)\in\F_q[x]$为$\F_q$上次数为m的不可约多项式，则$f(x)$整除$x^{q^n}-x$当且仅当$m|n$.</p>
+<p>证明：设$F$是$f(x)$在$\F_q$上的分裂，$\alpha\in F$是$f(x)$的根，则$\F_q(\alpha)=\F_{q^m}$.<br>
+必要性：$f(x)|x^{q^n}-x\rArr\alpha$是$x^{q^n}-x$的根$\rArr\F_q(\alpha)\subseteq\F_{q^n}$，再由$\F_q(\alpha)=\F_{q^m}$，得$m|n$.(定理14)<br>
+充分性：$m|n\rArr\F_q(\alpha)=\F_{q^m}\subseteq\F_{q^n}\rArr\alpha$是$x^{q^n}-x$的根$\rArr f(x)|x^{q^n}-x$.</p>
+<p>定理 若$f(x)$是$\F_q[x]$中次数为m的不可约多项式，则$f(x)$在$\F_{q^m}$上恰有m个根；设$\alpha$是$f$的一个根，则$f$的所有根为$\alpha,\alpha^q,\alpha^{q^2},...,\alpha^{q^{m-1}}$.</p>
+<p>证明：设$F$是$f$在$\F_q$上的分裂域，$\alpha\in F$是$f$的一个根，则$\F_q(\alpha)=\F_{q^m}$.<br>
+因为$\alpha\in\F_{q^m}$是$f$的一个根，则$\alpha,\alpha^q,\alpha^{q^2},...,\alpha^{q^{m-1}}\in\F_{q^m}$都是$f$的一个根，下面只需说明它们两两不同.<br>
+若$\alpha^{q^i}=\alpha^{q^j}$，其中$0\leq i&lt;j&lt;m$，则$\alpha^{q^{m-j+i}}=\alpha^{q^m}=\alpha$，即$\alpha$是$x^{q^{m-j+i}}-x$的根，所以$m|m-j+i$，而$0\leq i&lt;j&lt;m$，矛盾.</p>
+<p>定理 (1) 设$f$是$\F_q[x]$中次数为m的不可约多项式，则$f$的分裂域为$\F_{q^m}$.<br>
+(2) $\F_q[x]$上任意两个次数相同的不可约多项式具有同构的分裂域.</p>
+<p>例1 构作$\F_9$.<br>
+需要$\F_3[x]$中一个2次首1不可约多项式，考虑$f(x)=x^2+x+2\in\F_3[x]$. 由$f(0)=2,f(1)=1,f(2)=2$可知$f(x)$在$\F_3$中无根.<br>
+从而$f(x)$在$\F_3[x]$中不可约，取$\alpha$为$f(x)$的一个根，则$\alpha^2+\alpha+2=0$，即$\alpha^2=\alpha+1$. 而$\F_9=\F_3[\alpha]$. 由于$\lrb{1,\alpha}$是$\F_9$的一组$\F_3$基（定理10），所以$\F_9$的每个元素唯一表示成$c_0+c_1\alpha(c_0,c_1\in\F_3)$，我们把元素$c_0+c_1\alpha$表示成$(c_0,c_1)$，则<br>
+$0=(0,0),1=(1,0),\alpha=(0,1),\alpha^2=2\alpha+1(1,2)$,<br>
+$\alpha^3=\alpha(2\alpha+1)=2\alpha^2+\alpha=2(2\alpha+1)+\alpha=(2,2),\alpha^4=(2,0),\alpha^5=(2,1),\alpha^7=(1,1),\alpha^8=1$.</p>
+<p>域$\F_9=\lrb{0,1,\alpha,\alpha^2,\cdots,\alpha^7}$中的元素均用向量表示了出来，它们可以用来作四则运算.<br>
+$\alpha^3+\alpha^5=(2,2)+(0,2)=(2,1)=\alpha^6(=2+\alpha)$,<br>
+$(1+2\alpha)(2+\alpha)=\alpha^2\alpha^6=1,(1+\alpha)^{-1}=(\alpha^7)^{-1}=\alpha^{-7}=\alpha$</p>
+<p>例 构作$\F_{16}$<br>
+需要$\F_2[x]$中一个4次首1不可约多项式，考虑$f(x)=x^4+x^3+x^2+x+1\in\F_2[x]$，如果它可约，$f(x)$必有一个次数小于等于2的不可约多项式因子，由于$f(0)=f(1)=1$，可知$f(x)$没有1次多项式因子.<br>
+另一方面，$\F_2[x]$中二次不可约多项式只有$x^2+x+1$，它不是$f(x)$的因子，这就表明$f(x)$是$\F_2[x]$中不可约多项式.<br>
+取$\alpha$为$f(x)$的一个根，则$\alpha^4+\alpha^3+\alpha^2+\alpha+1=0$，即$\alpha^4=\alpha^3+\alpha^2+\alpha+1$. 而$\F_{16}=\F_2[\alpha]$，所以$\F_{16}$的每一个元素唯一表示成$c_0+c_1\alpha+c_2\alpha^2+c_3\alpha^3(c_0,c_1,c_2,c_3\in\F_2)$，写成向量的形式$(c_0,c_1,c_2,c_3)$.<br>
+$\F_{16}^\ast $是15阶乘法循环群，从而存在15阶元素$\beta$，使得$\F_{16}^\ast =&lt;\beta&gt;$，由于$f(x)|x^5-1$，即$\alpha^5=1$，所以$\alpha$不是$\F_{16}^\ast $的生成元.<br>
+另一方面，$(1+\alpha)^3=1+\alpha+\alpha^2+\alpha^3\neq1$，$(1+\alpha)^5=1+\alpha+\alpha^4+\alpha^5=\alpha+\alpha^4=1+\alpha^2+\alpha^3\neq1$，所以$1+\alpha$是15阶元素(数论，每个素因子不为1)，即$\F_{16}^\ast =&lt;1+\alpha&gt;$.</p>
+<hr>
+<p>定义：域$K$的自同构是$K$到自身的环同构$\varphi:K\rarr K$，即对$a,b\in K,\varphi(a+b)=\varphi(a)+\varphi(b),\varphi(ab)=\varphi(a)\varphi(b)$，并且$\varphi$是一一映射. $K$的所有自同构对合成运算形成群（自同构群），恒等元为恒等自同构.<br>
+由定义可知：$\varphi(0)=0,\varphi(1)=1,\varphi(-a)=-\varphi(a),\varphi(a^{-1})=\varphi(a)^{-1}(a\neq0)$<br>
+设$L/K$是域的扩张，$L$的自同构$\varphi$叫作$K$自同构，是指对每个$a\in K,\varphi(a)=a$，即$\varphi$在$K$上的限制为域$K$的恒等自同构.<br>
+$L$的所有$K$自同构形成群，叫作域扩张$L/K$的伽罗瓦群，表示成$G(L/K)$</p>
+<p>定理：设$\F_{q^n}/\F_q$是有限域的n次扩张，则伽罗瓦群$G(\F_{q^n}/\F_q)$是由$\tau$生成的n阶循环群，其中$\tau:\F_{q^n}\rarr\F_q,\tau(a)=a^q(a\in \F_{q^n})$.</p>
+<p>证明：首先证$\F_{q^n}$的$\F_q$自同构的个数不超过n,即$|G(\F_{q^n}/\F_q)|\leq n$，由于$\F_{q^n}=\F_q(\alpha)$，则$\F_{q^n}$的每个$\F_q$自同构$\varphi$由在$\alpha$的取值$\varphi(\alpha)$完全决定，因为$\F_{q^n}$的元素可唯一表示为$$
+\begin{aligned}
+\gamma&amp;=c_0+c_1\alpha+\cdots+c_{n-1}\alpha^{n-1}(c_i\in\F_q)\\
+\varphi(\gamma)=&amp;\varphi(c_0)+\varphi(c_1)\varphi(\alpha)+\cdots+\varphi(c_{n-1})\varphi(\alpha)^{n-1}\\
+&amp;=c_0+c_1\varphi(\alpha)+\cdots+c_{n-1}\varphi(\alpha)^{n-1}
+\end{aligned}
+$$ 设$\alpha$在$\F_q$上的极小多项式是$\F_{q^n}$中n次不可约多项式$f(x)=x^n+b_{n-1}x^{n-1}+\cdots+b_1x+b_0(b_i\in\F_q)$<br>
+它的n个根为$\alpha_1,\alpha_2,\cdots,\alpha_n$(不妨设$\alpha=\alpha_1$)，则每个$\F_q(\alpha_i)$都是q元域，$\alpha_i\in\F_q(\alpha)=\F_{q^n}(1\leq i\leq n)$并且$f(x)=(x-\alpha_1)(x-\alpha_2)\cdots(x-\alpha_n)$<br>
+$\F_{q^n}[x]$中多项式$g(x)=\sum_{i=0}^m\beta_ix^i,\sigma$为$\F_{q^n}$的自同构：$$
+\sigma(g(x))=\sum_{i=0}^m\sigma(\beta_i)x^i
+$$ 若$g(x),h(x)\in\F_{q^n}[x]$，则$\sigma(g(x)h(x))=\sigma(g(x))\sigma(h(x))$<br>
+现在设$\varphi$是$\F_{q^n}$的$\F_q$自同构<br>
+将$\varphi$作用于$f(x)$，由于$b_i\in\F_q$，可知$\varphi(b_i)=b_i$，因此$$
+f(x)=\varphi(f(x))=\varphi(x-\alpha_1)\varphi(x-\alpha_2)\cdots\varphi(x-\alpha_n)=(x-\varphi(\alpha_1))(x-\varphi(\alpha_2))\cdots(x-\varphi(\alpha_n))
+$$ 因此$\varphi(\alpha)=\varphi(\alpha_1)$也是$f(x)$的根，即$\varphi(\alpha)$必为$\alpha_1,\alpha_2,\cdots,\alpha_n$中的一个. 因此$\varphi$由值$\varphi(\alpha)$完全决定，可知$\F_{q^n}$的$\F_q$自同构不超过n个.<br>
+现在给出n个$\F_{q^n}$的$\F_q$自同构：<br>
+可验证$\tau(a)=a^q$是$\F_{q^n}$的$\F_q$自同构，因为$\tau(a+b)=\tau(a)+\tau(b),\tau(ab)=\tau(a)\tau(b),Ker(\tau)=(0)$，所以$\tau$是单同态，进而也是满同态.<br>
+于是$\tau$为$\F_{q^n}$的自同构，进而当$a\in\F_q$时$\tau(a)=a$，从而$\tau$是$\F_q$自同构.</p>
+<p>对每个正整数k,$$
+\tau^k(a)=\tau^{k-1}(\tau(a))=\tau^{k-1}(a^q)=\tau^{k-1}(a)^q=\tau^{k-2}(a)^{q^2}=\cdots=a^{q^k}
+$$  从而对每个$a\in\F_{q^n},\tau^n(a)=a^{q^n}=a$，所以$\tau^n$是$\F_{q^n}$的恒等自同构$I$.<br>
+当$k&lt;n$时，满足$\tau^k(a)=a$的元素$a$是$x^{q^k}-x$的根，这样的元素不超过$q^k$个，而$q^k&lt;q^n$，所以当$k&lt;n$时$\tau^k\neq I$，这表明$\tau$的阶为n.<br>
+所以$I,\tau,\cdots,\tau^n$是$\F_{q^n}$的n个不同的$\F_q$自同构，因此伽罗瓦群$G(F_{q^n}/F_q)$是由$\tau$生成的n阶循环群.</p>
+<p>有限域上的多项式环<br>
+对于有限域上多项式环$\F_q[x]$和多项式$f(x)\in\F_q[x]$.<br>
+(1) 环$\F_q[x]$的乘法单位群为$\F^\ast _q$，即多项式$f(x)\in\F_q[x]$在$\F_q[x]$中可逆当且仅当$f(x)$是非零常数$\alpha\in\F^\ast _q$.<br>
+(2) $\F_q[x]$是主理想整环，每个非零理想$A$都是主理想$A=(f(x))$，并且若要求$f(x)$是首1多项式，则生成元$f(x)$由理想$A$唯一确定，并且$A$是素理想当且仅当$f(x)$是不可约多项式，非零理想均为极大理想.<br>
+(3) $\F_q[x]$是唯一因子分解整环，每个次数大于等于1的首1多项式$f(x)$，都分解为有限个首1不可约多项式之积，并且不计因子次序这个分解式是唯一的，标准分解式为$f(x)=p_1(x)^{e_1}p_2(x)^{e_2}\cdots p_g(x)^{e_g}$，其中$p_1(x)^{e_1},p_2(x)^{e_2},\cdots,p_g(x)^{e_g}$是不同的首1不可约多项式，$e_i\geq1(1\leq i\leq g)$.</p>
+<p>不可约多项式的性质：设$f(x)$是$\F_q[x]$中n次不可约多项式，$n\geq1,(f(x),x)=1,\alpha$为$f(x)$在$\F_q$的代数闭包中的一个根，则<br>
+(1) $f(x)$的全部根为$\alpha,\alpha^q,\alpha^{q^2},\cdots,\alpha^{q^{n-1}}$. 并且n是满足$\alpha^{q^n}=\alpha$的最小正整数<br>
+(2) $f(x)$的n个根有相同的乘法阶$l,l|q^n-1$，并且n也满足$q^n\equiv1(mod~l)$的最小正整数.</p>
+<p>证明：设$\alpha_1,\alpha_2,\cdots,\alpha_n$为$f(x)$的n个根，$\alpha=\alpha_1$，则$\F_q(\alpha_i)=\F_{q^n}(1\leq i\leq n)$. 由$f(x)$不可约可知其没有重根，因此$f(x)=a_n(x-\alpha_1)(x-\alpha_2)\cdots(x-\alpha_n)$，其中$x-\alpha_i\in\F_{q^n}[x](1\leq i\leq n)$. 将上式两边作用$\F_{q^n}$的$\F_q$自同构$\tau$，这里对每个$a\in\F_{q^n},\tau(a)=a^q$. 由于$a_i\in\F_q$，从而$\tau(a_i)=a_i(0\leq i\leq n)$. 因此$f(x)=\tau(f(x))=\tau(a_n)(x-\tau(\alpha_1))(x-\tau(\alpha_2))\cdots(x-\tau(\alpha_n))=a_n(x-\alpha_1^q)(x-\alpha_2^q)\cdots(x-\alpha_n^q)$,<br>
+若$\alpha_1$是$f(x)$的根，则$\tau(\alpha)=\alpha^q=\alpha_1^q$也是$f(x)$的根，于是$\alpha^{q^i}$均是$f(x)$的根.</p>
+<p>由于$(f(x),x)=1$，即$a_0\neq0$，所以$f(x)$的根均不等于0，即$\alpha^{q^i}\in\F_{q^n}^\ast $. 所以$\alpha$是有限阶元素. 设$\alpha$的阶为$l$，乘法群$\F_{q^n}^\ast $的阶为$q^n-1$，则$l|q^n-1$.特别的，$(q,l)=1$，所以存在正整数k，使得$q^k\equiv1(mod~l)$. 设k是满足此条件的最小正整数，现在证明$k=n$，并且$\alpha^{q^i}$是$f(x)$的全部根.<br>
+由$k$的定义可知$\alpha^{q^k}=\alpha$并且$\alpha^{q^i}(0\leq i\leq k-1)$两两不同，因为若$\alpha^{q^i}=\alpha^{q^j}(0\leq i&lt;j\leq k-1)$，则$0=\alpha^{q^j}-\alpha^{q^i}=(\alpha^{q^{j-i}}-\alpha)^{q^i}$，于是$\alpha^{q^{j-i}}=\alpha$，但是$0&lt;j-i\leq k-1$，与k的最小性矛盾.<br>
+由于$\alpha^{q^i}$均是$f(x)$的根，并且两两不同，在$\F_{q^n}[x]$中$g(x)=(x-\alpha)(x-\alpha^q)\cdots(x-\alpha^{q^{k-1}})|f(x)$. 现在证明$g(x)$是$\F_q[x]$的多项式.<br>
+$g(x)=x^k+c_{k-1}x^{k-1}+\cdots+c_1x+c_0(c_i\in\F_{q^n})$<br>
+将自同构$\tau$作用于上式，$$
+\begin{aligned}
+&amp;x^k+c^q_{k-1}x^{k-1}+\cdots+c^q_1x+c^q_0=\tau(g(x))=\\
+&amp;=\tau(x-\alpha)\cdots\tau(x-\alpha^{q^{k-2}})\tau(x-\alpha^{q^{k-1}})\\
+&amp;=(x-\tau(\alpha))\cdots(x-\tau(\alpha^{q^{k-2}}))(x-\tau(\alpha^{q^{k-1}}))\\
+&amp;=(x-\alpha^q)\cdots(x-\alpha^{q^{k-1}})(x-\alpha^{q^k})=g(x)
+\end{aligned}
+$$ 这表明$c_i^q=c_i(0\leq i\leq k-1)$，即$c_i\in\F_q(0\leq i\leq k-1)$，所以$g(x)$是$\F_q[x]$中的多项式.
+由于$\F_q[x]$中k次多项式$g(x)$为$f(x)$的因子，而$f(x)$在$\F_q[x]$中不可约，所以$k=n=deg~f(x)$，因此$$
+f(x)=a_ng(x)=a_n(x-\alpha)(x-\alpha^q)\cdots(x-\alpha^{q^{n-1}})
+$$ 即$f(x)$的n个根为$\alpha^{q^i}$，并且n是满足$\alpha^{q^n}=\alpha$的最小正整数，n也是满足$q^n\equiv1(mod~l)$的最小正整数，其中l是$\alpha$的阶.<br>
+由于$(q,l)=1$，可知每个根$\alpha^{q^i}$的阶均为$\frac{l}{(q^i,l)}=\frac{l}1=l.$</p>
+<p>(3) $x^{q^n}-x$是$\F_q[x]$中所有次数整除n的首1不可约多项式之积.</p>
+<p>证明：$x^{q^n}-x$的$q^n$个根组成有限域$\F_{q^n}$. 由于$x^{q^n}-x$没有重根，所以$x^{q^n}-x$在$\F_q[x]$中分解成彼此不同的首1不可约多项式之积. 设$f(x)$是$x^{q^n}-x$的首1不可约多项式因子，$deg~f(x)=d$. 取$f(x)$的一个根$\alpha$，则$\F_q(\alpha)=\F_{q^d}$. 由于$\alpha$也是$x^{q^n}-x$的根，因此$\alpha\in\F_{q^n}$，于是$\F_{q^d}$为$\F_{q^n}$的子域，即$d|n$. 所以$x^{q^n}-x$在$\F_q[x]$中的每个首1不可约多项式因子的次数d均为n的因子.</p>
+<p>另一方面，对n的每个正因子d,如果$f(x)$是$\F_q[x]$中d次首1不可约多项式，则$f(x)$有d个不同的根$\alpha_1,\alpha_2,\cdots,\alpha_d$，并且$\F_q(\alpha_i)=\F_{q^d}$均为$\F_{q^n}$的子域. 所以$\alpha_i\in\F_{q^n}$，即$\alpha_i$都是$x^{q^n}-x$的根，所以$f(x)=(x-\alpha_1)(x-\alpha_2)\cdots(x-\alpha_d)$是$x^{q^n}-x$的因子.<br>
+因此，$\F_q[x]$中首1不可约多项式$f(x)$为$x^{q^n}-x$的因子当且仅当$deg~f(x)|n$. 由于$x^{q^n}-x$没有重根，可知$x^{q^n}-x$就是$\F_q[x]$中所有次数整除n的首1不可约多项式之积.$$
+x^{q^n}-x=\prod_{d|n}\prod_{f(x)\in\Lambda_d}f(x)
+$$ $\Lambda_d$表示$\F_q[x]$中首1不可约多项式组成的集合.</p>
+<p>(4) $\F_q[x]$中所有次数整除n的首1不可约多项式的个数为$$
+N_n=\frac1n\sum_{d|n}\mu(d)q^\frac{n}{d}
+$$ 其中$\mu(n)$是初等数论中的莫比乌斯函数.</p>
+<p>证明：以$N_n$表示$\F_q[x]$中n次首1不可约多项式的个数，即$N_n=|\Lambda_n|$，考虑$x^{q^n}-x=\prod_{d|n}\prod_{f(x)\in\Lambda_d}f(x)$两边的次数，便有$$
+q^n=\prod_{d|n}\prod_{f(x)\in\Lambda_d}deg~f(x)=\prod_{d|n}\prod_{f(x)\in\Lambda_d}d=\prod_{d|n}dN_d
+$$ 莫比乌斯函数定义为$$
+\mu(n)=\begin{cases}
+1,n=1\\
+(-1)^k,n\text{为k个不同素数之积}\\
+0,otherwise
+\end{cases}
+$$ 莫比乌斯变换：设$F$和$G$是两个数论函数，则对每个正整数n，下面两个等式等价$$
+F(n)=\sum_{d|n}G(d),\qquad G(n)=\sum_{d|n}\mu(d)F(\frac{n}d)
+$$ 定义数论函数$F(n)=q^n,G(n)=nN_n$，则$$
+F(n)=\sum_{d|n}G(d)
+$$ 由莫比乌斯变换得到$$
+G(n)=\sum_{d|n}\mu(d)F(\frac{n}d)
+$$ 从而$$
+N_n=\frac1n\sum_{d|n}\mu(d)q^\frac{n}{d}
+$$</p>
+
+</body>
+</html>
