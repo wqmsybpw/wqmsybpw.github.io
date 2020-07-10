@@ -1,5 +1,5 @@
 var mode, css, all_p, all_img, toc, folded;
-var simple_css = "simplestyle.css";
+var simple_css = "/simplestyle.css";
 var keywds = ["定义", "定理", "引理", "命题", "性质", "证明", "例", "注", "记号", "引用"];
 var keywds_parttern = /[ ]?(定义|定理|引理|命题|性质|推论|证明|例|注|记号){1,2}[:：\s\d\(（]+/;
 var light_theme = "body {font-size:18px;margin:0px 16% 0px 16%;background:linear-gradient(to right,#bfe6ba,#fff,#fff,#fff,#fff,#fff,#fff,#bfe6ba);scrollbar-color: #6cf #fff;}";
