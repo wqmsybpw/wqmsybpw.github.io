@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2020-07-14-纠错码理论(通信部分2).md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<script src="/simplejs.js"></script>
+<script>
+	config = {};
+	config.delimiters = [{left: "$$", right: "$$", display: true},{left: "$", right: "$", display: false}];
+    document.addEventListener("DOMContentLoaded", function() {
+        simpleinit();
+        renderMathInElement(document.body, config);
+    });
+</script>
+</head>
+<body>
+<h1 id="%E7%BA%A0%E9%94%99%E7%A0%81%E7%90%86%E8%AE%BA%E9%80%9A%E4%BF%A1%E9%83%A8%E5%88%862">纠错码理论(通信部分2)</h1>
+<p>$\gdef\lrb#1{\lbrace#1\rbrace}$
+$\gdef\leq{\leqslant}$
+$\gdef\geq{\geqslant}$
+$\gdef\qed{~\tag*{\Large□}}$
+$\gdef\s{\cdots}$
+$\gdef\ip{2\pi i}$
+$\gdef\C{\mathbb{C}}$
+$\gdef\F{\mathbb{F}}$
+$\gdef\ol#1{\overline{#1}}$</p>
+<h2 id="%E7%BA%A0%E9%94%99%E7%A0%81%E7%9A%84%E7%95%8C">纠错码的界</h2>
+<p>回顾：对于固定有限域$\F_q,~q$元纠错码$C$有三个基本参数<br>
+码长$n$<br>
+码字个数$K=|C|$(或用信息位数$k=\log_qK$),$0\leq k\leq n$<br>
+最小距离$d=d(C),1\leq d\leq n$<br>
+表示为$(n,K,d)_q$或$[n,k,d]_q$.<br>
+也记为$q$元码$(n,K,d)$或$q$元码$[n,k,d]$.</p>
+<p>定理 (Hamming界) 如果存在纠错码$(n,K,d)_q$，则$$
+q^n\geq K\sum_{i=0}^{[\frac{d-1}{2}]}(q-1)^i\binom{n}{i}
+$$ 其中$\binom{n}{i}=\frac{n!}{(n-i)!i!}$.</p>
+<p>证明：对每个整数$r\geq0$和向量$(v_1,\s,v_n)\in\F_q^n$<br>
+$S_q(v,r)$表示与$v$的Hamming距离$\leq r$的所有向量的集合$$
+S_q(v,r)=\lrb{u\in\F_q^n|d(u,r)\leq r}
+$$ 称为以$v$为中心，半径为$r$的闭球，这个球中向量个数：对于每个$i\geq0$，若$u$与$v$的距离为$i$，则$u$和$v$恰有$i$个分量不同. $v=(v_1,\s,v_n)$固定，$n$个分量选$i$个方法数为$\binom{n}{i}$. $d(u,v)=i$的$u$共有$(q-1)^i{n \choose i}$个.<br>
+于是$S_q(v,r)$中元素个数为$|S_q(v,r)|=\displaystyle\sum_{i=0}^r\binom{n}{i}(q-1)^i$<br>
+设存在参数为$(n,K,d)$的$q$元码$C$，令$l=[\frac{d-1}{2}]$. 考虑以$C$中每个码字为中心的所有半径均为$l$的球$S_q(c,l)(c\in C)$.<br>
+这样的球共$K$个，对于其中两个不同的球$S_q(c_1,l)$和$S_q(c_2,l)~(c_1,c_2\in C,c_1\neq c_2)$，由$d(c_1,c_2)\geq d$知两球不相交.<br>
+若向量$u$同时在两球中，则$d(u,c_1)\leq l,d(u,c_2)\leq l$. 由三角不等式$d(c_1,c_2)\leq d(c_1,u)+d(u,c_2)\leq2l=2[\frac{d-1}{2}]\leq d-1$与$d(c_1,c_2)\geq d$矛盾. 上述$K$个球两两不相交，这些球 所有元素之和为$K\cdot\displaystyle\sum_{i=0}^r\binom{n}{i}(q-1)^i$，而整个空间$\F_q^n$元素共有$q^n$，则$q^n\geq K\displaystyle\sum_{i=0}^{[\frac{d-1}{2}]}\binom{n}{i}(q-1)^i$. $$\qed$$</p>
+<p>定义 设$C$为$q$元码$(n,K,2l+1)$. 若$q^n=K\cdot\displaystyle\sum_{i=0}^l(q-1)^i\binom{n}{i}$，则称$C$为完全码.</p>
+<p>若$C$是上述参数的$q$元完全码，则$K$个球$S_q(c,l)$恰好填满整个空间$\F_q^n$. 二元码$(7,16,3)$是完全码. $q^n=2^7=128,~16\sum_{i=0}^1\binom{7}{i}=128$.</p>
+<p>定理 (Singleton界) 若存在$q$元码$(n,K,d),1\leq d\leq n-1$，则$K\leq q^{n-d+1}$ (即$n\geq k+d-1$).</p>
+<p>证明：设$C$是$q$元码$(n,K,d)$，对每个$a\in\F_q$，令$C_a$是$C$中所有末位是$a$的码字去掉$a$之后组成的$\F_q^{n-1}$中一个子集合$C_a=\lrb{(c_1,c_2,\s,c_{n-1})|(c_1,\s,c_{n-1},c)\in C}$，知$d(C_a)\geq d(C)=d$.<br>
+对于码长为$n-1$的$q$个码$C_q(a\in\F_q)$，所有码字个数之和为$|C|=K$，即$K=\sum_{a\in\F_q}|C_a|$，因此至少存在$a\in\F_q$使$|C_a|\geq\frac{K}{q}$，所以必存在参数为$(n-1,\geq\frac{K}{q},\geq d)$的$q$元码. 一直做下去，则存在参数为$(d,\geq\frac{K}{q^{n-d}},d)$的$q$元码$C'$.<br>
+由于$C'$的码长和最小距离均为$d$，则$C'$至多有$q$个码字. 于是$q\geq|C'|\geq\frac{K}{q^{n-d}}$，从而$K\leq q^{n-d+1}$. $$\qed$$</p>
+<p>定义 设$C$是$q$元码$(n,K,d)$，若$K=q^{n-d+1}$，即$n=k+d-1$，则$C$叫作极大距离可分码，简称为$MDS$码.</p>
+<p>定理 (二元码的Plotkin界) 如果存在参数为$(n,K,d)$的二元码，并且$2d\gt n$，则$$
+K\leq\begin{cases}
+2[\frac{d}{2d-n}],\quad&amp;K为偶数,\\
+2[\frac{d}{2d-n}]-1,&amp;K为奇数
+\end{cases}
+$$ 证明：设$c=\lrb{c_1,\s,c_K}$是参数为$(n,K,d)$的二元码.<br>
+码字$c_i(1\leq i\leq K)$为$\F_2^n$中向量，构作$\F_2$上$\frac{K}{2}$行$n$列矩阵$$
+A=\begin{pmatrix}
+c_1+c_2\\
+c_1+c_3\\
+\vdots\\
+c_{k-1}+c_k
+\end{pmatrix}
+$$ 其中$\binom{K}{2}$行分别是不同码字差$c_i-c_j(=c_i+c_j)(1\leq i\lt j\leq k)$，计算矩阵$A$中$1$的个数$N$：由于$w(c_i-c_j)\geq d$，知每行至少有$d$个$1,~N\geq d\binom{K}{2}$；另一方面，对每个$i(1\leq i\leq n)$，设$c_1,\s,c_K$的第$i$位一共有$N_i$个为1，其余为$0$（共$K-N_i$个），则$c_i+c_j$这$\binom{K}{2}$个向量的第$i$位共有$N_i(K-N_i)$个为$1$，这也是矩阵$A$的第$i$列中$1$的个数，则$N=\displaystyle\sum_{i=1}^nN_i(K-N_i)$. 由于$N_i$和$K-N_i$之和为$K$，知$K$为偶数时$N_i$和$K-N_i$均为$\frac{K}{2}$时乘积最大.$$
+d\binom{K}{2}=d(\frac{K(K-1)}{2})\leq N\leq\sum_{i=1}^n(\frac{K}{2})^2=\frac{nK^2}{4}
+$$ 即$2d(K-1)\leq nK$，则$K\leq\frac{2d}{2d-n}$，因为$K$为偶数，则$\frac{K}{2}\leq[\frac{d}{2d-n}]$.<br>
+若$K$为奇数，则$N_i$和$K-N_i$为$\frac{K-1}{2}$和$\frac{K+1}{2}$时乘积最大$$
+d(\frac{K(K-1)}{2})\leq N\leq\sum_{i=1}^n\frac{(k-1)(k+1)}{4}=\frac{n(K-1)(K+1)}{4}
+$$ 即$\frac{dK}{2}\leq\frac{n(K+1)}{4}$，得$\frac{K+1}{2}\leq\frac{d}{2d-n}$，由于$\frac{K+1}{2}$为整数，所以$\frac{K+1}{2}\leq[\frac{d}{2d-n}]$. $$\qed$$</p>
+<p>例 码长为9并且最小距离为5的二元码，最多多少码字？<br>
+设$C$为$(n,K,d)=(9,K,5)$的二元码，对于$$
+C'=\lrb{(c_1,\s,c_9,c_{10})\in\F_2^{10}|(c_1,\s,c_9)\in C,c_1+\s+c_{10}=0}
+$$，$C'$为$(10,K,6)$，由于$[\frac{d}{2d-n}]=3$，由Plotkin界得$K\leq6$.</p>
+<h2 id="%E7%BA%BF%E6%80%A7%E7%A0%81">线性码</h2>
+<p>定义 向量空间$\F_q^n$的一个$\F_q$上的线性子空间$C$叫作$q$元线性码.<br>
+或：$\F^n_q$的一个非空子集$C$叫作$q$元线性码，指若$c,c'\in C$，则$\forall a,a'\in\F_q$有$ac+a'c'\in C$.<br>
+记$k=dim_{\F_q}C$ ($\F_q$向量子空间$C$的维数)<br>
+则$K=|C|=q^k$，所有$C$的维数$k$是码$C$的信息位数，$C$的码长为$n$，码$C$的最小距离$d=d(C)$为$\binom{K}{2}=\frac12k(k-1)$个$d(c,c')~(c,c'\in C,c\neq c')$的最小值.</p>
+<p>引理 对于线性码$C$，$$
+d(C)=min\lrb{w(c)|0\neq c\in C},
+$$即$d$为$C$中所有$K-1$个非零码字$c$的Hamming权的最小值.<br>
+证明：零向量0是线性码$C$中的码字，并且任何两个不同码字之差仍是码字，可知$C$中不同码字之差所组成的集合就是$C$的所有非零码字所成的集合.$$\qed$$</p>
+<p>利用线性代数的工具：<br>
+取$C$的一组$\F_q-$基$\lrb{v1,\s,v_k}\quad v_i=(a_{i1},\s,a_{in})~(1\leq i\leq k)$，其中$a_{ij}\in\F_q~(1\leq j\leq n,1\leq i\leq k)$，则每个码字可表示为$$
+c=b_1v_1+\s+b_kv_k=(b_1,\s,b_k)G\quad(b_1,\s,b_k\in\F_q)
+$$其中$G$是$\F_q$上秩为$k$的$k\times n$矩阵$$
+G=\begin{pmatrix}
+v_1\\
+\vdots\\
+v_k
+\end{pmatrix}=\begin{pmatrix}
+a_{11} ~a_{12}~\cdots ~a_{1n}\\
+\vdots\\
+a_{k1} ~a_{k2}~\cdots ~a_{kn}
+\end{pmatrix}
+$$ $G$称为线性码$C$的一个生成阵.</p>
+<p>我们可先把$K=q^k$个信息编成$\F_q^k$中向量$(b_1,\s,b_k)$<br>
+为了纠错，编为$C$中码字$c=(b_1,\s,b_k)G$<br>
+因此纠错编码即为$\F_q-$线性的单射$$
+\begin{aligned}
+\varphi:\F_q^k&amp;\rarr C\subseteq\F_q^n\\
+(b_1,\s,b_k)&amp;\mapsto(b_1,\s,b_k)G
+\end{aligned}
+$$ 此外$\F_q^n$的一个$k$维向量子空间$C$必是齐次线性方程组$$
+\begin{cases}
+b_{11}x_1+\s+b_{1n}x_n=0\\
+\vdots\\
+b_{n-k,1}x_1+\cdots+b_{n-k,n}x_n=0
+\end{cases}
+$$ 的全部解.</p>
+<p>其中$H=(b_{ij})_{1\leq i\leq n-k,1\leq j\leq n}$是$\F_q$上$(n-k)\times n$矩阵，秩为$n-k$，$H$叫作线性码$C$的一个校验阵.<br>
+由定义，对每个$v\in\F_q^n,~v\in C\lrArr vH^T=0$ (长为$n-k$的零向量)<br>
+因此可用$H$检查向量$v$是否是$C$中的码字.<br>
+校验阵还可用来决定线性码$C$的最小距离，$H$可表示为列向量$$
+H=(u_1,\s,u_n),~u_i=\begin{pmatrix}
+b_{1i}\\
+\vdots\\
+b_{n-k,i}
+\end{pmatrix},~(1\leq i\leq n)
+$$</p>
+<p>引理 设$C$是参数为$[n,k]$的$q$元线性码，$H=(u_1,\s,u_n)$是$C$的一个校验阵，若$u_1,\s,u_n$当中任意$d-1$个均$\F_q-$线性无关，并且存在$d$个列向量是$\F_q-$线性相关的，则$C$的最小距离为$d$.</p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm2.png" alt="2"></p>
+<p>性质 设$C$是参数为$[n,k]$的$q$元线性码，$G$是$C$的一个生成阵，则<br>
+(1) 对每个$\F_q$上$k\times n$矩阵$G',~G'$是$C$的生成阵当且仅当存在$\F_q$上$k$阶可逆方阵$A$，使$G'=AG$.<br>
+(2) $\F_q$上$(n-k)\times n$的矩阵$H$是$C$的校验阵当且仅当$H$的秩为$n-k$且$GH^T=0_{k\times (n-k)}$.<br>
+(3)存在与$C$等价的线性码$C'$，使$C'$的生成阵为$G'=[I_k|P]$. $I_k$为$k$阶单位阵，$P$是$\F_q$上$k\times(n-k)$矩阵，且$C'$有校验阵$H'=[-P^T|T_{n-k}]$.</p>
+<p>证明：设$C$中码字$c$可由一组$\F_q-$基$\lrb{v_1,\s,v_k}$表示为$$
+c=(b_1,\s,b_k)\begin{pmatrix}
+v_1\\
+\vdots\\
+v_k
+\end{pmatrix}=(b_1,\s,b_k)\begin{pmatrix}
+a_{11} &amp; a_{12} &amp; \s &amp; a_{1n}\\
+\vdots &amp; \vdots &amp; ~\\
+a_{k1} &amp; a_{k2} &amp; \s &amp; a_{kn}
+\end{pmatrix}
+$$ 若$c$是$C$中码字，可用校验阵验证，使$cH^T=0$得$$
+(b_1,\s,b_k)\begin{pmatrix}
+a_{11} &amp; \s &amp; a_{1n}\\
+\vdots &amp; &amp; \vdots\\
+a_{k1} &amp; &amp; a_{kn}
+\end{pmatrix}\begin{pmatrix}
+b_{11} &amp; \s &amp; b_{n-k,1}\\
+\vdots &amp; &amp; \vdots\\
+b_{1n} &amp; &amp; b_{n-k,n}
+\end{pmatrix}=0
+$$ 由初等变换，构造$$
+G'=[I_k|P]=\begin{pmatrix}
+1 &amp; ~ &amp; &amp; a_{1,k+1} &amp; \s &amp; a_{1n}\\
+&amp; \ddots &amp; &amp; \vdots\\
+~ &amp; ~ &amp; 1 &amp; a_{k,k+1} &amp; \s &amp; a_{kn}
+\end{pmatrix}
+$$ 令$$
+H'=[-P^T|I_{n-k}]=\begin{pmatrix}
+-a_{1,k+1} &amp; \s &amp; -a_{k,k+1} &amp; 1 &amp; ~ &amp; ~\\
+\vdots     &amp; ~  &amp; \vdots     &amp; ~ &amp; \ddots\\
+-a_{1n}    &amp; ~  &amp; -a_{kn}    &amp;   &amp;   &amp; 1
+\end{pmatrix}
+$$ 则$$
+\begin{aligned}
+C'H'^T&amp;=(b'_1,\s,b'_k)\begin{pmatrix}
+1 &amp; ~ &amp; &amp; a_{1,k+1} &amp; \s &amp; a_{1n}\\
+&amp; \ddots &amp; &amp; \vdots\\
+~ &amp; ~ &amp; 1 &amp; a_{k,k+1} &amp; \s &amp; a_{kn}
+\end{pmatrix}\begin{pmatrix}
+-a_{1,k+1} &amp; \s &amp; -a_{1n}\\
+\vdots     &amp; ~  &amp; \vdots\\
+-a_{k,k+1} &amp; ~  &amp; -a_{kn}\\
+1          &amp; ~  &amp; 0\\
+\vdots     &amp; ~  &amp; \vdots\\
+0          &amp; ~  &amp; 1
+\end{pmatrix}\\
+&amp;=(b'_1,\s,b'_k)\begin{pmatrix}
+-a_{1,k+1}+a_{1,k+1} &amp; \s &amp; -a_{1n}+a_{1n}\\
+\vdots &amp; &amp; \vdots\\
+-a_{k,k+1}+a_{k,k+1} &amp; &amp; -a_{kn}+a_{kn}
+\end{pmatrix}\\
+&amp;=0
+\end{aligned}
+$$ 线性码$C$中的基有不同的选取方式，因此$C$的生成阵不是唯一的.</p>
+<p>例 考虑二元线性码$C$，生成阵为$$
+G=\begin{pmatrix}
+0~0~1~0~1~1~1\\
+1~0~0~1~0~1~1\\
+1~1~0~0~1~0~1\\
+1~1~1~1~1~1~1
+\end{pmatrix}
+$$，可求出$G$的秩为$4$，则$C$是$[n,k]=[7,4]$的二元线性码，$4$个线性无关的码字为$(1000110),~(0100011),~(0010111),~(0001101)$（四行之和，124行之和，第一行，134行之和）得$C$的一组基，故$C$的生成阵还有$$
+G'=\begin{pmatrix}
+\def\arraystretch{1.5}
+\begin{array}{c:ccc}
+~ &amp; 1 &amp; 1 &amp; 0\\
+I_4 &amp; 0 &amp; 1 &amp; 1\\
+&amp; 1 &amp; 1 &amp; 1\\
+&amp; 1 &amp; 0 &amp; 1\\
+\end{array}
+\end{pmatrix}
+$$ 其中$I_4$是$4$阶单位阵，则$C$的一个校验阵为$$
+H=(P^T|I_3)=\begin{pmatrix}
+\def\arraystretch{1.5}
+\begin{array}{cccc:ccc}
+1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1
+\end{array}
+\end{pmatrix}
+$$ $H$的7列是$\F_2$上$k$为$3$的全部非零列向量，任意两列均线性无关，$1,2,3$列线性相关，则$c$最小距离为$3$. $C$为$[7,4,3]$的二元线性码.</p>
+<p>线性码的校验阵：决定码的最小距离，纠错.</p>
+<p>定理 (线性码的纠错译码算法) 设$C$是$[n,k,d]$的$q$元线性码，$l=[\frac{d-1}{2}]$，$C$有校验阵$H=(u_1,\s,u_n)$，其中$u_i(1\leq i\leq n)$均是$\F_q$上长为$n-k$的列向量，如果码字$c\in C$传送时错位个数$\leq l$，即收到列向量$y=c+\varepsilon$，其中$w(\varepsilon)\leq l$，用下列算法可以纠错<br>
+(1) 计算$v=Hy^T$，是$\F_q$上长为$n-k$的列向量，称为$y$的检验向量<br>
+(2) 若$v=0$，则$\varepsilon=0,~y=c$ (无错)<br>
+(3) 若$v\neq0$，则$v$可表示为$u_1,\s,u_n$中不超过$l$个列向量的线性组合：$v=a_{i_1}u_{i_1}+\s+a_{i_t}u_{i_t}~(1\leq i_1\lt i_2\s\lt i_t\leq n)$，其中$1\leq t\leq l$，而$a_{i_1},\s,a_{i_t}$均是$\F_q$中非零元素. $\varepsilon=(\varepsilon_1,\s,\varepsilon_n)$，其中$\varepsilon_{i_1}=a_{i_1},\s,\varepsilon_{i_t}=a_{i_t}$，当$i\neq i_1,\s,i_t$时，$\varepsilon_i=0$，则$c=y-\varepsilon$，即传送时出现了$t$位错误，错位为$i_1,\s,i_t$，错值为$a_{i_1},\s,a_{i_t}$.</p>
+<p>记：$c$是码字，$Hc^T=0,v=Hy^T=H(c^T+\varepsilon^T)=H\varepsilon^T=\varepsilon_1u_1+\s+\varepsilon_nu_n$. 由于$w(\varepsilon)\leq l$，得$v$是$u_1,\s,u_n$中不超过$l$个的线性组合.</p>
+<p>证明：只需证将$v$表示为$u_1,\s,u_n$中不超过$l$个列向量的线性组合的方式是唯一的.<br>
+设$a=(a_1,\s,a_n),~b=(b_1,\s,b_n)\in\F^n_q,~w(a)\leq l,w(b)\leq l$使$Ha^T=a_1v_1+\s+a_nu_n=v,~Hb^T=b_1u_1+\s+b_nu_n=v$，则$H(a-b)^T=v-v=0$得$a-b\in C$<br>
+但$w(a-b)\leq w(a)+w(b)\leq2l\lt d$，$C$中非零码字的Hamming权均$\geq d$，即$a-b=0,~a=b$. 因此上述表示是唯一的.
+$$\qed$$</p>
+<p>例 考虑以$$
+H=\begin{pmatrix}
+1~0~1~1~1~0~0\\
+1~1~1~0~0~1~0\\
+0~1~1~1~0~0~1
+\end{pmatrix}=(u_1u_2\s u_7)
+$$为检验阵的二元线性码$C$，最小距离为$d=3$，从而可纠$l=1$个错，设发出码字$c=(0101110)\in C$（$G$中23行之和）传送时出现1位错误：$\varepsilon=(0100000)$，收到向量$y=c+\varepsilon=(0001110)$，计算校验向量$$
+v=Hy^T=\begin{pmatrix}
+1~0~1~1~1~0~0\\
+1~1~1~0~0~1~0\\
+0~1~1~1~0~0~1
+\end{pmatrix}\begin{pmatrix}
+0\\0\\0\\1\\1\\1\\0
+\end{pmatrix}=\begin{pmatrix}
+0\\1\\1
+\end{pmatrix}=u_2
+$$知第二位出错，得$\varepsilon=(0100000),~c=y-\varepsilon=(0101110)$</p>
+<p>例 设$C$是$\F_7$上的矩阵$$
+H=\begin{pmatrix}
+1 &amp; 1 &amp; ~ &amp; 1\\
+0 &amp; 1 &amp; \s&amp; 6\\
+0^2&amp;1^2&amp;&amp;6^2\\
+0^3&amp;1^3&amp;&amp;6^3
+\end{pmatrix}=\begin{pmatrix}
+1~1~1~1~1~1~1\\
+0~1~2~3~4~5~6\\
+0~1~4~2~2~4~1\\
+0~1~1~6~1~6~6
+\end{pmatrix}
+$$为检验阵的7元线性码，$H$中任意4列得方阵$$
+\begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 1\\
+a_1 &amp; a_2 &amp; a_3 &amp; a_4\\
+a_1^2 &amp; a_2^2 &amp; a_3^2 &amp; a_4^2\\
+a_1^3 &amp; a_2^3 &amp; a_3^3 &amp; a_4^3\\
+\end{pmatrix}
+$$ 其中$a_1,a_2,a_3,a_4$是$\F_7$中不同元素，其行列式不为0，则$H$中任意4列均线性无关，$H$的秩为4，$H$中任意5列线性相关，则$d=5$.<br>
+故$C$是$\F_7$上参数为$[n,k,d]=[7,3,5]$的线性码，因为$7=n=k+d-1=3+5-1$，故为MDS码.<br>
+对于$v=(v_1,\s,v_6)\in\F_7^7,~v\in C$当且仅当$Hv^T=0$，所以线性码$C$是线性方程组$$
+\begin{cases}
+v_0+v_1+v_2+v_3+v_4+v_5+v_6=0\\
+v_1+2v_2+3v_3+4v_4+5v_5+6v_6=0\\
+v_1+4v_2+2v_3+2v_4+4v_5+v_6=0\\
+v_1+v_2+6v_3+v_4+6v_5+6v_6=0
+\end{cases}
+$$ 在$\F_7^7$中所有解$(v_0,\s,v_6)$组成的.<br>
+令$(v_4,v_5,v_6)=(1,0,0),(0,1,0),(0,0,1)$，得$(v_0,v_1,v_2,v_3)=(1,3,6,3),(4,6,6,4),(3,6,3,1)$，得$C$的生成阵为$$
+G=\begin{pmatrix}
+1~3~6~3~1~0~0\\
+4~6~6~4~0~1~0\\
+3~6~3~1~0~0~1
+\end{pmatrix}
+$$ 由$d=5$，可纠正$\leq2$位错<br>
+设发出码字$c=(1363100)$，错误$\varepsilon=(0100200)$，收到$y=(1463300)$，收方计算校验向量$$
+Hy^T=\begin{pmatrix}
+3\\2\\5\\3
+\end{pmatrix}=\begin{pmatrix}
+1\\1\\1\\1
+\end{pmatrix}+2\cdot\begin{pmatrix}
+1\\4\\2\\1
+\end{pmatrix}
+$$ 因此错误在2，5位，错值为1和2，$\varepsilon=(0100200),~c=(1363100)$</p>
+<p>定义 对于$\F_q^n$中向量$v=(v_1,\s,v_n)$和$u=(u_1,\s,u_n)$，定义它们的内积$(v,u)=v_1u_1+\s+v_nu_n=vu^T\in\F_q$<br>
+性质 (1)$(u,v)=(v,u)$<br>
+(2)设$\alpha,\beta\in\F_q,~v_1,v_2,u\in\F_q^n$<br>
+$(\alpha v_1+\beta v_2,u)=\alpha(v_1,u)+\beta(v_2,u)$<br>
+(3)若$(u,v)=0$，称$v$和$u$正交<br>
+特别的，有限域上的向量空间中，非零向量可自正交，$\F^2_2$中$v=(1,1),(v,v)=1\cdot1+1\cdot1=0$.<br>
+设$C$是$\F_q$上参数为$[n,k]$的线性码，则$\F_q^n$的子集合$$
+C^\perp=\lrb{v\in\F_q^n|\forall c\in C,(v,c)=0}
+$$也是$\F_q$上的线性子空间，且$dim_{\F_q}C^\perp+dim_{F_q}C=n$<br>
+所以$C^\perp$是参数为$[n,n-k]$的$q$元线性码，称为线性码$C$的对偶码.<br>
+若$C^\perp\subseteq C$，称$C$为自正交码<br>
+若$C^\perp=C$，则$C$叫自对偶码，$dimC=\frac{n}{2}$</p>
+<p>定理 设$C$是$\F_q$上的线性码，则<br>
+(1) $(C^\perp)^\perp=C$<br>
+证明：设$C$的参数是$[n,k]$，则$dim_{\F_q}C^\perp=n-dim_{\F_q}C=n-k$，而$C\subseteq(C^\perp)^\perp$，因$C$中每个码字均与$C^\perp$中所有码正交，而$dim(C^\perp)^\perp=n-dimC^\perp=n-(n-k)=k=dimC$，所以$(C^\perp)^\perp=C$</p>
+<p>(2) 若$G$是$C$的生成阵，则$G$是$C^\perp$的校验阵，若$H$是$C$的校验阵，则$H$是$C^\perp$的生成阵<br>
+证明：设$G=\begin{pmatrix}v_1\\\vdots\\v_k\end{pmatrix},~v_i\in\F_q^n~(1\leq i\leq k)$，则对每个$v\in\F_q^n,~v\in C^\perp\lrArr(v,c)=0~(\forall c\in C)\lrArr(v,u_i)=0~(1\leq i\leq k)$($v_1,\s,v_k$是$C$的一组基)$\lrArr Gv^T=0$，则$G$是$C^\perp$的校验阵，由$GH^T=0$得$H$的行向量均属于$C^\perp$，而$H$的$n-k$个行向量线性无关，从而整个$C^\perp$的生成阵即为$H$(因为$dimC^\perp=n-k$)</p>
+<p>例 以$$
+G=\begin{pmatrix}
+0~0~1~0~1~1~1\\
+1~0~0~1~0~1~1\\
+1~1~0~0~1~0~1\\
+1~1~1~1~1~1~1
+\end{pmatrix}
+$$为生成阵的二元线性码$C$参数为$(n,k,d)=[7,4,3]$，扩充码$$
+C'=\lrb{(c_1,\s,c_7,c_8)\in\F_2^8|(c_1,\s,c_7)\in C,c_1+\s+c_8=0}
+$$是$\F_2^8$中线性码，参数为$[8,4,4]$，$C'$有生成阵$$
+G'=\begin{pmatrix}
+0~0~1~0~1~1~1~0\\
+1~0~0~1~0~1~1~0\\
+1~1~0~0~1~0~1~0\\
+1~1~1~1~1~1~1~1
+\end{pmatrix}=\begin{pmatrix}
+v_1\\v_2\\v_3\\v_4
+\end{pmatrix}
+$$ $G'$的4个行向量相互正交，故$C'$是自正交码，由$dimC'=4=\frac{8}{2}$，得$C'$是自对偶码.</p>
+<h2 id="%E5%AE%8C%E5%85%A8%E7%BA%BF%E6%80%A7%E7%A0%81%E6%B1%89%E6%98%8E%E7%A0%81%E5%92%8C%E6%A0%BC%E9%9B%B7%E7%A0%81">完全线性码：汉明码和格雷码</h2>
+<p>定义 参数为$[n,k,d]$的$q$元码叫作完全码，是指它达到Hamming界，即$d=2l+1$并且$$
+q^{n-k}=\sum_{i=0}^l(q-1)^i{n\choose i}
+$$ 有两类平凡的完全线性码：<br>
+(1) $q$元线性码$[n,n,1]$，即$C=\F^n_q$. 这时$l=0,k=n$.<br>
+(2) 对于$n=2l+1,q=2,C$由码长为$2l+1$的零向量和全$1$向量$(1,1,\s,1)\in\F_2^{2l+1}$两个码字组成的二元线性码，参数为$[n,k,d]=[2l+1,1,2l+1]$. 由于$$
+\begin{aligned}
+\sum_{i=0}^l{n\choose i}&amp;=\frac12[\sum_{i=0}^l{n\choose i}+\sum_{i=0}^l{n\choose n-i}]\\
+&amp;=\frac12[\sum_{i=0}^l{n\choose i}+\sum_{i=l+1}^n{n\choose i}]=\frac12\sum_{i=0}^n{n\choose i}=2^{n-1}=2^{n-k}
+\end{aligned}
+$$ 设$m\geq2,\F_q^n$中非零向量共$q^n-1$个.其中非零向量$v_1$和$v_2$线性相关$\lrArr$存在$\alpha\in\F_q^\ast$使$v_1=\alpha v_2$，这样两个非零向量叫作射影等价.每个等价类均有$q-1$个向量($\alpha$从$\F_q^\ast$中选，有$q-1$个)，因此共有$\frac{q^m-1}{q-1}$个等价类.<br>
+每个等价类取一个代表向量，共取出$n=\frac{q^m-1}{q-1}$个向量$u_1,\s,u_n$.每个向量都是长为$m$的列向量，得$\F_q$上$m\times n$矩阵：$H_m=(u_1,\s,u_n)$</p>
+<p>定义 设$m\geq2$，以$H_m$为校验阵的$q$元线性码$C$叫作Hamming码.</p>
+<p>定理 Hamming码是参数为$[n,k,d]=[\frac{q^m-1}{q-1},\frac{q^m-1}{q-1}-m,3]$的$q$元完全线性码.<br>
+证明：取不同的射影等价类中的向量$(1,0,\s,0),(0,1,0,\s,0),\s,(0,0,\s,0,1)$共$m$个列向量构成矩阵$H$，这些向量线性无关，则$H$的秩为$m$，于是$$
+n=\frac{q^m-1}{q-1},k=n-m=\frac{q^m-1}{q-1}-m
+$$ 对于$m$个列向量中任意两个$u_i,u_j$线性无关，而$u_i+u_j~(\neq0)$，必与$m$个列向量中某个向量等价，则$u_i,u_j,u_i+u_j$线性相关(前面某个引理)，则$d=3$，此外$$
+\sum_{i=0}^1(q-1)^i{n\choose i}=1+(q-1)n=1+q^m-1=q^m=q^{n-k}
+$$则Hamming为完全码. $$\qed$$</p>
+<p>例(二元Hamming码) 当$q=2$时，$H_m$即是由全部$2^m-1$个长为$m$的非零列向量构成的矩阵，从而二元Hamming码的参数为$[n,k,3]=[2^m-1,2^m-1-m,3]~(m\geq2)$，比如对$m=3$，$$
+H_3=\begin{pmatrix}
+1~0~0~0~1~1~1\\
+0~1~0~1~0~1~1\\
+0~0~1~1~1~0~1
+\end{pmatrix}=\begin{pmatrix}
+\begin{array}{c:c}
+I_3 &amp; P
+\end{array}
+\end{pmatrix}
+$$，从而以$H_3$为校验阵的二元Hamming码有生成阵$$
+G_3=\begin{pmatrix}
+\begin{array}{c:c}
+P^T &amp; I_4
+\end{array}
+\end{pmatrix}=\begin{pmatrix}
+\begin{array}{ccccccc}
+0 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0\\
+1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 1
+\end{array}
+\end{pmatrix}
+$$ 这个二元码的参数为$[7,4,3]$.</p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm3.png" alt="3"></p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm4.png" alt="4"></p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm5.png" alt="5"></p>
+<p>首先考虑二元Golay线性码$[23,12,7]$，其扩充码为$[24,12,8]$.</p>
+<p>定理 设 <img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm6.png" alt="6"> <img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm7.png" alt="7"> 则以$G=(I_{12}|P)$为生成阵的二元线性码$G_{24}$具有参数$[n,k,d]=[24,12,8]$.</p>
+<p>证明：$P$的构作方式，左上角元素为0，第一行和第一列中其他元素均为1，剩下的11阶方阵$P'$，其第一行为$(11011100010)$，而其余诸行依次为第一行向左循环移位.由于$G$中有子方阵$I_{12}$，可知$H$的秩为12，于是$[n,k]=[24,12]$，下面分几步证明$d=8$</p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm8.png" alt="8"></p>
+<p>(2)$(P|I_{12})$也是$G_{24}$生成阵<br>
+因为$P^\perp=P,~(P^\perp|I_{12})=(P|I_{12})$是$G_{24}$的校验阵，而$G_{24}$为自对偶码，则$(P|I_{12})$是$G_{24}$的生成阵.<br>
+(3)$G_{24}$中每个码字的Hamming权都是4的倍数<br>
+对于$u=(u_1,\s,u_{24})$和$v=(v_1,\s,v_{24})\in\F_2^{24}$，定义$u\cap v=(u_1v_1,\s,u_{24}v_{24})\in\F_2^{24}$<br>
+当$u,v\in G_{24}$时，$w(u\cap v)=\sum_{i=1}^{24}u_iv_i\equiv(u,v)\equiv0~(mod~2)$，即$w(u\cap v)$均为偶数(自对偶码)，对每个$\alpha\in\F_2,w(\alpha)$表示$\alpha$的Hamming权，即$w(0)=0,w(1)=1$，可推知$w(u_i+v_i)=w(u)+w(v)-2w(u_iv_i)$，对$\F_2^{24}$中任意向量$u$和$v,~w(u+v)=w(u)+w(v)-2w(u\cap v)$<br>
+$G_{24}$中每个码字$c$是生成阵$G$中一些行之和，则$G$中每行的Hamming权均是4的倍数.若$c$是$u$和$v$之和，则$w(c)=w(u+v)$也是$4$的倍数，若$c$是三行$v_1,v_2,v_3$之和，令$u=v_1+v_2,v=v_3$则$w(c)=w(u+v)$也是4的倍数，继续下去$G_{24}$中每个码的Hamming权均是4的倍数.<br>
+(4)$G_{24}$中没有Hamming权为4的码字<br>
+$G_{24}$中码字$c$写为$(x|y),x,y$分解是前后$12$位，$w(c)=w(x)+w(y)$.若$w(c)=4$，有以下几种可能</p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm9.png" alt="9"></p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm10.png" alt="10"></p>
+<p><img src="https://testt-1257276208.cos.ap-chengdu.myqcloud.com/bg/jcm11.png" alt="11"></p>
+
+</body>
+</html>

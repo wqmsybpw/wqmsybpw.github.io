@@ -109,11 +109,11 @@ function generate_toc() {
         let cnt = 1;
         lst[i].map(k => add_link(i, k, cnt++, "p"));
     });
-
+    
+    let cnt = 1;
     Array.from({
         length: all_img.length
     }, (_, i) => {
-        let cnt = 1;
         add_link(keywds.indexOf("引用"), i, cnt++, "img");
     });
 }
