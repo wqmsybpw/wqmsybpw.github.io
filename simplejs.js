@@ -1,7 +1,7 @@
 var mode, css, all_p, all_img, toc, folded;
 var simple_css = "/simplestyle.css";
 var keywds = ["定义", "定理", "引理", "命题", "性质", "推论", "证明", "例", "注", "引用"];
-var keywds_parttern = /[ ]?(定义|定理|引理|命题|性质|推论|证明|例|注){1,2}[:：\s\d\(（]+/;
+var keywds_pattern = /[ ]?(定义|定理|引理|命题|性质|推论|证明|例|注){1,2}[:：\s\d\(（]+/;
 var light_theme = "body {font-size:18px;margin:0px 16% 0px 16%;background:linear-gradient(to right,#bfe6ba,#fff,#fff,#fff,#fff,#fff,#fff,#bfe6ba);scrollbar-color: #6cf #fff;}";
 var dark_theme = "body {font-size:18px;margin:0px 16%;background:linear-gradient(to right,grey,#000,#000,#000,#000,#000,#000,grey);color:white;scrollbar-color: #fff #000;}";
 var light_theme_loc = "background-color:white;color:black;";
@@ -97,7 +97,7 @@ function generate_toc() {
 
     let lst = keywds.map(_ => new Array());
     for (let i = 0; i < all_p.length; i++) {
-        let t = all_p[i].innerText.match(keywds_parttern);
+        let t = all_p[i].innerText.match(keywds_pattern);
         if (t !== null) {
             lst[keywds.indexOf(t[1])].push(i);
         }
