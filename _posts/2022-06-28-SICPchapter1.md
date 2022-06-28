@@ -195,7 +195,7 @@ ll mod_pow(ll x, ll n, ll mod) {
 
 ## 1.19
 
-由$\begin{cases}a_1=b_0q+a_0q+a_0p\\b_1=b_0p+a_0q\end{cases}$, 带入$\begin{cases}a_2=b_1q+a_1q+a_1p\\b_2=b_1p+a_1q\end{cases}$后计算可得$\begin{cases}a_2=b_0q'+a_0q'+a_0p'\\b_2=b_0p'+a_0q'\end{cases}$, 其中$\begin{cases}p'=p^2+q^2\\q'=2pq+q^2\end{cases}$.
+由$\begin{cases}a_1=b_0q+a_0q+a_0p\\\\b_1=b_0p+a_0q\end{cases}$, 带入$\begin{cases}a_2=b_1q+a_1q+a_1p\\\\b_2=b_1p+a_1q\end{cases}$后计算可得$\begin{cases}a_2=b_0q'+a_0q'+a_0p'\\\\b_2=b_0p'+a_0q'\end{cases}$, 其中$\begin{cases}p'=p^2+q^2\\\\q'=2pq+q^2\end{cases}$.
 
 ```racket
 #lang sicp
