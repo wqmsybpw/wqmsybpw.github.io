@@ -109,8 +109,8 @@ $$</p>
 <p>证明: 由引理,$\int_0^{+\infty}t^{p-1}d_f(t)dt=\frac1p\Vert f\Vert^p_{L^p}&lt;+\infty$. 设$I_1(\alpha)\equiv\int_{\frac\alpha2}^\alpha t^{p-1}d_f(t)dt$, 由$d_f$递减, $I_1(\alpha)\geqslant d_f(\alpha)\int_{\frac\alpha2}^\alpha t^{p-1}dt=d_f(\alpha)\frac1p(\alpha^p-(\frac\alpha2)^p)=\alpha^p d_f(\alpha)\cdot\frac1p(1-2^{-p})$</p>
 <p>故$0\leqslant\alpha^p d_f(\alpha)\leqslant\frac{p}{1-2^{-p}}\int_{\frac\alpha2}^\alpha t^{p-1}d_f(t)dt\rarr0(\alpha\rarr0^+,\alpha\rarr+\infty)$</p>
 <p>注: $1^\circ~d_f(\alpha)=o(\alpha^{-p})(\alpha\rarr0^+,\alpha\rarr+\infty)$</p>
-<p>$2^\circ~1\leqslant p&lt;\infty,\alpha&gt;0$给定, $f(x)=f(x)1_{{x:|f(x)|&gt;\alpha}}+f(x)1_{{x:|f(x)|\leqslant\alpha}}=b(x)+g(x)$ (bad part, good part)</p>
-<p>($~\int_X1_{{x:|f(x)|&gt;\alpha}}d\mu=\int_X1_{E_f(\alpha)}(x)d\mu=d_f(\alpha)~$)</p>
+<p>$2^\circ~1\leqslant p&lt;\infty,\alpha&gt;0$给定, $f(x)=f(x)1_{\lbrace x:|f(x)|&gt;\alpha\rbrace}+f(x)1_{\lbrace x:|f(x)|\leqslant\alpha\rbrace}=b(x)+g(x)$ (bad part, good part)</p>
+<p>($~\int_X1_{\lbrace x:|f(x)|&gt;\alpha\rbrace}d\mu=\int_X1_{E_f(\alpha)}(x)d\mu=d_f(\alpha)~$)</p>
 <p>(1)$f\in L^p(X,\mu)\rArr\forall r&lt;p,b(x)\in L^r(X,\mu)$</p>
 <p>事实上, $\int_X|b(x)|^rd\mu=\int_X|f(x)|^r1_{E_f(\alpha)}(x)d\mu=\int_{|f(x)|&gt;\alpha}|f(x)|^rd\mu=\int_{|f(x)|&gt;\alpha}|f(x)|^p|f(x)|^{r-p}d\mu\leqslant\int_{|f(x)|&gt;\alpha}|f(x)|^pd\mu\cdot\alpha^{p-r}\leqslant\int_X|f(x)|^pd\mu\cdot\alpha^{p-r}&lt;\infty\rArr b\in L^r(X,\mu)$</p>
 <p>(2) $\forall q\geqslant p,g(x)\in L^q(X,\mu)$. 同理可证.</p>
