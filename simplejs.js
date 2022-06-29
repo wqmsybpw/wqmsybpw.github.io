@@ -1,7 +1,7 @@
 var mode, css, all_p, all_img, toc, folded;
 var simple_css = "/simplestyle.css";
-var keywds = ["定义", "定理", "引理", "命题", "性质", "推论", "证明", "例", "注", "引用"];
-var keywds_pattern = /[ ]?(定义|定理|引理|命题|性质|推论|证明|例|注){1,2}[:：\s\d\(（]+/;
+var keywds = ["定义", "定理", "引理", "命题", "性质", "推论", "例", "注", "引用"];
+var keywds_pattern = /[ ]?(定义|定理|引理|命题|性质|推论|例|注){1,2}[:：\s\d\(（]+/;
 var light_theme = "body {font-size:18px;margin:0px 16% 0px 16%;background:linear-gradient(to right,#bfe6ba,#fff,#fff,#fff,#fff,#fff,#fff,#bfe6ba);scrollbar-color: #6cf #fff;}";
 var dark_theme = "body {font-size:18px;margin:0px 16%;background:linear-gradient(to right,grey,#000,#000,#000,#000,#000,#000,grey);color:white;scrollbar-color: #fff #000;}";
 var light_theme_loc = "background-color:white;color:black;";
@@ -103,12 +103,20 @@ function generate_toc() {
         }
     }
 
-    Array.from({
-        length: lst.length
-    }, (_, i) => {
-        let cnt = 1;
-        lst[i].map(k => add_link(i, k, cnt++, "p"));
-    });
+    let cnts = new Array(keywds.length);
+    let indexes = new Array(all_p.length);
+    cnts.fill(0);
+    indexes.fill(-1);
+    for (let i = 0; i < lst.length; i++) {
+        for (let no of lst[i]) {
+            indexes[no] = i;
+        }
+    }
+    for (let i = 0; i < indexes.length; i++) {
+        if (indexes[i] != -1) {
+            add_link(indexes[i], i, ++cnts[indexes[i]], "p");
+        }
+    }
     
     let cnt = 1;
     Array.from({

@@ -4,3 +4,4 @@ description: = =
 markdown: kramdown
 kramdown:
     math_engine: katex
+exclude: [_posts/ha/, _posts/ecc/]

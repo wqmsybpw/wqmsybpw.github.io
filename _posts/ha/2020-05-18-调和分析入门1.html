@@ -54,7 +54,7 @@ $3^\circ(Minkovski$不等式$)$ $\forall f,g\in L^p,\Vert f+g\Vert_{L^p}\leqslan
 <p>$\forall 1\leqslant p&lt;\infty$, 有$\Vert f\Vert_{L^p}=\displaystyle\sup_{\Vert g\Vert_{L^{p'}}=1}|\int_X fg~d\mu|$</p>
 <p>$p=\infty, X~\sigma$-有限, $\Vert f\Vert_{L^\infty}=\displaystyle\sup_{\Vert g\Vert_{L=1}}|\int_X fg~d\mu|$</p>
 <p>设$(L^p)^*$为$L^p$的对偶空间, 则$(L^p)^*\cong L^{p'}, (L^p)^*=L^{p'}$. $1=p$则$L^\infty=(L^1)^*$但$p=\infty,(L^\infty)^*\neq L^1$, $((L^p)^*)^*=L^p$.</p>
-<p>设$(X,\mu)$为测度空间. $\empty\subset A\subset X,0=\mu(\empty)\leqslant\mu(A)\leqslant\mu(X=1$, 称$\mu$为概率测度.</p>
+<p>设$(X,\mu)$为测度空间. $\empty\subset A\subset X,0=\mu(\empty)\leqslant\mu(A)\leqslant\mu(X=1)$, 称$\mu$为概率测度.</p>
 <h2 id="%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0">分布函数</h2>
 <p>定义 设$f$为$X$上的可测函数, 定义$f$的分布函数$d_f:[0,+\infty)\rarr[0,+\infty],\alpha\mapsto d_f(\alpha)$如下:
 $$d_f(\alpha)=\mu(E_f(\alpha))=\mu(\{x\in X:|f(x)|&gt;\alpha\})$$</p>
@@ -95,7 +95,7 @@ $$</p>
 <p>引理 设$1\leqslant p&lt;\infty,f\in L^p(X,\mu)$, 则$\alpha^{p-1}d_f(\alpha)\in L^1([0,+\infty))$且$p\int_0^{+\infty}\alpha^{p-1}d_f(\alpha)d\alpha=\int_X|f(x)|^pd\mu=\Vert f\Vert^p_{L^p}$</p>
 <p>证明: $$
 \begin{aligned}
-&amp;p\int_0^{+\infty}\alpha^{p-1}d_f(\alpha)d\alpha\&amp;=p\int_0^{+\infty}\alpha^{p-1}\mu(E_f(\alpha))d\alpha\\
+&amp;p\int_0^{+\infty}\alpha^{p-1}d_f(\alpha)d\alpha\\&amp;=p\int_0^{+\infty}\alpha^{p-1}\mu(E_f(\alpha))d\alpha\\
 &amp;=p\int_0^{+\infty}\alpha^{p-1}(\int_{\{x:|f(x)|&gt;\alpha\}}1d\mu)d\alpha\\
 &amp;=p\int_0^{+\infty}\alpha^{p-1}\int_X \chi_{E_f(\alpha)}d\mu d\alpha
 \end{aligned}

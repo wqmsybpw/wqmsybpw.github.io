@@ -44,14 +44,14 @@ $$ 且$\theta\in(0,1),\frac1p=\frac\theta{p_0}+\frac{1-\theta}{p_1}$.</p>
 <p>证明：第一种情况，$1\leq p_0&lt;p_1&lt;+\infty$. 给定$f\in L^p(X)$(目标$Tf\in L^p(Y)$)，$\alpha&gt;0$给定，$\delta&gt;0$待定. 分解$f=f_0^\alpha+f_1^\alpha,$其中$f_0^\alpha=\begin{cases}f(x)&amp;|f(x)|&gt;\delta\alpha\\0&amp;|f(x)|&lt;\delta\alpha\end{cases},f_1^\alpha=\begin{cases}0&amp;|f(x)|&gt;\delta\alpha\\f(x)&amp;|f(x)|\leq\delta\alpha\end{cases}$，可以验证$f^\alpha_0\in L^{p_0}(X),f^\alpha_1\in L^{p_1}(X)$.</p>
 <p>事实上，$$
 \begin{aligned}
-\norm{f^\alpha_0}^{p_0}_{L^{p_0}(X)}&amp;=\int_X|f^\alpha_0(x)|^{p_0}d\mu\&amp;=\int_{|f(x)|&gt;\delta\alpha}|f(x)|^{p_0}d\mu\\
+\norm{f^\alpha_0}^{p_0}_{L^{p_0}(X)}&amp;=\int_X|f^\alpha_0(x)|^{p_0}d\mu\\&amp;=\int_{|f(x)|&gt;\delta\alpha}|f(x)|^{p_0}d\mu\\
 &amp;=\int_{|f(x)|&gt;\delta\alpha}|f(x)|^p\cdot|f(x)|^{p_0-p}d\mu\\
 &amp;\leq(\delta\alpha)^{p_0-p}\int_{|f(x)|&gt;\delta\alpha}|f(x)|^pd\mu\\
 &amp;\leq(\delta\alpha)^{p_0-p}\norm{f}^p_{L^p}&lt;\infty
 \end{aligned}
 $$ 类似有$$
 \begin{aligned}
-\norm{f^\alpha_1}^{p_1}_{L^{p_1}}&amp;=\int_X|f^\alpha_1(x)|^{p_1}d\mu\&amp;=\int_{|f(x)|\leq\delta\alpha}|f(x)|^{p_1}d\mu\\
+\norm{f^\alpha_1}^{p_1}_{L^{p_1}}&amp;=\int_X|f^\alpha_1(x)|^{p_1}d\mu\\&amp;=\int_{|f(x)|\leq\delta\alpha}|f(x)|^{p_1}d\mu\\
 &amp;=\int_{|f(x)|\leq\delta\alpha}|f(x)|^p|f(x)|^{p_1-p}d\mu\\
 &amp;\leq(\delta\alpha)^{p_1-p}\int_{|f(x)|\leq\delta\alpha}|f(x)|^pd\mu
 \end{aligned}
@@ -126,7 +126,7 @@ $\rArr d_{Tf^\alpha_1}(\frac\alpha2)=0\rArr d_{Tf}(\alpha)\leq d_{Tf^\alpha_0}(\
 $$ $\rArr\norm{Tf}_{L^p}\leq A\norm{f}_{L^p(X)},A=2(\frac{p}{p-p_0})^\frac1pA_1^{1-\frac{p_0}{p}}A_0^\frac{p_0}{p}$</p>
 <hr>
 <p>复方法</p>
-<p>Riesz-Thorin定理 $1\leq p_0,q_0,p_1,q_1\leq\infty,p_0&lt;p_1,q_0&lt;q_1,T:(X,\mu)'\rarr(Y,\nu)'$线性映射且满足对任意简单函数$f\in X,\norm{Tf}_{L^{q_0}(Y,\nu)}\leq M_0\norm{f}_{L^{p_0}(X,\mu)},\norm{Tf}_{L^{q_1}(Y,\nu)}\leq M_1\norm{f}_{L^{p_1}(X,\mu)}$，即$T$为强(p0,q0)和(p1,q1)型算子，则$\forall f\in L^p(X,\mu),\norm{Tf}_{L^q(Y,\nu)}\leq M_0^\theta M_1^{1-\theta}\norm{f}_{L^p(X,\mu)},\theta\in(0,1)$且$\frac1p=\frac\theta{p_0}+\frac{1-\theta}{p_1},\frac1q=\frac{\theta}{q_0}+\frac{1-\theta}{q_1}$.</p>
+<p>Riesz-Thorin定理 $1\leq p_0,q_0,p_1,q_1\leq\infty,p_0&lt;p_1,q_0&lt;q_1,T:(X,\mu)'\rarr(Y,\nu)'$线性映射且满足对任意简单函数$f\in X,\norm{Tf}_{L^{q_0}(Y,\nu)}\leq M_0\norm{f}_{L^{p_0}(X,\mu)},\norm{Tf}_{L^{q_1}(Y,\nu)}\leq M_1\norm{f}_{L^{p_1}(X,\mu)}$，即$T$为强(p_0,q_0)和(p_1,q_1)型算子，则$\forall f\in L^p(X,\mu),\norm{Tf}_{L^q(Y,\nu)}\leq M_0^\theta M_1^{1-\theta}\norm{f}_{L^p(X,\mu)},\theta\in(0,1)$且$\frac1p=\frac\theta{p_0}+\frac{1-\theta}{p_1},\frac1q=\frac{\theta}{q_0}+\frac{1-\theta}{q_1}$.</p>
 
 </body>
 </html>

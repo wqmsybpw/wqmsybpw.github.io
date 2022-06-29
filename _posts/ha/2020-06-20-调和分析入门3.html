@@ -52,7 +52,7 @@ $4^\circ~x\in[-2,0],\jn f f(x)=2+x$<br>
 综上，$\jn f f(x)=\begin{cases}2-|x|&amp;|x|&lt;2\\0&amp;otherwise\end{cases}$，是个连续函数.</p>
 <p>基本卷积不等式<br>
 定理(Minkovski不等式) 设$1\leq p\leq\infty,~f\in L^p(\R^n),g\in L^1(\R^n)$，有$f\ast g\in L^p(\R^n)$且$\norm{f\ast g}_{L^p}\leq\norm{f}_{L^p}\norm{g}_{L^1}$.<br>
-证明：$1^\circ~p=1,\norm{f\ast g}_{L^1}\leq\norm{f}_{L^1}\norm{g}_{L^1}$以证.<br>
+证明：$1^\circ~p=1,\norm{f\ast g}_{L^1}\leq\norm{f}_{L^1}\norm{g}_{L^1}$已证.<br>
 $2^\circ~p=\infty,\forall x\in\R^n,$ $$
 \begin{aligned}
 |\jn f g(x)|&amp;=|\intrn f(x-y)g(y)dy|\\
@@ -99,16 +99,20 @@ $$ $\rArr\norm{f\ast g}_{L^p}\leq\norm{f}_{L^p}\norm{g}_{L^1}$</p>
 (2) $\R^n$上$f$的支撑集：$\overline{\lrb{x\in\R^n|f(x)\neq0}}=Supp(f)$，若$Supp(f)$有界，称$f$具有紧支撑. $f\in C_c(\R^n)\lrArr f\in C(\R^n)$且$f$有紧支撑.</p>
 <p>(4) Gauss核. $G_\varepsilon=c_0\varepsilon^{-n}e^{-\frac{|x|^2}{\varepsilon^2}}~~~(\varepsilon&gt;0)$</p>
 <p>(5) $Fej\acute{e}r$核 $F_N(t)=\displaystyle\sum^N_{j=-N}(1-\frac{|j|}{N+1})e^{2\pi ijt}=\frac{1}{N+1}(\frac{sin(\pi(N+1)t)}{sin(\pi t)})^2$为恒等逼近.</p>
-<p>引入p-norm，p-模，$1\leq p&lt;\infty,f\in L^p(\R^n)$ $$
-w_{f,p}(h)=(\intrn|f(x)-f(x-h)|^pdx)^\frac1p=\norm{f-\tau_hf}_{L^p}<br>
-$$ 性质 $w_{f,p}(h)\leq2\norm{f}_{L^p}$</p>
+<p>引入p-norm，p-模，$1\leq p&lt;\infty,f\in L^p(\R^n)$
+
+$$
+w_{f,p}(h)=(\intrn|f(x)-f(x-h)|^pdx)^\frac1p=\norm{f-\tau_hf}_{L^p}
+$$ 
+
+性质 $w_{f,p}(h)\leq2\norm{f}_{L^p}$</p>
 <p>引理 (i) 若$f\in L^1(\R^n)$则$w_{f,1}(h)\rarr0(|h|\rarr0)$<br>
 (ii) $f\in L^p(\R^n)~~~(1&lt;p&lt;\infty)$则$w_{f,p}(h)\rarr0(|h|\rarr0)$<br>
 证明：(i) 第一步，因为$C_c(\R^n)$在$L^1(\R^n)$是稠的(实变)，所以$\forall f\in L^1(\R^n)$给定，$\forall \delta&gt;0,\exist f_\delta(x)\in C_c(\R^n)~s.t.~\norm{f_\delta-f}_{L^1}&lt;\delta$且$\norm{f_\delta}_{L^1}\leq c\norm{f}_{L^1}$<br>
 则$f=f_\delta+\widetilde{f_\delta}$，其中$f_\delta\in C_c(\R^n),\widetilde{f_\delta}:\norm{\widetilde{f_\delta}}_{L^1}&lt;\delta$<br>
 第二步，对$f_\delta\in C_c(\R^n),w_{f_\delta,1}(h)=\intrn|f_\delta(x)-f_\delta(x-h)|dx\leq2\norm{f_\delta}_{L^1}\leq c\norm{f}_{L^1}$. 由Lebsgue控制收敛定理，$\displaystyle\lim_{|h|\rarr0}w_{f_\delta,1}(h)=\intrn\displaystyle\lim_{|h|\rarr0}|f_\delta(x)-f_\delta(x-h)|dx=0~i.e.~w_{f_\delta,1}(h)\rarr0$. 另一方面，$$
 \begin{aligned}
-w_{f,1}(h)&amp;=\intrn|f(x)-f(x-h)|dx\&amp;=\intrn|f_\delta(x)-f_\delta(x,h)+\widetilde{f}_\delta(x)-\widetilde{f}_\delta(x-h)|dx\\
+w_{f,1}(h)&amp;=\intrn|f(x)-f(x-h)|dx\\&amp;=\intrn|f_\delta(x)-f_\delta(x,h)+\widetilde{f}_\delta(x)-\widetilde{f}_\delta(x-h)|dx\\
 &amp;\leq\intrn|f_\delta(x)-f_\delta(x-h)|dx+\intrn|\widetilde{f}_\delta(x)-\widetilde{f}_\delta(x-h)|dx\\
 &amp;\leq w_{f_\delta,1}(h)+2\norm{\widetilde{f}_\delta}_{L^1}\leq w_{f_\delta,1}(h)+2\delta
 \end{aligned}
