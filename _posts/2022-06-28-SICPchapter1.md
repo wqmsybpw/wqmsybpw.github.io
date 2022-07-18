@@ -44,6 +44,9 @@ author: wqpw
 		document.body.onload = () => {
 		  let codes = document.querySelectorAll("code");
 		  for (let elem of codes) {
+		    if (elem.className == "language-plaintext highlighter-rouge") {
+				continue;
+		    }
 			let d = document.createElement("div");
 			d.classList.add("ruizhi");
 			d.onmouseover = wink;
@@ -51,7 +54,6 @@ author: wqpw
 			d.onclick = show;
 			elem.parentElement.insertBefore(d, elem);
 			elem.style.display = "none";
-
 		  }
 		}
 	</script>
