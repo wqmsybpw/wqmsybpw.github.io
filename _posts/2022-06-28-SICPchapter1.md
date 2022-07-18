@@ -22,6 +22,39 @@ author: wqpw
         });
     });
 </script>
+    <style>
+      .ruizhi {
+        height: 144px;
+        width: 144px;
+        background-image: url('https://img-static.mihoyo.com/communityweb/upload/ace5032439f963286da0e5609a4c74ae.png');
+      };
+    </style>
+    <script>
+		function wink() {
+		  this.style.opacity = 0.4;
+		}
+		function recover() {
+		  this.style.opacity = 1;
+		}
+		function show() {
+		  this.style.display = "none";
+		  this.nextElementSibling.style.display = "";
+		}
+
+		document.body.onload = () => {
+		  let codes = document.querySelectorAll("code");
+		  for (let elem of codes) {
+			let d = document.createElement("div");
+			d.classList.add("ruizhi");
+			d.onmouseover = wink;
+			d.onmouseleave = recover;
+			d.onclick = show;
+			elem.parentElement.insertBefore(d, elem);
+			elem.style.display = "none";
+
+		  }
+		}
+	</script>
   </head>
 
 使用[Racket](https://www.racket-lang.org/)并安装`sicp`包.
