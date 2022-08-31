@@ -779,7 +779,7 @@ b)
 
 ---
 
-到这里为止的求值器的代. 每次执行程序对同一个过程都需要重复做语法分析, 非常低效.
+到这里为止的求值器的代码. 每次执行程序对同一个过程都需要重复做语法分析, 非常低效.
 
 ```racket
 #lang sicp
@@ -1573,7 +1573,7 @@ b)
         ((lambda? exp) (analyze-lambda exp))
         ((begin? exp) (analyze-sequence (begin-actions exp)))
         ((cond? exp) (analyze (cond->if exp)))
-        ((let? exp) (analyze (let->combination exp)))
+        ((let? exp) (analyze (let->combination exp))) ;ex4.22
         ((application? exp) (analyze-application exp))
         (else
          (error "Unknown expression type -- ANALYZE" exp))))
