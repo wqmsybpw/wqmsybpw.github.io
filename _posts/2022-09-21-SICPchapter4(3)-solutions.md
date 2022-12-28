@@ -1101,7 +1101,7 @@ mary|melissa|lorna|gabrielle|rosalind
 
 (ambeval '(define (an-random-integer-between low high)
             (require (<= low high))
-            (ramb low (an-integer-between (+ low 1) high)))
+            (ramb low (an-random-integer-between (+ low 1) high)))
          the-global-environment (lambda (a b) 'succ) (lambda () 'fail))
 
 (ambeval '(define (an-integer-between low high)
