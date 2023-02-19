@@ -1120,4 +1120,171 @@ mary|melissa|lorna|gabrielle|rosalind
 (driver-loop)
 ```
 
-因为时间安排上的问题, 需要暂停SICP一段时间, 希望今年有机会看完QAQ.
+4.4 逻辑程序设计
+
+## 4.55
+
+```racket
+(supervisor ?x (Bitdiddle Ben))
+(job ?x (accounting . ?y))
+(address ?x (Slumerville . ?y)) 
+```
+
+## 4.56
+
+```racket
+(and (supervisor ?x (Ben Bitdiddle)) 
+      (address ?x ?y))
+(and (salary (Ben Bididdle) ?x) 
+      (salary ?y ?z) 
+      (lisp-value > ?x ?z))
+; 原文 together with the supervisor’s name and job.
+(and (not (job ?x (computer . ?y))) 
+      (supervisor ?z ?x) 
+      (job ?x ?v))
+```
+
+## 4.57
+
+```racket
+'(rule (can-replace ?x ?y)
+       (and (not (same ?x ?y))
+            (or (and (job ?x ?x-job)
+                     (job ?y ?y-job)
+                     (same ?x-job ?y-job))
+                (can-do-job ?x-job ?y-job))))
+
+'(can-replace ?x (Cy D.Fect))
+'(and (can-replace ?x ?y)
+      (salary ?x ?x-sa)
+      (salary ?x ?y-sa)
+      (lisp-value < ?x-sa ?y-sa))
+```
+
+## 4.58
+
+```racket
+'(rule (big-shot ?x ?bumen)
+       (and (job ?x (?bumen . ?rest1))
+            (not (supervisor ?x ?y)
+                 (job ?y (?bumen . ?rest2)))))
+```
+
+## 4.59
+
+```racket
+'(meeting ?m (Friday . ?t))
+'(rule (meeting-time ?person ?day-and-time)
+       (or (meeting whole-company ?day-and-time) 
+           (and (job ?person (?bumen . ?rest))
+                (meeting ?bumen ?day-and-time))))
+'(meeting-time Alyssa ?m)
+```
+
+## 4.60
+
+只输出满足字符顺序的结果(如升序)即可.
+
+```racket
+(and (lives-near ?person-1 ?person-2)
+     (lisp-value (lambda (a b) (symbol<? (car a) (car b)))
+                 ?person-1
+                 ?person-2))
+```
+
+## 4.62
+
+```racket
+(rule (last-pair (?x) (?x)))
+(rule (last-pair (?u . ?v) (?x))
+      (last-pair ?v (?x)))
+```
+
+## 4.68
+
+```racket
+(reverse () ())
+(rule (reverse (?h . ?t) ?l)
+      (and (reverse ?t ?z)
+           (append-to-form ?z (?h) ?l)))
+
+; swi-prolog library/lists.pl
+(rule (reverse ?xs ?ys)
+      (reverse ?xs ?ys () ?ys))
+(rule (reverse () () ?ys ?ys))
+(rule (reverse (?x . ?xs) (?t . ?bound) ?rs ?ys)
+      (reverse ?xs ?bound (?x . ?rs) ?ys))
+```
+
+## 4.70
+
+```racket
+(define-syntax cons-stream
+  (syntax-rules ()
+    [(_ A B) (r5rs:cons A (r5rs:delay B))]))
+```
+
+## 4.75
+
+检查时使用书上练习4.57之前定义的`outranked-by`.
+
+```racket
+(define (uniquely-asserted operands frame-stream)
+  (stream-flatmap
+    (lambda (frame)
+      (let ((res (qeval (unique-query operands) (singleton-stream frame))))
+        (if (and (not (stream-null? res)) (stream-null? (stream-cdr res)))
+            res
+            the-empty-stream)))
+    frame-stream))
+
+(put 'unique 'qeval uniquely-asserted)
+
+;;; Query input:
+(and (supervisor ?person ?boss) (unique (outranked-by ?person ?bosses)))
+
+;;; Query results:
+(and (supervisor (Aull DeWitt) (Warbucks Oliver)) (unique (outranked-by (Aull DeWitt) (Warbucks Oliver))))
+(and (supervisor (Scrooge Eben) (Warbucks Oliver)) (unique (outranked-by (Scrooge Eben) (Warbucks Oliver))))
+(and (supervisor (Bitdiddle Ben) (Warbucks Oliver)) (unique (outranked-by (Bitdiddle Ben) (Warbucks Oliver))))
+```
+
+## 4.76
+
+改了好久最后参考了poly的程序.
+
+```racket
+; (and2 (a ?x) (b ?x)) 开始只想到这个
+; (and2 (append-to-form (1 2) (3 4) ?x) (append-to-form (1) ?y ?x))
+
+(define (conjoin2 conjuncts frame-stream)
+  (define (_extend f1 f2)
+    (if (or (null? f1) (eq? 'failed f2))
+        f2
+        (_extend (cdr f1) 
+                 (extend-if-possible (binding-variable (car f1)) 
+                                     (binding-value (car f1)) 
+                                     f2))))
+  (define (_match s1 s2)
+    (stream-flatmap
+     (lambda (f2)
+       (stream-filter
+        (lambda (f) (not (eq? f 'failed)))
+        (stream-map
+         (lambda (f1)
+           (_extend f1 f2))
+         s1)))
+     s2))
+  (if (empty-conjunction? conjuncts)
+      frame-stream
+      (let ((current-stream (qeval (first-conjunct conjuncts)
+                                   frame-stream)))
+        (if (null? (rest-conjuncts conjuncts))
+            current-stream
+            (_match current-stream
+                    (conjoin2 (rest-conjuncts conjuncts)
+                              frame-stream))))))
+
+(put 'and2 'qeval conjoin2)
+```
+
