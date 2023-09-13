@@ -43,7 +43,7 @@ function init_var() {
     folded = 0;
     all_p = document.getElementsByTagName("p");
     all_img = document.getElementsByTagName("img");
-    css = Array.from(document.styleSheets).slice(-1)[0];
+    css = Array.from(document.styleSheets).filter(x=>x.href != null && x.href.includes("simple"))[0];
 }
 
 function check_top() {
